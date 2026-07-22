@@ -1,0 +1,1986 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[fontset=windows]{ctex} % 显式指定Windows字体集，提高兼容性
+\usepackage{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tcolorbox} 
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{float} % 更好的浮动体控制
+
+%----------------------------------------------------------------------------------------
+%	页面设置
+%----------------------------------------------------------------------------------------
+\geometry{
+    a4paper,
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.5cm,
+    right=2.5cm
+}
+
+% 【修复报错1】设置页眉高度，fancyhdr通常需要更大一点的高度
+\setlength{\headheight}{26pt} 
+
+% 链接设置
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=blue,
+    pdftitle={Python 计算导论},
+}
+
+% 页眉页脚
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{Python 计算导论}}
+\rhead{期末复习}
+\cfoot{\thepage}
+
+%----------------------------------------------------------------------------------------
+%	代码高亮设置
+%----------------------------------------------------------------------------------------
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+\definecolor{keywords}{rgb}{0.7, 0.1, 0.4}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{keywords}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small, % 稍微调小字体防止溢出
+    breakatwhitespace=false,      
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,   
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    frame=single, 
+    rulecolor=\color{codegray},
+    extendedchars=true, % 解决中文代码注释可能不显示的问题
+    escapeinside=``     % 允许在代码中使用LaTeX命令
+}
+\lstset{style=mystyle, language=Python}
+
+%----------------------------------------------------------------------------------------
+%	自定义环境
+%----------------------------------------------------------------------------------------
+% 重点提示框
+\newtcolorbox{importantbox}[1]{
+    colback=blue!5!white,
+    colframe=blue!75!black,
+    fonttitle=\bfseries\sffamily, % 【修复关键】使用无衬线字体(黑体)以支持加粗
+    title={#1}
+}
+
+% 避坑指南框 (红色)
+\newtcolorbox{trapbox}[1]{
+    colback=red!5!white,
+    colframe=red!75!black,
+    fonttitle=\bfseries\sffamily, % 【修复关键】使用无衬线字体(黑体)以支持加粗
+    title={\textbf{[!]} 考试指南：#1}
+}
+
+%----------------------------------------------------------------------------------------
+%	文档开始
+%----------------------------------------------------------------------------------------
+\begin{document}
+
+\title{\Huge \textbf{计算导论与 Python 编程}\\ \LARGE 期末复习}
+\author{李谨硕}
+\date{\today}
+
+\maketitle
+\tableofcontents
+
+\newpage
+
+\section{Linux 及 Python 常用命令}
+
+在计算导论与实验课程中，掌握基础的命令行操作是进行编程开发的前提。本节涵盖了文件系统操作、系统管理、网络通信以及 Python 环境管理的核心命令。
+
+\subsection{Linux 文件与目录管理}
+
+文件操作是 Linux 交互中最基础的部分，考试中常考路径的相对与绝对引用以及文件权限的理解。
+
+\begin{description}[style=multiline, leftmargin=3cm, font=\bfseries\ttfamily]
+    \item[ls (List)] 列出目录内容。
+    \begin{itemize}
+        \item \texttt{ls}：仅列出文件名。
+        \item \texttt{ls -l}：长格式显示（包含权限、大小、时间）。
+        \item \texttt{ls -a}：显示所有文件（包含以 \texttt{.} 开头的隐藏文件）。
+    \end{itemize}
+
+    \item[cd] 切换当前工作目录。
+    \begin{itemize}
+        \item \texttt{cd /path/to/dir}：跳转到绝对路径。
+        \item \texttt{cd ..}：返回上一级目录。
+        \item \texttt{cd \textasciitilde}：返回当前用户的家目录（Home）。
+    \end{itemize}
+
+    \item[mkdir] 创建新目录。常用参数 \texttt{-p} 可递归创建多级目录（例如 \texttt{mkdir -p a/b/c}）。
+
+    \item[touch] 用于修改文件时间戳，若文件不存在则创建一个空文件。
+    
+    \item[cp] 复制文件或目录。
+    \begin{lstlisting}[language=bash, style=mystyle, caption={cp 命令示例}]
+# 将 file1 复制为 file2
+cp file1.txt file2.txt 
+# 递归复制目录（注意 -r 参数）
+cp -r source_folder/ destination_folder/
+    \end{lstlisting}
+
+    \item[mv] 移动文件或重命名文件。
+    \begin{itemize}
+        \item \texttt{mv old.txt new.txt}：重命名。
+        \item \texttt{mv file.txt ./folder/}：移动文件。
+    \end{itemize}
+
+    \item[rm] 删除文件或目录。
+\end{description}
+
+\begin{trapbox}{rm 命令的危险性}
+在使用 \texttt{rm} 时需格外小心，Linux 下删除通常无法恢复！
+\begin{itemize}
+    \item \texttt{rm -r}：递归删除目录。
+    \item \texttt{rm -f}：强制删除，不提示确认。
+    \item \textbf{绝对禁忌}：\texttt{rm -rf /} （这将删除整个系统文件，实战中极度危险）。
+\end{itemize}
+\end{trapbox}
+
+\subsection{系统管理与网络命令}
+
+此类命令用于查看系统状态、安装软件及处理网络请求。
+
+\begin{description}[style=multiline, leftmargin=3cm, font=\bfseries\ttfamily]
+    \item[ps] 查看当前进程快照。
+    \begin{itemize}
+        \item \texttt{ps al}: 显示所有进程的详细信息。
+        \item \texttt{ps aux}：显示所有用户的所有进程详细信息。
+        \item 常配合 \texttt{grep} 使用查找特定进程（例如 \texttt{ps aux | grep python}）。
+    \end{itemize}
+
+    \item[apt] Debian/Ubuntu 系 Linux 的包管理器。
+    \begin{lstlisting}[language=bash, style=mystyle]
+sudo apt update        # 更新软件源列表
+sudo apt install git   # 安装 git 软件
+sudo apt upgrade       # 升级所有已安装软件
+    \end{lstlisting}
+
+    \item[ssh] 安全远程登录协议。
+    \begin{itemize}
+        \item 语法：\texttt{ssh user@hostname}
+        \item 示例：\texttt{ssh student@192.168.1.100}
+    \end{itemize}
+
+    \item[ping] 测试网络连通性。通过发送 ICMP 数据包检测目标主机是否可达。
+   
+    \item[wget] 从网络下载文件。
+    \begin{itemize}
+        \item 示例：\texttt{wget http://example.com/file.zip}
+    \end{itemize}
+\end{description}
+
+\subsection{Python 环境与包管理命令}
+
+\subsubsection{python 命令}
+用于执行 Python 脚本或进入交互式环境。
+
+\begin{itemize}
+    \item \textbf{查看版本}：\texttt{python --version} 或 \texttt{python -V}
+    \item \textbf{运行脚本}：\texttt{python main.py}
+    \item \textbf{模块运行}：\texttt{python -m http.server} (例如启动简易服务器)
+\end{itemize}
+
+\subsubsection{pip 命令}
+Python 的包安装程序 (Package Installer for Python)。
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lp{8cm}}
+\toprule
+\textbf{命令} & \textbf{功能说明} \\
+\midrule
+\texttt{pip install numpy} & 安装 numpy 包 \\
+\texttt{pip uninstall pandas} & 卸载 pandas 包 \\
+\texttt{pip list} & 列出已安装的所有包 \\
+\texttt{pip freeze > requirements.txt} & 将当前环境包列表导出到文件 \\
+\texttt{pip install -r requirements.txt} & 根据文件批量安装依赖 \\
+\bottomrule
+\end{tabular}
+\caption{pip 常用指令速查}
+\end{table}
+
+\begin{importantbox}{Pip 下载速度慢怎么办？}
+国内网络环境下，直接使用默认源下载速度可能较慢。可以使用 \texttt{-i} 参数指定国内镜像源（如清华源）：
+\begin{lstlisting}[language=bash, basicstyle=\ttfamily\footnotesize, breaklines=true]
+pip install matplotlib -i https://pypi.tuna.tsinghua.edu.cn/simple
+\end{lstlisting}
+或者配置永久换源。
+\end{importantbox}
+
+\subsection{命令功能速查表}
+
+\begin{longtable}{p{2.5cm} p{4cm} p{7cm}}
+\toprule
+\textbf{命令} & \textbf{全称/含义} & \textbf{核心功能} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{命令} & \textbf{全称/含义} & \textbf{核心功能} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+\texttt{ls} & List & 列出当前目录下的文件 \\
+\texttt{cd} & Change Directory & 切换目录 \\
+\texttt{pwd} & Print Working Directory & 显示当前所在路径 \\
+\texttt{cp} & Copy & 复制文件或文件夹（需加 -r） \\
+\texttt{mv} & Move & 移动或重命名文件 \\
+\texttt{rm} & Remove & 删除文件（不可逆） \\
+\texttt{mkdir} & Make Directory & 创建文件夹 \\
+\texttt{touch} & Touch & 创建空文件或更新时间戳 \\
+\texttt{cat} & Concatenate & 查看文件内容 \\
+\texttt{ps} & Process Status & 查看进程状态 \\
+\texttt{apt} & Advanced Package Tool & 软件安装与管理 \\
+\texttt{ssh} & Secure Shell & 远程登录 \\
+\texttt{ping} & Packet Internet Groper & 测试网络连通性 \\
+\texttt{wget} & World Wide Web Get & 命令行下载工具 \\
+\bottomrule
+\end{longtable}
+
+\section{Python 基本类型与运算}
+
+\subsection{基本数据类型}
+
+Python 中的变量不需要声明类型，类型由赋值决定。
+
+\begin{itemize}
+    \item \textbf{整数 (int)}: 任意大小的整数，如 \texttt{10}, \texttt{-5}。
+    \item \textbf{浮点数 (float)}: 小数，如 \texttt{3.14}, \texttt{1.2e-5} (科学计数法)。
+    \item \textbf{复数 (complex)}: 形如 \texttt{a + bj}，如 \texttt{3+4j}。实部 \texttt{.real}, 虚部 \texttt{.imag}。
+    \item \textbf{字符串 (str)}: 单引号或双引号括起来，如 \texttt{'abc'}, \texttt{"Hello"}。
+    \item \textbf{布尔值 (bool)}: 只有 \texttt{True} 和 \texttt{False} (注意首字母大写)。
+\end{itemize}
+
+\subsection{类型转换函数}
+
+考试中常考强制类型转换的结果，特别是浮点转整数（截断）和进制转换。
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{l l l}
+\toprule
+\textbf{函数} & \textbf{说明} & \textbf{示例 (Input $\to$ Output)} \\
+\midrule
+\texttt{int(x)} & 转为整数 (截断小数) & \texttt{int(3.9)} $\to$ \texttt{3} \\
+\texttt{float(x)} & 转为浮点数 & \texttt{float(5)} $\to$ \texttt{5.0} \\
+\texttt{str(x)} & 转为字符串 & \texttt{str(123)} $\to$ \texttt{'123'} \\
+\texttt{bool(x)} & 非0非空即为真 & \texttt{bool(0)} $\to$ \texttt{False}, \texttt{bool(2)} $\to$ \texttt{True} \\
+\texttt{bin(x)} & 转为二进制字符串 & \texttt{bin(10)} $\to$ \texttt{'0b1010'} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{算术运算符}
+
+常规运算 (\texttt{+, -, *, +=, -=}) 不再赘述，重点掌握以下特殊运算：
+
+\begin{longtable}{p{2cm} p{5cm} p{6cm}}
+\toprule
+\textbf{运算符} & \textbf{名称} & \textbf{示例与说明} \\
+\midrule
+\texttt{/} & \textbf{真除法} & \texttt{5 / 2} $\to$ \texttt{2.5} (结果总是 float) \\
+\texttt{//} & \textbf{整除 (地板除)} & \texttt{5 // 2} $\to$ \texttt{2}, \texttt{-5 // 2} $\to$ \texttt{-3} (向下取整) \\
+\texttt{\%} & \textbf{取模 (求余)} & \texttt{5 \% 2} $\to$ \texttt{1}, \texttt{10 \% 3} $\to$ \texttt{1} \\
+\texttt{**} & \textbf{幂运算} & \texttt{2 ** 3} $\to$ \texttt{8}, \texttt{9 ** 0.5} $\to$ \texttt{3.0} (开方) \\
+\bottomrule
+\end{longtable}
+
+\begin{trapbox}{负数的地板除与取模}
+Python 的 \texttt{//} 是\textbf{向下取整}。
+\begin{itemize}
+    \item \texttt{-5 // 2} 结果是 \texttt{-3} (而不是 -2)。
+    \item 取模公式：\texttt{a \% b = a - (a // b) * b}。
+\end{itemize}
+\end{trapbox}
+
+\subsection{逻辑与比较运算符}
+
+\begin{itemize}
+    \item \textbf{比较}: \texttt{==} (等于), \texttt{!=} (不等于), \texttt{<=}, \texttt{>=}, \texttt{<}, \texttt{>}
+    \item \textbf{逻辑}: \texttt{and}, \texttt{or}, \texttt{not}
+    \item \textbf{成员}: \texttt{in}, \texttt{not in} (例如 \texttt{'a' in 'apple'} 返回 \texttt{True})
+    \item \textbf{身份}: \texttt{is}, \texttt{is not} (判断对象内存地址是否相同)
+\end{itemize}
+
+\begin{importantbox}{is 和 == 的区别}
+\begin{itemize}
+    \item \texttt{==} 判断\textbf{值 (Value)} 是否相等。
+    \item \texttt{is} 判断\textbf{引用 (Reference)} 是否指向同一个对象 (即 ID 是否相同)。
+\end{itemize}
+例如：
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+a = [1, 2]
+b = [1, 2]
+print(a == b)  # True (内容一样)
+print(a is b)  # False (是两个不同的列表对象)
+\end{lstlisting}
+\end{importantbox}
+
+\subsection{位运算}
+针对二进制位的操作 (将数字视为二进制处理)。
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{c l l}
+\toprule
+\textbf{符号} & \textbf{描述} & \textbf{计算示例 (设 a=5(101), b=3(011))} \\
+\midrule
+\texttt{\&} & 按位与 & \texttt{5 \& 3} $\to$ \texttt{1} (001) \\
+\texttt{|} & 按位或 & \texttt{5 | 3} $\to$ \texttt{7} (111) \\
+\texttt{\^} & 按位异或 & \texttt{5 \^ 3} $\to$ \texttt{6} (110) (相同为0，不同为1) \\
+\texttt{<<} & 左移 & \texttt{5 << 1} $\to$ \texttt{10} (1010) (相当于乘 2) \\
+\texttt{>>} & 右移 & \texttt{5 >> 1} $\to$ \texttt{2} (010) (相当于整除 2) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{range() 函数详解}
+
+\texttt{range} 用于生成整数序列，常用于 \texttt{for} 循环。**注意：左闭右开区间**（包含开始，不包含结束）。
+
+\begin{description}[font=\ttfamily\bfseries]
+    \item[range(stop)] 从 0 开始，到 stop 结束（不含 stop）。
+        \\ 示例: \texttt{range(3)} $\to$ \texttt{0, 1, 2}
+    \item[range(start, stop)] 从 start 开始，到 stop 结束（不含 stop）。
+        \\ 示例: \texttt{range(2, 5)} $\to$ \texttt{2, 3, 4}
+    \item[range(start, stop, step)] 步长为 step。
+        \\ 示例: \texttt{range(1, 10, 2)} $\to$ \texttt{1, 3, 5, 7, 9}
+        \\ 倒序: \texttt{range(5, 0, -1)} $\to$ \texttt{5, 4, 3, 2, 1}
+\end{description}
+
+\section{变元与赋值语句}
+
+理解 Python 的变量本质（引用语义）是掌握语言核心的关键。Python 中的变量更像是贴在对象上的\textbf{便利贴（标签）}，而不是装数据的盒子。
+
+\subsection{指向关系与赋值分类}
+
+\begin{itemize}
+    \item \textbf{变量 (Variable)}: 仅仅是一个名字（引用），指向内存中的对象。
+    \item \textbf{对象 (Object)}: 存储实际数据的实体，拥有类型 (type)、值 (value) 和 唯一标识 (id)。
+\end{itemize}
+
+\begin{description}[style=multiline, leftmargin=3.5cm]
+    \item[重新赋值 (Re-assignment)] 形式为 \texttt{a = ...}。
+    \\ 改变的是\textbf{变量的指向}，让变量指向一个新的对象。原对象如果引用计数为0会被回收。
+    
+    \item[修改赋值 (Mutation)] 形式为 \texttt{a[i] = ...} 或 \texttt{a.x = ...}。
+    \\ 变量指向的\textbf{对象本身发生了改变}（内容更新），但变量依然指向该对象（ID不变）。\textbf{前提是该对象支持修改（即 Mutable）}。
+\end{description}
+
+\begin{lstlisting}[caption={重新赋值 vs 修改赋值}]
+a = [1, 2, 3]   # a 指向列表对象 <Obj_1>
+b = a           # b 也指向 <Obj_1>
+
+# 1. 修改赋值 (Mutation)
+a[0] = 99       # <Obj_1> 内容变为 [99, 2, 3]
+print(b)        # [99, 2, 3] -> b 受到影响，因为指向同一个对象
+
+# 2. 重新赋值 (Re-assignment)
+a = [4, 5]      # a 撕掉标签，贴到了新对象 <Obj_2> 上
+print(b)        # [99, 2, 3] -> b 依然指向 <Obj_1>，不受影响
+\end{lstlisting}
+
+\subsection{不可变 (Immutable) vs 可变 (Mutable)}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{l l l}
+\toprule
+\textbf{类型} & \textbf{常见数据结构} & \textbf{特点} \\
+\midrule
+\textbf{不可变 (Immutable)} & \texttt{int}, \texttt{float}, \texttt{str}, \texttt{tuple}, \texttt{bool} & 一旦创建，内容不可改。 \\
+\midrule
+\textbf{可变 (Mutable)} & \texttt{list}, \texttt{dict}, \texttt{set} & 内容可以就地修改，ID 保持不变。 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\subsection{对象创建与复用规则}
+
+\subsubsection{1. 赋值语句中的对象创建}
+原则上，赋值语句右侧的表达式每次运算都会创建一个\textbf{新对象}。
+\begin{itemize}
+    \item \textbf{可变对象不复用}：即使内容相同，每次创建的 List/Dict 都是独立的。
+    \item \textbf{变量传递无拷贝}：如果表达式只是单个变量 \texttt{b = a}，则\textbf{不创建新对象，也不进行拷贝}，仅仅是传递引用（多了一个标签）。
+\end{itemize}
+
+\begin{lstlisting}
+x = [1, 2]
+y = [1, 2]
+print(x == y)  # True (值相等)
+print(x is y)  # False (不是同一个对象，内存地址不同)
+
+z = x
+print(z is x)  # True (直接指向，不产生拷贝)
+\end{lstlisting}
+
+\subsubsection{2. 不可变对象的特殊共享 (Interning)}
+为了优化性能，Python 对\textbf{小整数}（通常是 -5 到 256）和\textbf{短字符串}会进行缓存复用。
+\begin{lstlisting}
+a = 100; b = 100
+print(a is b)  # True (触发了小整数缓存机制)
+\end{lstlisting}
+
+\newpage
+
+\subsection{重点难点：\texttt{+=} 的区别}
+
+\texttt{+=} (In-place Add) 对于可变和不可变对象有截然不同的行为，这是考试的\textbf{必考坑点}。
+
+\begin{trapbox}{+= 操作符的陷阱}
+\begin{itemize}
+    \item \textbf{对于 Immutable (如 int, str)}：\\
+    \texttt{a += b} 等价于 \texttt{a = a + b}。\\
+    \textbf{效果}：创建新对象，重新赋值。变量 \texttt{a} 的 ID 会改变。
+    
+    \item \textbf{对于 Mutable (如 list)}：\\
+    \texttt{a += b} 等价于 \texttt{a.extend(b)}。\\
+    \textbf{效果}：\textbf{就地修改}原对象。变量 \texttt{a} 的 ID \textbf{保持不变}。
+\end{itemize}
+
+\textbf{经典考题示例：}
+\begin{lstlisting}[language=Python, basicstyle=\ttfamily\small]
+# --- Case 1: List (Mutable) ---
+a = [1, 2]
+b = a
+a += [3]      # 在原列表追加，a 依然指向原对象
+print(b)      # 输出 [1, 2, 3] (b 被"连累"了)
+
+# --- Case 2: Int (Immutable) ---
+x = 10
+y = x
+x += 1        # 计算 11，x 指向新对象 11
+print(y)      # 输出 10 (y 依然指向旧对象 10)
+\end{lstlisting}
+\end{trapbox}
+
+\section{条件分支}
+
+\subsection{判定标准：is 与 ==}
+
+在 \texttt{if} 判断中，必须分清“值相等”与“身份相同”。
+
+\begin{itemize}
+    \item \texttt{==}：判断\textbf{值 (Value)} 是否相等（调用 \texttt{\_\_eq\_\_}）。绝大多数业务逻辑使用此符号。
+    \item \texttt{is}：判断\textbf{身份 (Identity)} 是否相同（即内存地址是否一致，\texttt{id(a) == id(b)}）。通常用于判断 \texttt{None}。
+\end{itemize}
+
+\newpage
+
+\begin{lstlisting}[caption={is 与 == 的对比}]
+a = [1, 2]
+b = [1, 2]
+if a == b:
+    print("值相等")      # 会输出
+if a is b:
+    print("是同一个对象") # 不会输出 (两个独立的列表)
+\end{lstlisting}
+
+\subsection{真值判定 (Truthiness)}
+
+Python 中不仅仅是 \texttt{True/False} 可以作为条件，\textbf{任何对象}都可以放在 \texttt{if} 后面进行判定。
+
+\begin{trapbox}{什么会被视为 False？}
+除了明确的 \texttt{False}，以下值在布尔上下文中也被视为 \textbf{假 (False)}：
+\begin{itemize}
+    \item \textbf{None}
+    \item \textbf{数字零}: \texttt{0}, \texttt{0.0}, \texttt{0j}
+    \item \textbf{空序列}: \texttt{''}, \texttt{""} (空字符串), \texttt{[]} (空列表), \texttt{()} (空元组)
+    \item \textbf{空集合}: \texttt{\{\}} (空字典), \texttt{set()}
+\end{itemize}
+\textbf{除上述情况外，其他所有值通常都视为 True。}
+\end{trapbox}
+
+\textbf{示例：}
+\begin{lstlisting}
+name = "Alice"
+if name:          # 字符串非空，判定为 True
+    print("Hi")
+    
+mylist = []
+if mylist:        # 列表为空，判定为 False，不执行
+    print("Full")
+\end{lstlisting}
+
+\newpage
+
+\subsection{基本语法结构}
+
+\subsubsection{1. if-elif-else 结构}
+最基础的逻辑控制。注意缩进必须一致。
+
+\begin{lstlisting}
+score = 85
+if score >= 90:
+    print("A")
+elif score >= 80:  # 可以有多个 elif
+    print("B")
+else:              # 可选
+    print("C")
+\end{lstlisting}
+
+\subsubsection{2. 结构化模式匹配 (Match-Case)}
+\textit{(Python 3.10+ 新特性，类似 C 语言的 switch，但更强大)}
+
+\begin{lstlisting}
+status = 404
+match status:
+    case 200:
+        print("Success")
+    case 404:
+        print("Not Found")
+    case _:        # 相当于 default/else，匹配所有剩余情况
+        print("Unknown error")
+\end{lstlisting}
+
+\subsection{条件表达式 (三元运算符)}
+
+Python 中没有 \texttt{expression ? true : false} 语法，而是使用更像自然语言的结构。
+
+\begin{importantbox}{语法格式}
+\centerline{\texttt{\textbf{变量 = 值1 if 条件 else 值2}}}
+\end{importantbox}
+
+\textbf{示例：}
+\begin{lstlisting}
+age = 20
+# 如果 age > 18，status 为 'Adult'，否则为 'Teen'
+status = "Adult" if age > 18 else "Teen"
+\end{lstlisting}
+
+\section{循环结构}
+
+\subsection{基础循环与控制}
+
+\begin{description}[style=multiline, leftmargin=3cm]
+    \item[for 循环] 用于遍历可迭代对象（如 List, String, Dict, Range）。
+    \item[while 循环] 当条件满足（True）时重复执行，适合不知道具体循环次数的场景。
+    \item[break] \textbf{跳出整个循环}。不再执行循环体内的后续代码，也不再进行后续迭代。
+    \item[continue] \textbf{跳出当次迭代}。忽略本次循环体剩余代码，直接开始下一次迭代。
+\end{description}
+
+\subsection{循环中的 else 子句}
+
+Python 的 \texttt{for} 和 \texttt{while} 都可以搭配 \texttt{else} 使用。这是考试中的\textbf{逻辑陷阱}。
+
+\begin{importantbox}{else 什么时候执行？}
+\textbf{执行原则：} 只有当循环\textbf{正常结束}（即没有被 \texttt{break} 打断）时，\texttt{else} 块才会执行。
+\end{importantbox}
+
+\begin{lstlisting}[caption={break 与 else 的互斥关系}]
+# --- 情况 1: 遇到 break ---
+for i in range(5):
+    if i == 3:
+        break       # 强制退出
+else:
+    print("Done")   # 不会被执行！
+
+# --- 情况 2: 正常跑完 ---
+for i in range(5):
+    pass
+else:
+    print("Done")   # 会被执行
+\end{lstlisting}
+
+\subsection{循环中修改容器 (重点难点)}
+
+在遍历列表或字典时修改它们，是极易出错的操作。需区分“修改值”和“修改大小”。
+
+\subsubsection{1. 修改 Value (安全)}
+如果容器的\textbf{长度 (Size) 保持不变}，仅修改内容是允许的。
+\begin{lstlisting}
+nums = [1, 2, 3]
+for i in range(len(nums)):
+    nums[i] = nums[i] * 2   # Safe: 长度没变，只是改了值
+\end{lstlisting}
+
+\subsubsection{2. 修改 Size (危险 - 添加/删除元素)}
+
+\begin{trapbox}{RuntimeError: dictionary changed size}
+在 \texttt{for} 循环遍历 \textbf{Dict} 或 \textbf{Set} 时，如果\textbf{增加}或\textbf{删除}键值对，Python 会直接抛出 \texttt{RuntimeError}。
+\\ \textit{注：List 虽然不会直接报错，但会导致索引混乱（漏删或越界），同样危险。}
+\end{trapbox}
+
+\textbf{错误示范：}
+\begin{lstlisting}
+d = {'a': 1, 'b': 2}
+for k in d:
+    if k == 'a':
+        del d[k]  # 报错！RuntimeError
+\end{lstlisting}
+
+\textbf{正确解法：使用副本 (.copy())}
+如果必须在循环中修改大小，请遍历容器的\textbf{副本}。
+
+\begin{lstlisting}[caption={安全删除元素的写法}]
+# 方案 A: 使用 .copy() (推荐)
+d = {'a': 1, 'b': 2}
+for k in d.copy():  # 遍历的是复制出来的 keys
+    if k == 'a':
+        del d[k]    # 修改的是原字典 d
+
+# 方案 B: 使用 while 循环 (适合 List)
+nums = [1, 2, 3, 4]
+i = 0
+while i < len(nums):
+    if nums[i] % 2 == 0:
+        del nums[i] # 删除后不移动指针
+    else:
+        i += 1      # 只有不删除时才移动指针
+\end{lstlisting}
+
+\section{函数 (Functions)}
+
+\subsection{定义与调用基础}
+
+\begin{itemize}
+    \item \textbf{定义}: 使用 \texttt{def} 关键字。
+    \item \textbf{Return}: 
+    \begin{itemize}
+        \item \texttt{return} 语句执行后，函数\textbf{立即终止}。
+        \item 如果函数体执行完毕没有遇到 \texttt{return}，或者写了 \texttt{return} 但后面没跟值，默认返回 \texttt{None}。
+    \end{itemize}
+    \item \textbf{对象方法调用}: 语法为 \texttt{obj.method(args)}，例如 \texttt{lst.count(1)}。这实际上是将 \texttt{obj} 作为隐含的第一个参数传递给函数。
+\end{itemize}
+
+\subsection{参数类型与规则}
+
+Python 的参数处理非常灵活，需严格掌握以下四种类型及其顺序。
+
+\subsubsection{1. 参数分类}
+\begin{description}[style=multiline, leftmargin=4cm]
+    \item[Positional Args] 位置参数。按顺序对应。
+    \item[Keyword Args] 关键字参数。调用时指定 \texttt{name=value}。
+    \item[Arbitrary Posi.] \texttt{*args}。接收多余的位置参数，打包成 \textbf{Tuple}。
+    \item[Arbitrary Key.] \texttt{**kwargs}。接收多余的关键字参数，打包成 \textbf{Dict}。
+\end{description}
+
+\begin{importantbox}{缺省参数 (Default Arguments) 的限制}
+\begin{enumerate}
+    \item \textbf{位置限制}：在函数定义时，\textbf{缺省参数必须放在非缺省参数之后}。
+    \\ \textit{错误示例}: \texttt{def f(a=1, b): ...} (SyntaxError)
+    \\ \textit{正确示例}: \texttt{def f(b, a=1): ...}
+    \item \textbf{调用限制}：一旦在调用中使用了关键字参数，其后的所有参数都必须使用关键字形式。
+\end{enumerate}
+\end{importantbox}
+
+\subsection{参数传递机制 (核心考点)}
+
+Python 的参数传递既不是纯粹的“传值”，也不是“传引用”，而是\textbf{“传对象引用 (Call by Object Reference)”}。即传入的是对象的\textbf{内存地址}。
+
+\begin{trapbox}{重新赋值 vs 修改对象}
+函数内部的操作是否影响外部变量，取决于操作类型：
+\begin{itemize}
+    \item \textbf{重新赋值 (Re-assignment) - 不影响外部}
+    \\ \texttt{x = ...} 只是让局部变量 \texttt{x} 指向了新对象，原外部对象不动。
+    
+    \item \textbf{修改对象 (Mutation) - 影响外部}
+    \\ \texttt{x[0] = ...}, \texttt{x.append()}, \texttt{x.attr = ...} 是顺着地址修改了\textbf{原对象}的内容。
+\end{itemize}
+\end{trapbox}
+
+\begin{lstlisting}[caption={修改外部对象的对比}]
+def modify(a_list, b_list):
+    # 1. 重新赋值 (Re-assignment)
+    a_list = [99, 99]      # a_list 贴到了新列表上，断开了与外部的联系
+    
+    # 2. 修改内容 (Mutation)
+    b_list.append(100)     # 顺着地址修改了外部传入的那个列表对象
+
+x = [1, 2]
+y = [1, 2]
+modify(x, y)
+
+print(x)  # [1, 2]       -> 未变
+print(y)  # [1, 2, 100]  -> 已变
+\end{lstlisting}
+
+\subsection{高阶特性：嵌套、装饰器与 Lambda}
+
+\subsubsection{1. 嵌套函数 (Nested Functions)}
+函数内部可以定义函数，也可以将内部函数作为返回值返回（闭包的基础）。
+
+\subsubsection{2. 装饰器 (Decorator)}
+本质上是一个接收函数作为参数并返回新函数的高阶函数。
+\begin{lstlisting}
+@my_decorator
+def my_func():
+    pass
+# 等价于: my_func = my_decorator(my_func)
+\end{lstlisting}
+
+\subsubsection{3. Lambda 表达式}
+匿名函数，通常用于简单的单行逻辑。
+\begin{itemize}
+    \item \textbf{语法}: \texttt{lambda arguments: expression}
+    \item \textbf{注意}: 只能包含一个表达式，不能包含复杂的语句（如赋值、循环）。隐式返回表达式的结果。
+\end{itemize}
+\begin{lstlisting}
+f = lambda x, y: x + y
+print(f(1, 2))  # 输出 3
+
+# 常用于排序
+pairs = [(1, 'one'), (3, 'three'), (2, 'two')]
+pairs.sort(key=lambda p: p[1]) # 按第二个元素排序
+\end{lstlisting}
+
+\subsection{递归 (Recursion)}
+函数调用自身。
+\begin{itemize}
+    \item 必须有\textbf{基准情况 (Base Case)} 以结束递归，否则会导致栈溢出 (RecursionError)。
+    \item 每次递归调用都会在内存栈中开辟新的帧 (Frame)，保存当次调用的局部变量。
+\end{itemize}
+
+\section{常用内置函数}
+
+Python 提供了大量开箱即用的内置函数，考试中需重点掌握其参数行为及返回值类型。
+
+\subsection{输入输出与动态执行}
+
+\begin{description}[style=multiline, leftmargin=3cm]
+    \item[print(*objects)] $\quad$
+    输出对象到标准输出。
+    \begin{itemize}
+        \item \texttt{sep}: 多个对象之间的分隔符，默认为空格。
+        \item \texttt{end}: 输出结束后的字符，默认为换行符。
+    \end{itemize}
+    \begin{lstlisting}
+print("A", "B", sep="-", end="!") 
+# 输出: A-B! (而不是 A B\n)
+    \end{lstlisting}
+
+    \item[eval] 
+    将字符串作为 Python 表达式执行，并返回结果。
+    \\ \textbf{功能强大}：可以处理复杂的字面量结构。
+    \begin{lstlisting}
+s = "[1, 2, 3]"
+lst = eval(s)   # 将字符串转换为列表对象
+print(lst[0])   # 输出 1
+    \end{lstlisting}
+\end{description}
+
+\subsection{对象自省 (Introspection)}
+
+\begin{description}[style=multiline, leftmargin=3cm]
+    \item[type(obj)] 返回对象的类型对象。
+    \item[id(obj)] 返回对象的唯一标识符（通常是内存地址）。
+    \item[len(obj)] 返回容器（字符串、列表、字典等）的元素个数。
+    
+    \item[isinstance] 判断 obj 是否是 class 的实例（\textbf{支持继承关系判定}）。
+    \item[issubclass] 判断 cls 是否是 class 的子类。
+\end{description}
+
+\begin{importantbox}{type() vs isinstance()}
+考试中常问两者的区别：
+\begin{itemize}
+    \item \texttt{type(x) == A}：\textbf{不考虑继承}。如果 x 是 A 的子类实例，结果为 False。
+    \item \texttt{isinstance(x, A)}：\textbf{考虑继承}。如果 x 是 A 的子类实例，结果为 True。（推荐使用）
+\end{itemize}
+\end{importantbox}
+
+\subsection{数学运算与序列操作}
+
+\begin{description}[style=multiline, leftmargin=3cm]
+    \item[sum] 对序列进行求和。注意可指定起始值 \texttt{start}。
+    \item[max/min] 返回最大值/最小值。
+    \\ \textbf{关键参数 key}: 类似于 sort，可以指定排序依据。
+    \\ \texttt{max(["a", "abc"], key=len)} $\to$ \texttt{"abc"}
+\end{description}
+
+\subsection{函数式编程与排序 (高频考点)}
+
+\begin{description}[style=multiline, leftmargin=3cm]
+    \item[sorted] 
+    返回一个新的\textbf{已排序列表}。
+    \\ \textit{区别}: \texttt{list.sort()} 是就地修改，返回 None；\texttt{sorted()} 返回新对象，原对象不变。
+
+    \item[map] 
+    将 func 作用于 iterable 的每一个元素。
+
+    \item[filter] 
+    将 iterable 中使得 \texttt{func(x)} 为 True 的元素保留下来。
+\end{description}
+
+\begin{trapbox}{Python 3 中的 map 和 filter}
+在 Python 3 中，\texttt{map()} 和 \texttt{filter()} 返回的不再是列表，而是\textbf{迭代器 (Iterator)}。
+\\ 它们是\textbf{惰性求值 (Lazy)} 的，只有在遍历或转换为 list 时才会计算。
+\begin{lstlisting}
+m = map(str, [1, 2, 3])
+print(m)        # <map object at ...> (不会直接打印内容)
+print(list(m))  # ['1', '2', '3'] (转换后可见)
+\end{lstlisting}
+\end{trapbox}
+
+\section{列表 (List) - 核心可变序列}
+
+列表是 Python 中最常用的\textbf{可变 (Mutable)} 序列类型。
+
+\subsection{基本操作与构造}
+
+\begin{itemize}
+    \item \textbf{表示}: 使用方括号 \texttt{[]}, 元素间用逗号分隔。
+    \item \textbf{构造函数}: \texttt{list(iterable)}。可将元组、字符串、range 等转换为列表。
+    \item \textbf{运算}:
+    \begin{itemize}
+        \item \textbf{加法 (+)}: \texttt{[1, 2] + [3]} $\to$ \texttt{[1, 2, 3]} (连接，产生新列表)。
+        \item \textbf{乘法 (*)}: \texttt{[1] * 3} $\to$ \texttt{[1, 1, 1]} (重复，产生新列表)。
+    \end{itemize}
+    \item \textbf{成员判定}: \texttt{x in lst} (时间复杂度 O(n))。
+\end{itemize}
+
+\subsection{索引与切片 (Indexing \& Slicing)}
+
+\subsubsection{1. 访问 (Access)}
+\begin{itemize}
+    \item \textbf{Index}: \texttt{a[i]}。支持负数索引（-1 为最后一个）。
+    \item \textbf{Slice}: \texttt{a[start:stop:step]}。
+    \\ \textbf{缺省值}: \texttt{start}默认为0，\texttt{stop}默认为长度，\texttt{step}默认为1。
+    \\ \textit{常用技巧}: \texttt{a[::-1]} (反转列表), \texttt{a[:]} (浅拷贝整个列表)。
+\end{itemize}
+
+\newpage
+
+\subsubsection{2. 修改 (Modification) - 重点}
+列表是可变的，支持原位修改。
+
+\begin{lstlisting}[caption={索引修改 vs 切片修改}]
+lst = [0, 1, 2, 3, 4]
+
+# 索引修改 (必须存在)
+lst[0] = 99         # -> [99, 1, 2, 3, 4]
+
+# 切片修改 (功能强大：可替换、插入、删除)
+# 将索引 1 到 3 的片段替换为新的列表
+lst[1:3] = ['a', 'b', 'c'] 
+# 结果: [99, 'a', 'b', 'c', 3, 4] (长度可以改变)
+
+# 即使是切片赋值，右侧也必须是 Iterable
+lst[1:2] = [100]    # 正确
+# lst[1:2] = 100    # 报错！TypeError
+\end{lstlisting}
+
+\subsection{常用方法 (Methods) 与删除}
+
+\begin{longtable}{p{4cm} p{10cm}}
+\toprule
+\textbf{方法/操作} & \textbf{说明} \\
+\midrule
+\texttt{.append(x)} & 在末尾添加元素 x。 \\
+\texttt{.extend(iterable)} & 将 iterable 中的所有元素追加到末尾。 \\
+\texttt{.insert(i, x)} & 在索引 i 处插入 x。 \\
+\texttt{.remove(x)} & 删除\textbf{第一个}值为 x 的元素。如果不存在则报错。 \\
+\texttt{.pop([i])} & 删除并返回索引 i 处的元素（默认最后一个）。 \\
+\texttt{.clear()} & 清空列表，变为 \texttt{[]}。 \\
+\texttt{.index(x)} & 返回第一个 x 的索引。 \\
+\texttt{.count(x)} & 统计 x 出现的次数。 \\
+\texttt{.sort(key=.., reverse=..)} & \textbf{就地排序 (In-place)}，无返回值 (None)。 \\
+\texttt{.reverse()} & \textbf{就地反转}，无返回值。 \\
+\texttt{del lst[i]} & 删除指定索引的元素。 \\
+\texttt{del lst[start:stop]} & 删除切片范围内的元素。 \\
+\bottomrule
+\end{longtable}
+
+\subsection{列表推导式 (List Comprehension)}
+
+一种简洁构建列表的方法，通常比 for 循环更快。
+
+\begin{itemize}
+    \item \textbf{基础语法}: \texttt{[expression for item in iterable if condition]}
+    \item \textbf{嵌套 (Nested)}: 对应嵌套的 for 循环。
+\end{itemize}
+
+\begin{lstlisting}[caption={嵌套推导式示例}]
+# 目标: 展平二维数组 matrix = [[1, 2], [3, 4]]
+flat = [num for row in matrix for num in row]
+# 等价于:
+# for row in matrix:
+#     for num in row: ...
+\end{lstlisting}
+
+\subsection{核心难点：拷贝机制 (Shallow vs Deep Copy)}
+
+这是列表最容易出错的地方，必须严格区分三种拷贝层级。
+
+\subsubsection{1. 引用赋值 (Reference)}
+\texttt{b = a}。不创建新对象，\texttt{a} 和 \texttt{b} 指向同一块内存。
+
+\subsubsection{2. 浅拷贝 (Shallow Copy)}
+创建一个\textbf{新列表容器}，但列表里面的元素依然是\textbf{原对象的引用}。
+\\ \textbf{触发方式}: 
+\begin{itemize}
+    \item \texttt{b = a[:]} (切片)
+    \item \texttt{b = a.copy()}
+    \item \texttt{b = list(a)}
+\end{itemize}
+
+\begin{lstlisting}[caption={浅拷贝的局限性}]
+a = [[1], [2]]      # 嵌套列表
+b = a.copy()        # 浅拷贝
+
+b[0].append(9)      # 修改内部对象
+print(a)            # [[1, 9], [2]] -> 原列表 a 也变了！
+# 因为 b[0] 和 a[0] 指向的是同一个小列表对象
+\end{lstlisting}
+
+\subsubsection{3. 深拷贝 (Deep Copy)}
+递归地拷贝列表及其包含的所有子对象。需导入 \texttt{copy} 模块。
+\begin{lstlisting}
+import copy
+c = copy.deepcopy(a) # 完全独立，修改 c 不会影响 a
+\end{lstlisting}
+
+\subsubsection{4. 乘法操作符 \texttt{*} 的陷阱}
+\texttt{lst * n} 执行的是\textbf{浅拷贝}。
+
+\begin{trapbox}{千万别这样初始化二维数组！}
+\textbf{错误写法：}
+\begin{lstlisting}
+# 创建一个 3x3 矩阵
+matrix = [[0] * 3] * 3 
+# 结果: [[0,0,0], [0,0,0], [0,0,0]]
+# 问题: 这3个内部列表其实是同一个对象的引用！
+
+matrix[0][0] = 99
+print(matrix)
+# 结果: [[99,0,0], [99,0,0], [99,0,0]] -> 3行全变了
+\end{lstlisting}
+
+\textbf{正确写法 (List Comprehension)：}
+\begin{lstlisting}
+# 推导式每次循环都会重新计算表达式 -> 创建新的列表对象
+matrix = [[0] * 3 for _ in range(3)] 
+\end{lstlisting}
+\end{trapbox}
+
+\begin{importantbox}{List Comprehension 的求值特性}
+推导式中的表达式（expression）在每次迭代时都会\textbf{重新求值 (Re-evaluates)}。
+\begin{itemize}
+    \item \texttt{[[1] for \_ in range(3)]}: 循环3次，每次都创建一个新的 \texttt{[1]}。相当于对 \texttt{[1]} 做了 \textbf{Deep Copy} 的效果（虽然技术上不是通过 deepcopy 实现的）。
+\end{itemize}
+\end{importantbox}
+
+\section{元组 (Tuple) - 不可变序列}
+
+元组可以被视为\textbf{不可变的列表 (Immutable List)}。一旦创建，其长度和内部元素的指向都不能改变。
+
+\subsection{表示与构造}
+
+\begin{itemize}
+    \item \textbf{符号}: 使用圆括号 \texttt{()}。
+    \item \textbf{构造函数}: \texttt{tuple(iterable)}。
+    \item \textbf{空元组}: \texttt{t = ()}。
+\end{itemize}
+
+\begin{trapbox}{单元素元组的陷阱}
+创建只有一个元素的元组时，\textbf{必须在元素后加逗号}，否则 Python 会将其识别为普通的数学运算括号（即该元素本身的类型）。
+\begin{lstlisting}
+t1 = (1)    # <class 'int'> (整数 1)
+t2 = (1,)   # <class 'tuple'> (元组)
+\end{lstlisting}
+\end{trapbox}
+
+\subsection{基本操作}
+
+元组支持大部分列表的\textbf{只读}操作：
+
+\begin{itemize}
+    \item \textbf{索引 (Indexing)}: \texttt{t[0]}, \texttt{t[-1]}。
+    \item \textbf{切片 (Slicing)}: \texttt{t[1:3]}。返回一个新的元组。
+    \item \textbf{成员判定}: \texttt{x in t}。
+    \item \textbf{运算}:
+    \begin{itemize}
+        \item \textbf{加法}: \texttt{(1, 2) + (3,)} $\to$ \texttt{(1, 2, 3)} (创建新元组)。
+        \item \textbf{乘法}: \texttt{(1,) * 3} $\to$ \texttt{(1, 1, 1)}。
+    \end{itemize}
+\end{itemize}
+
+\subsection{常用方法}
+
+由于不可变，元组\textbf{没有} \texttt{append}, \texttt{extend}, \texttt{remove} 等修改方法。仅支持查询：
+
+\begin{itemize}
+    \item \texttt{.count(x)}: 统计 x 出现的次数。
+    \item \texttt{.index(x)}: 返回 x 第一次出现的索引。
+\end{itemize}
+
+\subsection{特殊考点：没有"元组推导式"}
+
+\begin{importantbox}{Tuple Comprehension 不存在}
+在 Python 中，使用圆括号包裹的推导式语法 \texttt{(x for x in ...)} \textbf{并不是}元组推导式，而是创建一个\textbf{生成器对象 (Generator Expression)}。
+
+如果需要通过推导逻辑创建元组，必须显式调用 \texttt{tuple()}：
+\begin{lstlisting}
+# 错误理解：以为这是元组
+g = (i * 2 for i in range(3))  
+print(type(g))  # <class 'generator'>
+
+# 正确创建元组
+t = tuple(i * 2 for i in range(3))
+print(t)        # (0, 2, 4)
+\end{lstlisting}
+\end{importantbox}
+
+\subsection{进阶：元组真的"不可变"吗？}
+
+元组的不可变性指的是\textbf{“其存储的引用（内存地址）不可变”}。如果元组内部包含可变对象（如列表），该内部对象的内容是可以修改的。
+
+\begin{lstlisting}[caption={元组内含可变对象}]
+t = (1, [2, 3])
+# t[0] = 2       # 报错！TypeError (不能修改引用)
+# t[1] = [4]     # 报错！TypeError (不能修改引用)
+
+t[1].append(4)   # 合法！修改了内部列表的内容
+print(t)         # (1, [2, 3, 4])
+\end{lstlisting}
+
+\section{字典 (Dict) - 键值映射}
+
+字典是 Python 中唯一的内置映射类型，存储无序的（Python 3.7+ 插入有序）键值对。
+
+\subsection{构造方法}
+
+除了字面量 \texttt{\{'a': 1\}} 外，考试中常考以下三种构造方式：
+
+\begin{enumerate}
+    \item \textbf{关键字参数 (Keyword Args)}: 键必须是合法的标识符字符串。
+    \begin{lstlisting}
+d = dict(name='Alice', age=20) 
+# {'name': 'Alice', 'age': 20}
+    \end{lstlisting}
+    
+    \item \textbf{Zip 压缩}: 适合将两个列表组合成字典。
+    \begin{lstlisting}
+keys = ['a', 'b'];
+vals = [1, 2]
+d = dict(zip(keys, vals))
+# {'a': 1, 'b': 2}
+    \end{lstlisting}
+    
+    \item \textbf{元组列表}: 包含 (key, value) 对的可迭代对象。
+    \begin{lstlisting}
+pairs = [('a', 1), ('b', 2)]
+d = dict(pairs)
+    \end{lstlisting}
+\end{enumerate}
+
+\subsection{核心限制：Key 必须 Hashable}
+
+\begin{trapbox}{TypeError: unhashable type}
+字典的 \textbf{Key} 必须是\textbf{不可变类型}（准确说是可哈希的）。
+\begin{itemize}
+    \item \textbf{合法 Key}: \texttt{int}, \texttt{float}, \texttt{str}, \texttt{tuple} (前提是 tuple 内元素也 hashable)。
+    \item \textbf{非法 Key}: \texttt{list}, \texttt{dict}, \texttt{set}。
+\end{itemize}
+\textit{注：Value 没有任何限制，可以是任意对象。}
+\end{trapbox}
+
+\subsection{访问、修改与查询}
+
+\begin{itemize}
+    \item \textbf{访问/新增}: \texttt{d[key] = value}。如果 Key 不存在则新增，存在则覆盖。
+    \item \textbf{查询}: \texttt{key in d}。仅判断 \textbf{Key} 是否存在，不检查 Value。
+    \item \textbf{视图方法 (View Objects)}:
+    \begin{itemize}
+        \item \texttt{.keys()}: 返回所有键。
+        \item \texttt{.values()}: 返回所有值。
+        \item \texttt{.items()}: 返回所有 (key, value) 元组。常用于遍历：
+        \begin{lstlisting}
+for k, v in d.items():
+    print(k, v)
+        \end{lstlisting}
+    \end{itemize}
+\end{itemize}
+
+\subsection{字典合并 (Merging)}
+
+合并是高频考点，需区分“原地修改”和“返回新对象”。
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{l l l}
+\toprule
+\textbf{语法} & \textbf{类型} & \textbf{说明} \\
+\midrule
+\texttt{a.update(b)} & \textbf{原地修改} & 把 b 的内容更新到 a 中，返回 None。 \\
+\texttt{\{**a, **b\}} & \textbf{新对象} & 解包合并，如果有重复 Key，b 覆盖 a。 \\
+\texttt{a | b} & \textbf{新对象} & (Python 3.9+) 联合运算符，功能同上。 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{删除操作}
+
+\begin{itemize}
+    \item \texttt{del d[key]}: 删除指定键，Key 不存在报 \texttt{KeyError}。
+    \item \texttt{.pop(key, [default])}: 删除并\textbf{返回}该 Key 对应的值。推荐使用，可提供 default 避免报错。
+    \item \texttt{.popitem()}: \textbf{LIFO} (后进先出) 删除并返回 \texttt{(key, value)} 元组。
+    \item \texttt{.clear()}: 清空字典。
+\end{itemize}
+
+\subsection{字典推导式 (Dict Comprehension)}
+
+语法：\texttt{\{key\_expr: val\_expr for item in iterable\}}
+
+\begin{lstlisting}[caption={推导式示例}]
+# 交换键值对
+old = {'a': 1, 'b': 2}
+new = {v: k for k, v in old.items()} 
+# {1: 'a', 2: 'b'}
+\end{lstlisting}
+
+\newpage
+
+\subsection{拷贝机制}
+
+与列表一致，\textbf{字典的构造函数和 copy 方法均为浅拷贝 (Shallow Copy)}。
+
+\begin{lstlisting}
+d1 = {'a': [1, 2]}
+d2 = dict(d1)      # 浅拷贝
+
+d2['a'].append(3)  # 修改内部可变对象
+print(d1['a'])     # [1, 2, 3] -> d1 受影响
+\end{lstlisting}
+
+\section{集合 (Set) - 无序不重复集}
+
+集合是\textbf{无序}且\textbf{不重复}的元素集合，主要用于去重和数学集合运算。
+
+\subsection{表示与构造}
+
+\begin{itemize}
+    \item \textbf{表示}: 使用花括号 \texttt{\{1, 2, 3\}}。
+    \item \textbf{构造函数}: \texttt{set(iterable)}。
+\end{itemize}
+
+\begin{trapbox}{空集合的陷阱}
+\textbf{千万小心}: \texttt{\{\}} 表示的是\textbf{空字典 (Empty Dict)}，而不是空集合！
+\\ 创建空集合必须使用构造函数：\texttt{empty\_set = set()}。
+\end{trapbox}
+
+\subsection{元素限制：必须 Hashable}
+
+与字典的 Key 一样，\textbf{集合内的元素必须是不可变类型 (Hashable)}。
+\begin{itemize}
+    \item \textbf{合法}: \texttt{\{1, (2, 3), "abc"\}}
+    \item \textbf{非法}: \texttt{\{ [1, 2] \}} (列表不可哈希), \texttt{\{ \{1\} \}} (集合本身也不可哈希)。
+\end{itemize}
+
+\subsection{集合运算 (重点)}
+
+集合支持丰富的数学运算符号。
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{c l p{7cm}}
+\toprule
+\textbf{符号} & \textbf{含义} & \textbf{说明} \\
+\midrule
+\texttt{a | b} & \textbf{并集} (Union) & 包含 a 和 b 中所有的元素。 \\
+\texttt{a \& b} & \textbf{交集} (Intersection) & 同时存在于 a 和 b 中的元素。 \\
+\texttt{a \^ b} & \textbf{对称差集} & 只在 a 或只在 b 中的元素 (异或)。 \\
+\texttt{a - b} & \textbf{差集} & 在 a 中但不在 b 中的元素。 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{比较运算}
+
+集合的比较是基于\textbf{包含关系}的：
+\begin{itemize}
+    \item \texttt{a <= b}: 判断 a 是否是 b 的\textbf{子集}。
+    \item \texttt{a < b}: 判断 a 是否是 b 的\textbf{真子集}。
+    \item \texttt{a >= b}: 判断 a 是否是 b 的\textbf{超集}。
+\end{itemize}
+
+\subsection{常用方法}
+
+\begin{itemize}
+    \item \texttt{.add(x)}: 添加元素 x。如果已存在则无视。
+    \item \texttt{.remove(x)}: 删除元素 x。如果不存在会报错 \texttt{KeyError}。
+    \item \texttt{.discard(x)}: 删除元素 x。如果不存在\textbf{不会}报错 (安全删除)。
+\end{itemize}
+
+\subsection{集合推导式 (Set Comprehension)}
+
+语法与字典推导式类似，但只有值没有键。
+\begin{lstlisting}
+nums = {1, 2, 3}
+squares = {x**2 for x in nums}  # {1, 4, 9}
+\end{lstlisting}
+
+\newpage
+%----------------------------------------------------------------------------------------
+%   容器综合总结
+%----------------------------------------------------------------------------------------
+\section{容器类型综合考点 (List/Tuple/Dict/Set)}
+
+以下三条规则是 Python 容器系统的核心机制，考试中常用于考察复杂的嵌套结构。
+
+\subsection{1. 嵌套规则 (Nesting Rules)}
+
+List, Dict, Set, Tuple 可以任意互相嵌套，但必须遵守\textbf{“底层的 Hashable 限制”}：
+
+\begin{enumerate}
+    \item \textbf{List/Tuple}: 内部可以放任意对象（包括 List, Set, Dict）。
+    \begin{itemize}
+        \item \texttt{[ \{1,2\}, [3,4] ]} $\checkmark$ 合法 (列表里放集合和列表)。
+    \end{itemize}
+    \item \textbf{Dict Key / Set Element}: 内部\textbf{必须}是不可变对象 (Hashable)。
+    \begin{itemize}
+        \item \texttt{\{ (1,2): "ok" \}} $\checkmark$ 合法 (元组作 Key)。
+        \item \texttt{\{ [1,2]: "no" \}} $\times$ \textbf{报错} (列表作 Key)。
+        \item \texttt{set([ [1], [2] ])} $\times$ \textbf{报错} (集合里不能放列表)。
+    \end{itemize}
+\end{enumerate}
+
+\subsection{2. 构造函数与迭代行为}
+
+List, Set, Tuple 的构造函数均接受\textbf{任意 Iterable 对象}。
+\\ \textbf{特别注意 Dict 的迭代行为}：
+当把一个字典传给 \texttt{list()} 或 \texttt{set()} 时，默认迭代的是 \textbf{Keys}。
+
+\begin{lstlisting}[caption={字典转列表}]
+d = {'a': 1, 'b': 2}
+lst = list(d)
+print(lst)  # ['a', 'b'] (忽略了 Value)
+\end{lstlisting}
+
+\subsection{3. 构造函数总是创建新对象}
+
+所有的内置构造函数 (\texttt{list()}, \texttt{set()}, \texttt{dict()}) 在调用时，\textbf{一定会}在内存中创建一个全新的对象 (New Identity)。
+
+\begin{lstlisting}
+a = [1, 2, 3]
+b = list(a)     # 这是一个浅拷贝 (Shallow Copy)
+
+print(a == b)   # True  (内容相等)
+print(a is b)   # False (ID不同，是两个独立容器)
+\end{lstlisting}
+
+\section{字符串 (String) - 文本处理}
+
+字符串是\textbf{不可变 (Immutable)} 的字符序列。这意味着你不能直接修改字符串中的某个字符（如 \texttt{s[0] = 'a'} 是非法的）。
+
+\subsection{索引与切片}
+
+操作方式与列表、元组完全一致。
+\begin{itemize}
+    \item \textbf{索引}: \texttt{s[0]}, \texttt{s[-1]}。
+    \item \textbf{切片}: \texttt{s[start:stop:step]}。
+    \item \textit{注意}: 切片操作会返回一个新的字符串对象。
+\end{itemize}
+
+\subsection{常用方法 (Methods)}
+
+\begin{description}[style=multiline, leftmargin=3.5cm]
+    \item[.find/ .index] 查找子串 \texttt{sub} 的索引。
+    \begin{itemize}
+        \item \texttt{.find()}: 找不到返回 \textbf{-1} (安全)。
+        \item \texttt{.index()}: 找不到抛出 \textbf{ValueError}。
+    \end{itemize}
+    
+    \item[.count(sub)] 统计子串出现的非重叠次数。
+    
+    \item[.replace] 替换子串。
+    \\ \textbf{注意}: 返回\textbf{新字符串}，原字符串不会变！
+    
+    \item[.split(sep)] 将字符串按 \texttt{sep} 分割成\textbf{列表 (List)}。
+    \\ \texttt{"a,b,c".split(",")} $\to$ \texttt{['a', 'b', 'c']}
+    
+    \item[.join(iterable)] 将可迭代对象（如列表）拼接成字符串。
+    \\ \textit{语法}: \texttt{"分隔符".join(列表)}
+    \\ \texttt{"-".join(['a', 'b'])} $\to$ \texttt{"a-b"}
+    
+    \item[.upper/ .lower] 全大写 / 全小写转换。
+\end{description}
+
+\subsection{字符串格式化 (String Formatting)}
+
+\subsubsection{1. 两种主要语法}
+\begin{enumerate}
+    \item \textbf{.format() 方法}:
+    \begin{lstlisting}
+"Name: {}, Age: {}".format("Alice", 20)
+"Name: {0}, Age: {1}".format("Alice", 20) # 指定位置
+    \end{lstlisting}
+    
+    \item \textbf{f-string (推荐)}: 在字符串前加 \texttt{f}，直接嵌入变量。
+    \begin{lstlisting}
+name = "Alice";
+age = 20
+f"Name: {name}, Age: {age}"
+    \end{lstlisting}
+\end{enumerate}
+
+\subsubsection{2. 格式说明符 (Format Specifiers)}
+
+语法格式：\texttt{\{value:\textbf{格式控制符}\}}。以下是考试必考的格式代码：
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{l l l}
+\toprule
+\textbf{符号} & \textbf{含义} & \textbf{示例 (设 x=10, pi=3.14159)} \\
+\midrule
+\texttt{:.2f} & 保留2位小数 (四舍五入) & \texttt{f"\{pi:.2f\}"} $\to$ \texttt{"3.14"} \\
+\texttt{:b} & 二进制 (Binary) & \texttt{f"\{x:b\}"} $\to$ \texttt{"1010"} \\
+\texttt{:o} & 八进制 (Octal) & \texttt{f"\{x:o\}"} $\to$ \texttt{"12"} \\
+\texttt{:x} & 十六进制 (Hex) & \texttt{f"\{x:x\}"} $\to$ \texttt{"a"} \\
+\midrule
+\texttt{:10} & 指定宽度 (默认右对齐) & \texttt{f"\{x:5\}"} $\to$ \texttt{"   10"} \\
+\texttt{:<10} & 左对齐 & \texttt{f"\{x:<5\}"} $\to$ \texttt{"10   "} \\
+\texttt{:>10} & 右对齐 & \texttt{f"\{x:>5\}"} $\to$ \texttt{"   10"} \\
+\texttt{:\^{}10} & 居中对齐 & \texttt{f"\{x:\^{}5\}"} $\to$ \texttt{" 10  "} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{特殊字面量}
+
+\subsubsection{1. 原始字符串 (Raw String)}
+在字符串前加 \texttt{r} 或 \texttt{R}。
+\\ \textbf{作用}: \textbf{忽略转义字符}（如 \texttt{$\backslash$n}, \texttt{$\backslash$t}）的特殊含义，将其视为普通文本。
+\\ \textit{常用场景}: 正则表达式、Windows 文件路径。
+\begin{lstlisting}
+print("a\nb")  # 输出两行
+print(r"a\nb") # 输出原样: a\nb
+\end{lstlisting}
+
+\subsubsection{2. 三引号 (Triple Quotes)}
+使用 \texttt{"""..."""} 或 \texttt{'''...'''}。
+\\ \textbf{作用}: 允许字符串跨越多行。常用于编写函数或类的文档字符串 (Docstring)。
+\begin{lstlisting}
+s = """Line 1
+Line 2"""
+\end{lstlisting}
+
+\section{面向对象编程 (Class)}
+
+\subsection{基本定义与 Self}
+
+Python 中一切皆对象。定义类使用 \texttt{class} 关键字。
+
+\begin{itemize}
+    \item \textbf{构造函数}: \texttt{\_\_init\_\_(self, ...)}。在实例化对象时自动调用，用于初始化属性。
+    \item \textbf{self}: 代表\textbf{实例对象本身}（类似于 Java/C++ 的 this）。
+    \item \textbf{成员函数}: 定义在类内部，第一个参数必须是 \texttt{self}。
+\end{itemize}
+
+\begin{trapbox}{忘记写 self 的后果}
+如果在类内部定义函数时忘记加 \texttt{self}：
+\begin{lstlisting}
+class A:
+    def func():  # 错误！没有 self
+        print("Hi")
+a = A()
+a.func() # 报错！TypeError
+# 原因: a.func() 等价于 A.func(a)，但定义中不接受参数
+\end{lstlisting}
+\end{trapbox}
+
+\subsection{类变量 vs 实例变量}
+
+\begin{itemize}
+    \item \textbf{实例变量 (Instance Variable)}: 绑定在 \texttt{self} 上（如 \texttt{self.x}），每个对象独有。
+    \item \textbf{类变量 (Class Variable)}: 定义在类体中（函数之外），所有实例\textbf{共享}。
+\end{itemize}
+
+\begin{lstlisting}[caption={类变量的遮蔽 (Shadowing)}]
+class Dog:
+    kind = 'Canine'      # 类变量 (共享)
+    def __init__(self, name):
+        self.name = name  # 实例变量 (独有)
+
+d1 = Dog('A');
+d2 = Dog('B')
+d1.kind = 'Wolf'          # 注意！这不会修改类变量，而是创建了一个新的实例变量 d1.kind
+print(d1.kind)            # Wolf
+print(d2.kind)            # Canine (依然共享类的原值)
+print(Dog.kind)           # Canine
+\end{lstlisting}
+
+\subsection{方法类型：@classmethod}
+
+\begin{itemize}
+    \item \textbf{实例方法}: \texttt{def f(self): ...}
+    \item \textbf{类方法}: 使用 \texttt{@classmethod} 装饰器。第一个参数约定为 \texttt{cls} (代表类本身，而非实例)。常用于实现\textbf{工厂模式}。
+\end{itemize}
+
+\subsection{魔术方法 (Magic Methods)}
+
+Python 通过双下划线方法实现运算符重载和特定行为。
+
+\subsubsection{1. 字符串表示}
+\begin{itemize}
+    \item \texttt{\_\_str\_\_(self)}: 用户友好的字符串。被 \texttt{print()} 和 \texttt{str()} 调用。
+    \item \texttt{\_\_repr\_\_(self)}: 开发者视角的字符串（通常用于调试）。被交互式命令行直接回显调用。
+    \item \textit{原则}: 如果只定义了 \texttt{\_\_repr\_\_}，\texttt{\_\_str\_\_} 也会默认调用它。
+\end{itemize}
+
+\subsubsection{2. 比较运算}
+\begin{itemize}
+    \item \texttt{\_\_eq\_\_} (==), \texttt{\_\_ne\_\_} (!=)
+    \item \texttt{\_\_lt\_\_} (<), \texttt{\_\_le\_\_} (<=), \texttt{\_\_gt\_\_} (>), \texttt{\_\_ge\_\_} (>=)
+\end{itemize}
+
+\subsubsection{3. 算术运算 (重点)}
+\begin{itemize}
+    \item \texttt{\_\_add\_\_(self, other)}: 实现 \texttt{self + other}。
+    \item \texttt{\_\_radd\_\_(self, other)}: 实现 \texttt{other + self} (右加)。
+    \\ \textbf{触发机制}: 当左操作数不支持 \texttt{\_\_add\_\_} 时，Python 会尝试调用右操作数的 \texttt{\_\_radd\_\_}。
+    \item \texttt{\_\_iadd\_\_(self, other)}: 实现 \texttt{self += other} (就地修改)。
+\end{itemize}
+
+\subsubsection{4. 容器模拟}
+\begin{itemize}
+    \item \texttt{\_\_getitem\_\_(self, key)}: 实现 \texttt{obj[key]} 读取。
+    \item \texttt{\_\_setitem\_\_(self, key, value)}: 实现 \texttt{obj[key] = value} 写入。
+\end{itemize}
+
+\subsection{继承 (Inheritance)}
+
+\begin{itemize}
+    \item \textbf{语法}: \texttt{class Child(Parent): ...}
+    \item \textbf{super()}: 用于调用父类的方法，特别是构造函数。
+\end{itemize}
+\begin{lstlisting}
+class Parent:
+    def __init__(self):
+        self.x = 1
+
+class Child(Parent):
+    def __init__(self):
+        super().__init__() # 必须显式调用，否则父类属性不会初始化
+        self.y = 2
+\end{lstlisting}
+
+\section{模块 (Module)}
+
+\subsection{导入语法 (Import Syntax)}
+
+\begin{itemize}
+    \item \texttt{import math}: 使用 \texttt{math.sqrt(4)} 调用。
+    \item \texttt{import math as m}: 别名，使用 \texttt{m.sqrt(4)}。
+    \item \texttt{from math import sqrt}: 直接导入符号，使用 \texttt{sqrt(4)}。
+    \item \texttt{from math import *}: 导入所有（不推荐，易污染命名空间）。
+\end{itemize}
+
+\subsection{导入机制 (Execution \& Caching)}
+
+\begin{importantbox}{Import 发生了什么？}
+\begin{enumerate}
+    \item \textbf{执行代码}: \texttt{import A} 会将模块 A 中的顶层代码\textbf{从头到尾执行一遍}。
+    \item \textbf{缓存机制}: Python 会把导入过的模块缓存在 \texttt{sys.modules} 中。
+    \\ \textbf{多次 import 只执行一次}: 如果在一个程序中多次写了 \texttt{import A}，后续的导入直接使用缓存，\textbf{不会}重新执行模块代码（除非手动使用 \texttt{importlib.reload}）。
+\end{enumerate}
+\end{importantbox}
+
+\subsection{\texttt{\_\_name\_\_} 与 \texttt{'\_\_main\_\_'}}
+
+每个模块都有一个内置属性 \texttt{\_\_name\_\_}。
+
+\begin{itemize}
+    \item 如果模块是被 \textbf{直接运行} 的 (例如 \texttt{python my\_script.py})：
+    \\ \texttt{\_\_name\_\_} 的值为 \texttt{'\_\_main\_\_'}。
+    \item 如果模块是被 \textbf{导入} 的 (例如 \texttt{import my\_script})：
+    \\ \texttt{\_\_name\_\_} 的值为模块本身的名字 (即 \texttt{'my\_script'})。
+\end{itemize}
+
+\textbf{经典用法 (测试代码保护):}
+\begin{lstlisting}
+def func():
+    print("Function logic")
+
+# 以下代码只有在直接运行此文件时才执行
+# 被别人 import 时不会执行
+if __name__ == '__main__':
+    func()
+\end{lstlisting}
+
+\section{异常处理与断言 (Exception \& Assertion)}
+
+\subsection{异常捕获机制}
+
+Python 使用 \texttt{try...except...else...finally} 结构来处理运行时错误。
+
+\begin{lstlisting}[caption={完整的异常结构}]
+try:
+    # 可能抛出异常的代码
+    res = 1 / 0
+except ZeroDivisionError:
+    # 当捕获到特定异常时执行
+    print("除数不能为0")
+except (IndexError, KeyError) as e:
+    # 捕获多种异常，并获取异常对象 e
+    print(f"索引或Key错误: {e}")
+else:
+    # 【仅在】try 块没有抛出任何异常时执行
+    print("一切正常")
+finally:
+    # 【无论如何】都会执行 (常用于关闭文件、释放锁)
+    print("清理工作")
+\end{lstlisting}
+
+\subsection{finally 的绝对执行权 (高频考点)}
+
+\texttt{finally} 块具有极高的优先级。即使在 \texttt{try} 块中执行了 \texttt{return}, \texttt{break} 或 \texttt{continue}，\texttt{finally} \textbf{依然会在跳转前被执行}。
+
+\begin{trapbox}{循环中的 finally 与 break}
+考题常考：\texttt{break} 是否会跳过 \texttt{finally}？答案是\textbf{不会}。
+\begin{lstlisting}
+def test_loop():
+    for i in range(3):
+        try:
+            if i == 1:
+                print("即将 Break")
+                break  # 准备跳出
+        finally:
+            print(f"Finally 执行: {i}")
+
+test_loop()
+# 输出顺序:
+# Finally 执行: 0
+# 即将 Break
+# Finally 执行: 1  <-- 即使 break 了，finally 依然执行！
+\end{lstlisting}
+\end{trapbox}
+
+\subsection{常见异常类型速查}
+
+考试中常给出一段报错代码，要求判断抛出什么类型的异常。
+
+\begin{longtable}{p{4.5cm} p{8cm}}
+\toprule
+\textbf{异常类型} & \textbf{触发场景与示例} \\
+\midrule
+\texttt{ZeroDivisionError} & 除数为 0。
+\\ & \texttt{1 / 0}, \texttt{1 \% 0} \\
+\midrule
+\texttt{IndexError} & 序列索引越界 (List/Tuple/String)。
+\\ & \texttt{lst = [1]; lst[10]} \\
+\midrule
+\texttt{KeyError} & 字典中查找不存在的键。
+\\ & \texttt{d = \{'a':1\}; d['b']} \\
+\midrule
+\texttt{ValueError} & \textbf{类型正确但数值不合法}。
+\\ & \texttt{int("abc")} (字符串不能转数字)
+\\ & \texttt{list.remove(x)} (删除不存在的元素) \\
+\midrule
+\texttt{TypeError} & \textbf{操作类型不匹配}。
+\\ & \texttt{1 + "1"} (整数加字符串)
+\\ & \texttt{len(5)} (整数没有长度)
+\\ & \texttt{list((1))} (整数不可迭代，构造失败) \\
+\midrule
+\texttt{AttributeError} & 访问对象不存在的属性或方法。
+\\ & \texttt{[].add(1)} (列表没有 add 方法，只有 append) \\
+\midrule
+\texttt{NameError} & 使用了未定义的变量名。
+\\ & \texttt{print(undefined\_var)} \\
+\midrule
+\texttt{UnboundLocalError} & \textbf{作用域陷阱}：在函数内引用局部变量前对其赋值（导致全局屏蔽）。
+\\ & \begin{lstlisting}[basicstyle=\ttfamily\tiny, numbers=none, frame=none]
+x = 10
+def f():
+  print(x) # 报错! Python发现下面有赋值，
+  x = 5    # 认为x是局部变量，但print时还没赋值
+\end{lstlisting} \\
+\midrule
+\texttt{AssertionError} & \texttt{assert} 语句失败时抛出。 \\
+\bottomrule
+\end{longtable}
+
+\subsection{断言 (Assertion)}
+
+用于调试和防御性编程，确保程序在某个特定状态下是正确的。如果条件为假，程序崩溃。
+
+\begin{itemize}
+    \item \textbf{语法}: \texttt{assert expression [, message]}
+    \item \textbf{逻辑}: 等价于：
+    \begin{lstlisting}[numbers=none]
+if not expression:
+    raise AssertionError(message)
+    \end{lstlisting}
+\end{itemize}
+
+\begin{lstlisting}[caption={Assert 使用示例}]
+def apply_discount(price, discount):
+    # 确保价格和折扣合理，否则直接报错
+    assert price >= 0, "Price cannot be negative"
+    assert 0 <= discount <= 1, "Discount must be 0-1"
+    return price * (1 - discount)
+\end{lstlisting}
+
+\section{Random 随机数模块}
+
+使用前需导入：\texttt{import random}。
+
+\subsection{数值生成 (Floats \& Integers)}
+
+\begin{description}[style=multiline, leftmargin=4cm]
+    \item[.random()] 
+    返回 \texttt{[0.0, 1.0)} 之间的浮点数 (包含0，不包含1)。
+    
+    \item[.uniform(a, b)] 
+    返回 \texttt{[a, b]} 之间的浮点数 (通常包含边界 b)。
+    
+    \item[.randint(a, b)] 
+    返回 \texttt{[a, b]} 之间的整数。
+    \\ \textbf{注意}: \textbf{包含}右边界 \texttt{b}！这是 Python 中少有的闭区间。
+    
+    \item[.randrange] 
+    从 \texttt{range(start, stop, step)} 中随机选取一个整数。
+    \\ \textbf{注意}: \textbf{不包含}右边界 \texttt{stop} (左闭右开)。
+\end{description}
+
+\begin{trapbox}{边界陷阱：randint vs randrange}
+\begin{itemize}
+    \item \texttt{randint(1, 3)} 可能返回: 1, 2, \textbf{3}。
+    \item \texttt{randrange(1, 3)} 可能返回: 1, 2 (绝不会返回 3)。
+\end{itemize}
+\end{trapbox}
+
+\subsection{序列操作 (Sequences)}
+
+假设序列为 \texttt{seq = [1, 2, 3, 4, 5]}。
+
+\begin{description}[style=multiline, leftmargin=4cm]
+    \item[.choice(seq)] 
+    从序列中随机返回\textbf{一个}元素。
+    
+    \item[.shuffle(seq)] 
+    \textbf{就地打乱 (In-place)} 序列顺序。
+    \\ \textbf{返回 None}！千万不要写 \texttt{seq = random.shuffle(seq)}。
+    
+    \item[.sample(seq, k)] 
+    从序列中随机抽取 k 个元素。
+    \\ \textbf{特征}: \textbf{无放回抽样} (No Replacement)。结果中元素不重复。
+    \\ \textit{限制}: k 不能大于序列长度 \texttt{len(seq)}，否则报错。
+    
+    \item[.choices(seq, k)] 
+    (Python 3.6+) 从序列中随机抽取 k 个元素。
+    \\ \textbf{特征}: \textbf{有放回抽样} (With Replacement)。结果可能重复。
+    \\ \textit{功能}: 支持权重参数 \texttt{weights}。
+\end{description}
+
+\begin{importantbox}{sample vs choices}
+\begin{itemize}
+    \item 想要“不重复”的抽奖？用 \textbf{sample}。
+    \item 想要“抛硬币/掷骰子”（独立重复实验）？用 \textbf{choices}。
+\end{itemize}
+\end{importantbox}
+
+\subsection{随机种子 (Reproducibility)}
+
+\begin{description}[style=multiline, leftmargin=4cm]
+    \item[.seed(a=None)] 
+    初始化伪随机数生成器。
+    \\ \textbf{意义}: 如果种子相同，生成的随机数序列\textbf{完全一致}。常用于调试或作业中固定结果。
+\end{description}
+
+\begin{lstlisting}[caption={Seed 的效果}]
+random.seed(10)
+print(random.random())  # 假设输出 0.571...
+
+random.seed(10)         # 再次设置相同的种子
+print(random.random())  # 输出完全一样 0.571...
+\end{lstlisting}
+
+\section{文件操作 (File I/O)}
+
+\subsection{字节序列 (Byte Sequence)}
+
+在计算机底层，所有文件本质上都是字节。Python 提供了专门处理二进制数据的类型。
+
+\begin{itemize}
+    \item \textbf{bytes (不可变)}: 
+    \\ 语法: \texttt{b'hello'} 或 \texttt{bytes([65, 66, 67])}。
+    \\ 只能包含 ASCII 字符或十六进制转义符 (如 \texttt{\textbackslash xff})。
+    \item \textbf{意义}: 用于处理二进制文件（图片、音频）或网络数据包。
+    \item \textbf{转换}:
+    \\ \texttt{str.encode('utf-8')} $\to$ \texttt{bytes}
+    \\ \texttt{bytes.decode('utf-8')} $\to$ \texttt{str}
+\end{itemize}
+
+\subsection{打开与关闭 (Open \& Close)}
+
+\subsubsection{1. open() 函数}
+语法: \texttt{f = open(file, mode='r', encoding='utf-8')}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{c p{10cm}}
+\toprule
+\textbf{模式} & \textbf{说明} \\
+\midrule
+\texttt{'r'} & \textbf{只读} (默认)。如果文件不存在抛出 \texttt{FileNotFoundError}。 \\
+\texttt{'w'} & \textbf{只写}。如果文件存在，\textbf{先清空内容} (Truncate) 再写入；不存在则创建。 \\
+\texttt{'a'} & \textbf{追加}。写入的数据会被加到文件末尾。 \\
+\texttt{'b'} & \textbf{二进制模式} (Binary)。如 \texttt{'rb'}, \texttt{'wb'}。读写对象为 \texttt{bytes} 而非 \texttt{str}。 \\
+\texttt{'+'} & \textbf{更新模式} (读写)。如 \texttt{'r+'} (读写，不清除), \texttt{'w+'} (读写，先清除)。 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{trapbox}{'w' 模式的危险性}
+使用 \texttt{'w'} 模式打开文件时，\textbf{无论是否写入内容，原文件的内容都会立即被清空}。如果只想修改部分内容或追加，请使用 \texttt{'r+'} 或 \texttt{'a'}。
+\end{trapbox}
+
+\subsubsection{2. with 语句 (Context Manager)}
+即使发生异常，也能保证文件被正确关闭。这是考试和实战的\textbf{标准写法}。
+
+\begin{lstlisting}[caption={自动关闭机制}]
+# 不推荐
+f = open("data.txt", "r")
+data = f.read()
+f.close() # 如果上面出错，这行可能不执行 -> 资源泄露
+
+# 推荐 (with)
+with open("data.txt", "r") as f:
+    data = f.read()
+# 离开缩进块后，f.close() 会自动被调用
+\end{lstlisting}
+
+\subsection{读写方法}
+
+假设文件对象为 \texttt{f}。
+
+\subsubsection{1. 读取 (Read)}
+\begin{itemize}
+    \item \texttt{f.read(size=-1)}: 读取整个文件（或指定 \texttt{size} 个字符/字节）。返回字符串。
+    \item \texttt{f.readline()}: 读取\textbf{一行}（包含末尾的 \texttt{\textbackslash n}）。读到 EOF 返回空字符串 \texttt{''}。
+    \item \texttt{f.readlines()}: 读取所有行，返回一个\textbf{列表} \texttt{['Line1\textbackslash n', 'Line2\textbackslash n']}。
+\end{itemize}
+
+\begin{importantbox}{最佳遍历方式}
+不要用 \texttt{readlines()} 遍历大文件（耗内存）。直接在文件对象上迭代：
+\begin{lstlisting}
+for line in f:
+    print(line.strip()) # 高效，逐行读取
+\end{lstlisting}
+\end{importantbox}
+
+\subsubsection{2. 写入 (Write)}
+\begin{itemize}
+    \item \texttt{f.write(s)}: 将字符串 \texttt{s} 写入文件。返回写入的字符数。
+    \item \texttt{f.writelines(lines)}: 将字符串列表写入文件。
+\end{itemize}
+
+\begin{trapbox}{writelines 不会自动换行}
+\texttt{writelines} \textbf{不会}在每个元素后面自动添加换行符，需要手动处理。
+\begin{lstlisting}
+lines = ["A", "B"]
+f.writelines(lines) # 写入 "AB"
+f.writelines([l + '\n' for l in lines]) # 写入 "A\nB\n"
+\end{lstlisting}
+\end{trapbox}
+
+\subsection{指针操作与缓冲}
+
+\begin{itemize}
+    \item \texttt{f.tell()}: 返回当前文件指针的位置 (字节偏移量)。
+    \item \texttt{f.seek(offset, whence=0)}: 移动指针。
+    \begin{itemize}
+        \item \texttt{whence=0}: 从文件开头算 (默认)。
+        \item \texttt{whence=1}: 从当前位置算 (仅二进制模式)。
+        \item \texttt{whence=2}: 从文件末尾算 (仅二进制模式)。
+        \item \textit{常用}: \texttt{f.seek(0)} (回到开头)。
+    \end{itemize}
+    \item \texttt{f.flush()}: 强制将缓冲区的数据写入硬盘，不关闭文件。
+\end{itemize}
+
+\section{迭代器与解包 (Iterable \& Iterator)}
+
+\subsection{迭代器协议}
+
+Python 的 \texttt{for} 循环底层依赖于迭代器协议。
+
+\begin{itemize}
+    \item \textbf{可迭代对象 (Iterable)}: 
+    \\ 实现了 \texttt{\_\_iter\_\_()} 方法的对象。例如 List, Tuple, Dict, Str。
+    \\ \textbf{作用}: 可以被 \texttt{for} 循环遍历，或者通过 \texttt{iter(obj)} 获取迭代器。
+    
+    \item \textbf{迭代器 (Iterator)}: 
+    \\ 实现了 \texttt{\_\_iter\_\_()} 和 \texttt{\_\_next\_\_()} 方法的对象。
+    \\ \textbf{作用}: 负责维护遍历的状态（游标）。
+\end{itemize}
+
+\subsection{iter() 与 next() 的工作机制}
+
+\begin{enumerate}
+    \item \texttt{it = iter(iterable)}: 调用对象的 \texttt{\_\_iter\_\_()}，返回一个迭代器。
+    \item \texttt{val = next(it)}: 调用迭代器的 \texttt{\_\_next\_\_()}，返回下一个值。
+    \item \textbf{StopIteration}: 当没有更多元素时，\texttt{next()} 会抛出此异常，通知 \texttt{for} 循环停止。
+\end{enumerate}
+
+\begin{lstlisting}[caption={模拟 for 循环底层实现}]
+s = "ABC"
+it = iter(s)        # 获取迭代器
+while True:
+    try:
+        val = next(it)  # 获取值
+        print(val)
+    except StopIteration:
+        break           # 捕获异常退出循环
+\end{lstlisting}
+
+\subsection{解包 (Unpacking)}
+
+\begin{itemize}
+    \item \textbf{序列解包 (*a)}: 用于 List/Tuple。
+    \begin{lstlisting}
+head, *mid, tail = [1, 2, 3, 4, 5]
+# head=1, mid=[2,3,4], tail=5
+    \end{lstlisting}
+    
+    \item \textbf{字典解包 (**b)}: 用于函数参数或字典合并。
+    \begin{lstlisting}
+def func(a, b): pass
+d = {'a': 1, 'b': 2}
+func(**d)  # 等价于 func(a=1, b=2)
+    \end{lstlisting}
+\end{itemize}
+
+\section{结构化模式匹配 (Match Statement)}
+
+Python 3.10+ 引入的新特性，类似于 Switch-Case 但更强大，支持结构解构。
+
+\begin{lstlisting}[caption={Match 语法示例}]
+point = (0, 10)
+
+match point:
+    case (0, 0):
+        print("Origin")
+    case (0, y):  # 捕获 y
+        print(f"Y-axis at {y}")
+    case (x, 0):  # 捕获 x
+        print(f"X-axis at {x}")
+    case (x, y) if x == y: # 带守卫条件 (Guard)
+        print("Diagonal")
+    case _:
+        print("Something else")
+\end{lstlisting}
+
+\section{生成器 (Generator)}
+
+生成器是一种特殊的迭代器，通过函数动态生成值，\textbf{省内存}。
+
+\subsection{基本语法：yield}
+
+如果函数中包含 \texttt{yield} 关键字，该函数就变成了\textbf{生成器函数}。
+
+\begin{itemize}
+    \item \textbf{return}: 终止函数，返回结果，销毁局部变量。
+    \item \textbf{yield}: \textbf{暂停}函数执行，返回结果，\textbf{保留}局部变量状态。下次调用 \texttt{next()} 时从暂停处继续执行。
+\end{itemize}
+
+\begin{lstlisting}
+def count_down(n):
+    while n > 0:
+        yield n   # 产出 n 并暂停
+        n -= 1
+
+g = count_down(3)
+print(next(g)) # 3
+print(next(g)) # 2
+\end{lstlisting}
+
+\subsection{生成器表达式 (Generator Expression)}
+
+\begin{trapbox}{不是元组推导式}
+使用圆括号 \texttt{()} 包裹的推导式是生成器表达式。Python 中\textbf{不存在} Tuple Comprehension。
+\begin{lstlisting}
+g = (x**2 for x in range(10)) 
+# <generator object ...>
+\end{lstlisting}
+\end{trapbox}
+
+\section{函数高级特性}
+
+\subsection{变量作用域 (Scope)}
+
+遵循 \textbf{LEGB} 规则：Local $\to$ Enclosing (闭包) $\to$ Global $\to$ Built-in。
+
+\subsubsection{修改外部变量}
+默认情况下，在函数内赋值会创建新的局部变量。如需修改外部变量，需声明：
+
+\begin{itemize}
+    \item \textbf{global x}: 声明 x 是\textbf{全局变量}。
+    \item \textbf{nonlocal x}: 声明 x 是\textbf{外层嵌套函数}（非全局）的变量。
+\end{itemize}
+
+\begin{lstlisting}[caption={global vs nonlocal}]
+count = 0  # Global
+
+def outer():
+    count = 10  # Enclosing (Outer Local)
+    
+    def inner():
+        nonlocal count 
+        count += 1  # 修改的是 outer 的 count (变为 11)
+        
+        # global count # 语法错误！不能同时声明
+        # 若用 global count，则修改的是最上面的 count (变为 1)
+        
+    inner()
+    print(count) # 11
+\end{lstlisting}
+
+\subsection{嵌套定义与闭包}
+函数内部可以定义函数，并返回内部函数。如果内部函数引用了外部函数的变量，则形成\textbf{闭包 (Closure)}。
+
+\subsection{装饰器 (Decorator)}
+
+装饰器本质上是一个\textbf{高阶函数}：接收一个函数，返回一个新函数（通常是对原函数的增强）。
+
+\begin{itemize}
+    \item \textbf{语法糖}: \texttt{@decorator}
+\end{itemize}
+
+\begin{lstlisting}[caption={Decorator 原理}]
+def my_decorator(func):
+    def wrapper():
+        print("Before calling")
+        func()
+        print("After calling")
+    return wrapper
+
+@my_decorator
+def say_hello():
+    print("Hello!")
+
+# 等价于:
+# say_hello = my_decorator(say_hello)
+\end{lstlisting}
+
+\end{document}
