@@ -1,0 +1,511 @@
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+
+\usepackage{geometry}
+\geometry{left=2.4cm,right=2.4cm,top=2.4cm,bottom=2.4cm}
+\usepackage{fontspec}
+\setmainfont{Liberation Serif}
+\setCJKmainfont{Noto Serif CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{circuitikz}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
+
+\ctexset{
+  section={format=\Large\bfseries},
+  subsection={format=\large\bfseries},
+  subsubsection={format=\normalsize\bfseries}
+}
+
+\renewcommand{\arraystretch}{1.18}
+\emergencystretch=3em
+\captionsetup{font=small,labelfont=bf}
+
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{codeframe}{RGB}{210,210,210}
+\definecolor{keywordblue}{RGB}{0,0,180}
+\definecolor{commentgray}{RGB}{95,95,95}
+\definecolor{stringred}{RGB}{160,40,40}
+\lstdefinestyle{pythonappendix}{
+    language=Python,
+    basicstyle=\scriptsize\ttfamily,
+    keywordstyle=\color{keywordblue}\bfseries,
+    commentstyle=\color{commentgray},
+    stringstyle=\color{stringred},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=8pt,
+    backgroundcolor=\color{codebg},
+    frame=single,
+    rulecolor=\color{codeframe},
+    breaklines=true,
+    breakatwhitespace=false,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    tabsize=4,
+    xleftmargin=1.2em,
+    framexleftmargin=1em
+}
+
+\title{\textbf{直流电桥与电阻测量}}
+\author{李谨硕，IEEE试点班，电院2504}
+\date{2026年6月1日}
+
+\begin{document}
+\maketitle
+
+\section{实验原理}
+
+\subsection{惠斯登电桥法}
+惠斯登电桥将两个已知比例臂电阻、一个电阻箱和待测电阻组成桥式网络。调节电阻箱 $R_0$，使检流计 $G$ 中电流为零，此时桥路达到平衡，桥臂中点电势相等，待测电阻可由比例关系求得。
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[american, scale=0.95]
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (3,2.1);
+  \coordinate (C) at (6,0);
+  \coordinate (D) at (3,-2.1);
+  \draw (A) to[R,l=$R_1$] (B) to[R,l=$R_x$] (C);
+  \draw (A) to[R,l_=$R_2$] (D) to[R,l_=$R_0$] (C);
+  \draw (B) to[ammeter,l=$G$] (D);
+  \draw (A) -- (-1.1,0) to[battery1,l=$E$] (-1.1,-3.0) -- (7.1,-3.0) -- (7.1,0) -- (C);
+  \node[left] at (A) {$A$};
+  \node[right] at (C) {$C$};
+  \node[above] at (B) {$B$};
+  \node[below] at (D) {$D$};
+\end{circuitikz}
+\caption{惠斯登电桥原理图。平衡时检流计无偏转，$U_B=U_D$。}
+\end{figure}
+
+平衡条件为
+\begin{equation}
+  \frac{R_1}{R_2}=\frac{R_x}{R_0},\qquad
+  R_x=\frac{R_1}{R_2}R_0 .
+\end{equation}
+其中 $R_1$、$R_2$ 为标准电阻，$R_0$ 为电阻箱读数。电桥灵敏度按给定数据定义为
+\begin{equation}
+  S=\frac{\Delta U_0}{\Delta R_0/R_0} .
+\end{equation}
+式中 $\Delta R_0$ 是平衡点附近给定的电阻箱扰动量，$\Delta U_0$ 是相应的电压变化量。由于原始数据中 $\Delta U_0$ 的单位为 mV，本文中 $S$ 的单位也记为 mV。
+
+对电阻箱读数 $R_0$，三次测量平均值、样本标准差和 A 类不确定度为
+\begin{equation}
+  \bar R_0=\frac{1}{n}\sum_{i=1}^{n}R_{0i},\qquad
+  \sigma=\sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(R_{0i}-\bar R_0)^2},\qquad
+  \Delta_A=2.48\sigma .
+\end{equation}
+这里 $n=3$，系数 $2.48$ 来自 PPT 中给出的 $t_{0.95}/\sqrt n$。B 类不确定度由电阻箱各档读数逐位按相对等级加权求和，并计入残余电阻 $0.020\Omega$：
+\begin{equation}
+  \Delta_B=\sum_j R_j\gamma_j+0.020\Omega,
+\end{equation}
+其中 $R_j$ 是对应档位实际贡献的阻值，$\gamma_j$ 是该档位相对不确定度。合成不确定度为
+\begin{equation}
+  u(R_0)=\sqrt{\Delta_A^2+\Delta_B^2} .
+\end{equation}
+标准电阻 $R_1$、$R_2$ 的相对不确定度均取 $0.05\%$，则
+\begin{equation}
+  \frac{u(R_x)}{R_x}=\sqrt{\left(\frac{u(R_1)}{R_1}\right)^2+\left(\frac{u(R_2)}{R_2}\right)^2+\left(\frac{u(R_0)}{R_0}\right)^2} .
+\end{equation}
+
+对第二组数据的交换法补充实验，取两次平衡读数 $R_0$ 与 $R_0'$ 的几何平均得到最终电阻值，并按 PPT 中公式计算相对不确定度：
+\begin{equation}
+  R_x=\sqrt{R_0R_0'},\qquad
+  \frac{u(R_x)}{R_x}=\frac{1}{2}\sqrt{\left(\frac{u(R_0)}{R_0}\right)^2+\left(\frac{u(R_0')}{R_0'}\right)^2} .
+\end{equation}
+
+\subsection{四端法}
+四端法用于低阻测量。外侧两端通入电流，内侧两端测量电压。电压表内阻很大，内侧电压端几乎无电流流过，因此电压端引线和接触电阻造成的压降不计入测量电压，能够显著减小低阻测量误差。
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}[american, scale=0.95]
+  \draw (0,0) to[I,l=$I$] (0,2) -- (1.0,2) to[short,o-] (2.0,2) to[R,l=$R_x$] (6.0,2) to[short,-o] (7.0,2) -- (8.0,2) -- (8.0,0) -- (0,0);
+  \draw (2.6,2) -- (2.6,0.75) to[voltmeter,l=$V$] (5.4,0.75) -- (5.4,2);
+  \node[above] at (1.0,2) {电流端};
+  \node[above] at (7.0,2) {电流端};
+  \node[below] at (2.6,0.75) {电压端};
+  \node[below] at (5.4,0.75) {电压端};
+\end{circuitikz}
+\caption{四端法测量低电阻的接线原理图。}
+\end{figure}
+
+对每一组 $U$-$I$ 数据作一次函数最小二乘拟合：
+\begin{equation}
+  U=kI+b,
+\end{equation}
+其中 $U$ 用 mV 表示，$I$ 用 mA 表示，因此斜率 $k$ 的单位为 $\mathrm{mV/mA}=\Omega$，即被测电阻。若被测低阻试样可视为圆柱形导体，长度为 $L$，直径为 $d$，横截面积为
+\begin{equation}
+  A=\frac{\pi d^2}{4},
+\end{equation}
+则四端法测得的电阻率为
+\begin{equation}
+  \rho=\frac{RA}{L}=\frac{k\pi d^2}{4L}.
+\end{equation}
+本报告中 $d$ 与 $L$ 的原始单位为 mm，计算电阻率时统一换算为 SI 单位。等价地，若直接代入 $d_{\mathrm{mm}}$、$L_{\mathrm{mm}}$，则
+\begin{equation}
+  \rho/(\Omega\cdot\mathrm{m})=k\cdot \frac{\pi d_{\mathrm{mm}}^2}{4L_{\mathrm{mm}}}\times 10^{-3}.
+\end{equation}
+最小二乘估计式为
+\begin{equation}
+  k=\frac{\sum_i(I_i-\bar I)(U_i-\bar U)}{\sum_i(I_i-\bar I)^2},\qquad
+  b=\bar U-k\bar I .
+\end{equation}
+拟合优度用
+\begin{equation}
+  R^2=1-\frac{\sum_i(U_i-kI_i-b)^2}{\sum_i(U_i-\bar U)^2}
+\end{equation}
+$R^2$ 越接近 1，线性关系越好。
+
+\section{实验目的}
+\begin{enumerate}
+  \item 掌握惠斯登电桥平衡测电阻的基本原理，理解比例臂选择、电桥平衡和电桥灵敏度的物理意义。
+  \item 学会根据多次平衡读数计算待测电阻，并按 A 类、B 类不确定度公式完成不确定度评定。
+  \item 掌握四端法测量低电阻的接线思想，理解其消除引线电阻和接触电阻影响的原因，并由几何尺寸计算试样电阻率。
+  \item 使用 Python 对实验数据进行自动化计算、线性最小二乘拟合和图像输出，提高数据处理的可复现性。
+\end{enumerate}
+
+\section{数据记录表}
+
+\subsection{惠斯登电桥法原始数据}
+表 \ref{tab:wheatstone_raw} 中 $R_x$ 为万用表粗测值，用于选择比例臂；$1$、$2$、$3$ 为三次电阻箱平衡读数。
+
+\begin{table}[H]
+\centering
+\caption{惠斯登电桥法原始数据}
+\label{tab:wheatstone_raw}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccccc}
+\toprule
+编号 & 粗测 $R_x/\Omega$ & $R_1/\Omega$ & $R_2/\Omega$ & 1/$\Omega$ & 2/$\Omega$ & 3/$\Omega$ & $I$/mA & $\Delta R_0/\Omega$ & $\Delta U_0$/mV \\
+\midrule
+A & 1.102e+05 & 10000 & 1000 & 11027.3 & 11027.2 & 11027.1 & 0.875 & 1 & 0.06 \\
+B & 913.4 & 1000 & 1000 & 912.7 & 912.5 & 912.8 & 10.982 & 1 & 0.01 \\
+C & 50.82 & 100 & 10000 & 5077.0 & 5076.7 & 5077.4 & 7.262 & 1 & 0.04 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{第二组交换法补充实验原始数据}
+\label{tab:exchange_raw}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccccc}
+\toprule
+编号 & 粗测 $R_x/\Omega$ & $R_1/\Omega$ & $R_2/\Omega$ & 1/$\Omega$ & 2/$\Omega$ & 3/$\Omega$ & $I$/mA & $\Delta R_0/\Omega$ & $\Delta U_0$/mV \\
+\midrule
+B' & 913.3 & 1000 & 1000 & 912.8 & 912.6 & 912.3 & 11.020 & 1 & 0.01 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\subsection{四端法原始数据}
+\begin{table}[H]
+\centering
+\caption{四端法 $U$-$I$ 原始数据}
+\label{tab:four_raw}
+\begin{tabular}{cccccc}
+\toprule
+$U_1$/mV & $I_1$/mA & $U_2$/mV & $I_2$/mA & $U_3$/mV & $I_3$/mA \\
+\midrule
+1.10 & 14.93 & 0.45 & 21.13 & 2.92 & 28.10 \\
+1.60 & 33.65 & 0.81 & 38.31 & 3.84 & 37.00 \\
+2.24 & 47.40 & 1.24 & 58.16 & 4.98 & 48.00 \\
+2.91 & 61.76 & 1.55 & 72.72 & 6.80 & 65.51 \\
+3.87 & 82.00 & 1.92 & 92.36 & 8.61 & 82.94 \\
+4.68 & 99.12 & 2.37 & 111.97 & 9.84 & 94.70 \\
+5.37 & 113.56 & 2.70 & 126.89 & 11.55 & 111.21 \\
+6.07 & 128.61 & 3.22 & 151.42 & 12.78 & 123.09 \\
+6.59 & 139.60 & 3.66 & 171.87 & 14.41 & 138.68 \\
+7.40 & 156.53 & 3.91 & 183.80 & 16.08 & 154.73 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{四端法试样几何尺寸}
+\label{tab:four_geometry}
+\begin{tabular}{cccc}
+\toprule
+组号 & 直径 $d$/mm & 有效长度 $L$/mm & 说明 \\
+\midrule
+1 & 0.506 & 14.20 & 与第 1 组 $U_1$-$I_1$ 数据对应 \\
+2 & 0.510 & 14.20 & 与第 2 组 $U_2$-$I_2$ 数据对应 \\
+3 & 0.452 & 14.20 & 与第 3 组 $U_3$-$I_3$ 数据对应 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{实验方案及仪器}
+
+\subsection{实验方案}
+本实验分为两部分。第一部分采用惠斯登电桥法测量三个待测电阻，先用万用表获得粗测值，再根据粗测值选择合适的比例臂 $R_1$、$R_2$，调节电阻箱 $R_0$ 到检流计无偏转，重复三次记录平衡读数。随后在平衡点附近改变 $\Delta R_0$，记录相应 $\Delta U_0$，用于计算电桥灵敏度。第二组数据另做一次交换法补充实验，用于比较常规电桥法与交换法的不确定度。
+
+第二部分采用四端法测量三组低电阻。实验中改变电流并记录相应电压，得到三组 $U$-$I$ 数据。用 Python 对每组数据分别拟合 $U=kI+b$，取斜率作为被测电阻，再结合试样直径 $d$ 与有效长度 $L$ 计算电阻率 $\rho=RA/L$。
+
+\subsection{主要仪器}
+根据实验数据和测量方法，本实验使用的仪器与器材包括：直流稳压电源、检流计或微伏计、标准电阻或比例臂电阻 $R_1$ 与 $R_2$、十进制电阻箱 $R_0$、待测电阻、数字万用表、四端法低阻测量接线装置、恒流源、电压表以及连接导线。
+
+\section{实验过程及现象}
+
+\subsection{惠斯登电桥法}
+首先用万用表粗测待测电阻，确定其数量级。根据粗测值选择 $R_1$ 与 $R_2$，使电阻箱平衡读数落在合适范围内。接通电源后，缓慢调节 $R_0$，观察检流计偏转方向。当 $R_0$ 偏离平衡点时，检流计向一侧偏转；调节方向反向后，检流计偏转方向随之改变。逐步缩小调节步长后，检流计示数趋近零，说明桥路两中点电势相等。每个电阻记录三次平衡读数，以降低随机误差。
+
+在灵敏度测量中，在平衡点附近人为改变 $\Delta R_0$。当电桥灵敏度较高时，较小的相对电阻扰动即可产生可观察的电压变化；当灵敏度较低时，同样的扰动对应的电压变化更小，平衡点判定更容易受仪器分辨率影响。
+
+\subsection{四端法}
+四端法实验中，电流由外侧电流端通过待测低阻，电压由内侧电压端测量。调节电流后，三组数据的电压均随电流近似线性增大。拟合图中数据点基本落在直线附近，说明在实验电流范围内待测元件近似满足欧姆定律，没有明显的发热非线性或接触不稳定现象。
+
+\section{实验数据处理及结果}
+
+\subsection{惠斯登电桥法结果}
+按第 1 节公式计算三次平衡读数平均值、A 类不确定度、B 类不确定度、合成不确定度和待测电阻，结果见表 \ref{tab:wheatstone_processed}。表中相对不确定度以百分数表示。为保证计算过程可复核，下面给出全部代入过程。电阻箱 B 类不确定度按有效读数所在档位逐位求和，最后统一加残余电阻 $0.020\Omega$。
+
+第一组 A：
+{\small
+\begin{align*}
+\bar R_{0,A}&=\frac{11027.3+11027.2+11027.1}{3}=11027.2000\Omega,\\
+\sigma_A&=\sqrt{\frac{(11027.3-11027.2)^2+(11027.2-11027.2)^2+(11027.1-11027.2)^2}{2}}=0.1000\Omega,\\
+\Delta_{A,A}&=2.48\times0.1000=0.2480\Omega,\\
+\Delta_{B,A}&=10000\times0.001+1000\times0.001+20\times0.001\\
+&\quad +7\times0.005+0.2\times0.020+0.020=11.0790\Omega,\\
+ u(R_{0,A})&=\sqrt{0.2480^2+11.0790^2}=11.0818\Omega,\\
+ R_A&=\frac{10000}{1000}\times11027.2000=110272.0000\Omega,\\
+ u_r(R_A)&=\sqrt{0.0005^2+0.0005^2+\left(\frac{11.0818}{11027.2000}\right)^2}=0.0012288,\\
+ u(R_A)&=110272.0000\times0.0012288=135.5010\Omega,\\
+ S_A&=\frac{0.06}{1/11027.2000}=661.6320\mathrm{mV}.
+\end{align*}}
+
+第二组 B：
+{\small
+\begin{align*}
+\bar R_{0,B}&=\frac{912.7+912.5+912.8}{3}=912.6667\Omega,\\
+\sigma_B&=\sqrt{\frac{(912.7-912.6667)^2+(912.5-912.6667)^2+(912.8-912.6667)^2}{2}}=0.1528\Omega,\\
+\Delta_{A,B}&=2.48\times0.1528=0.3788\Omega,\\
+\Delta_{B,B}&=900\times0.001+10\times0.001+2\times0.005+0.6667\times0.020+0.020=0.9533\Omega,\\
+ u(R_{0,B})&=\sqrt{0.3788^2+0.9533^2}=1.0258\Omega,\\
+ R_B&=\frac{1000}{1000}\times912.6667=912.6667\Omega,\\
+ u_r(R_B)&=\sqrt{0.0005^2+0.0005^2+\left(\frac{1.0258}{912.6667}\right)^2}=0.0013279,\\
+ u(R_B)&=912.6667\times0.0013279=1.2120\Omega,\\
+ S_B&=\frac{0.01}{1/912.6667}=9.1267\mathrm{mV}.
+\end{align*}}
+
+第三组 C：
+{\small
+\begin{align*}
+\bar R_{0,C}&=\frac{5077.0+5076.7+5077.4}{3}=5077.0333\Omega,\\
+\sigma_C&=\sqrt{\frac{(5077.0-5077.0333)^2+(5076.7-5077.0333)^2+(5077.4-5077.0333)^2}{2}}=0.3512\Omega,\\
+\Delta_{A,C}&=2.48\times0.3512=0.8709\Omega,\\
+\Delta_{B,C}&=5000\times0.001+70\times0.001+7\times0.005+0.0333\times0.020+0.020=5.1257\Omega,\\
+ u(R_{0,C})&=\sqrt{0.8709^2+5.1257^2}=5.1991\Omega,\\
+ R_C&=\frac{100}{10000}\times5077.0333=50.7703\Omega,\\
+ u_r(R_C)&=\sqrt{0.0005^2+0.0005^2+\left(\frac{5.1991}{5077.0333}\right)^2}=0.0012445,\\
+ u(R_C)&=50.7703\times0.0012445=0.0632\Omega,\\
+ S_C&=\frac{0.04}{1/5077.0333}=203.0813\mathrm{mV}.
+\end{align*}}
+
+\begin{table}[H]
+\centering
+\caption{惠斯登电桥法数据处理结果}
+\label{tab:wheatstone_processed}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ccccccccc}
+\toprule
+编号 & $\bar R_0/\Omega$ & $R_x/\Omega$ & $\Delta_A/\Omega$ & $\Delta_B/\Omega$ & $u(R_0)/\Omega$ & $u_r(R_x)$/\% & $u(R_x)/\Omega$ & $S$/mV \\
+\midrule
+A & 11027.2000 & 110272.0000 & 0.2480 & 11.0790 & 11.0818 & 0.1229 & 135.5010 & 661.6320 \\
+B & 912.6667 & 912.6667 & 0.3788 & 0.9533 & 1.0258 & 0.1328 & 1.2120 & 9.1267 \\
+C & 5077.0333 & 50.7703 & 0.8709 & 5.1257 & 5.1991 & 0.1244 & 0.0632 & 203.0813 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+由此得到三个待测电阻的测量结果为
+\begin{align*}
+  R_A &= (110272 \pm 136)\,\Omega,\\
+  R_B &= (912.67 \pm 1.21)\,\Omega,\\
+  R_C &= (50.770 \pm 0.063)\,\Omega.
+\end{align*}
+上述不确定度均按 README 给定公式计算。第一组电阻较大，绝对不确定度较大，但相对不确定度约为 $0.123\%$；第三组电阻值最小，绝对不确定度最小，但相对不确定度仍与其他组同量级。
+
+交换法补充实验结果见表 \ref{tab:exchange_processed}。交换法利用两个平衡读数的几何平均，避免单独引入比例臂标准电阻不确定度，因此第二组电阻的最终不确定度由 $1.21\Omega$ 降至 $0.77\Omega$。其代入计算为
+{\small
+\begin{align*}
+\bar R_0'&=\frac{912.8+912.6+912.3}{3}=912.5667\Omega,\\
+\sigma'&=\sqrt{\frac{(912.8-912.5667)^2+(912.6-912.5667)^2+(912.3-912.5667)^2}{2}}=0.2517\Omega,\\
+\Delta_A'&=2.48\times0.2517=0.6241\Omega,\\
+\Delta_B'&=900\times0.001+10\times0.001+2\times0.005+0.5667\times0.020+0.020=0.9513\Omega,\\
+ u(R_0')&=\sqrt{0.6241^2+0.9513^2}=1.1378\Omega,\\
+ R_B^{\mathrm{ex}}&=\sqrt{912.6667\times912.5667}=912.6167\Omega,\\
+ u_r(R_B^{\mathrm{ex}})&=\frac{1}{2}\sqrt{\left(\frac{1.0258}{912.6667}\right)^2+\left(\frac{1.1378}{912.5667}\right)^2}=0.0008393,\\
+ u(R_B^{\mathrm{ex}})&=912.6167\times0.0008393=0.7660\Omega.
+\end{align*}}
+
+\begin{table}[H]
+\centering
+\caption{第二组交换法补充实验数据处理结果}
+\label{tab:exchange_processed}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccc}
+\toprule
+编号 & $\bar R_0'/\Omega$ & $\Delta_A'/\Omega$ & $\Delta_B'/\Omega$ & $u(R_0')/\Omega$ & $u_r(R_0')$/\% & $\sqrt{R_0R_0'}/\Omega$ & $u(R_x)/\Omega$ \\
+\midrule
+B' & 912.5667 & 0.6241 & 0.9513 & 1.1378 & 0.1247 & 912.6167 & 0.7660 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+交换法给出的第二组电阻结果为
+\begin{equation*}
+  R_B=(912.62\pm0.77)\,\Omega .
+\end{equation*}
+该结果与常规电桥法的 $912.67\Omega$ 一致，说明实验重复性良好。
+
+
+\subsection{四端法线性拟合、电阻和电阻率结果}
+四端法数据由 \texttt{plot.py} 进行最小二乘拟合，拟合图见图 \ref{fig:ui_fit}。由 \texttt{calc.py} 计算拟合斜率、斜率标准误差、试样横截面积和电阻率。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{ui_fit.pdf}
+\caption{四端法 $U$-$I$ 数据的一次函数最小二乘拟合。}
+\label{fig:ui_fit}
+\end{figure}
+
+最小二乘计算采用
+\begin{equation*}
+  k=\frac{n\sum IU-\sum I\sum U}{n\sum I^2-(\sum I)^2},\qquad
+  b=\frac{\sum U-k\sum I}{n}.
+\end{equation*}
+三组数据的求和量见表 \ref{tab:fit_sums}。
+
+\begin{table}[H]
+\centering
+\caption{四端法最小二乘拟合求和量}
+\label{tab:fit_sums}
+\begin{tabular}{cccccc}
+\toprule
+组号 & $n$ & $\sum I$/mA & $\sum U$/mV & $\sum IU$/mA\,mV & $\sum I^2$/mA$^2$ \\
+\midrule
+1 & 10 & 877.16 & 41.83 & 4606.1481 & 97391.2660 \\
+2 & 10 & 1028.63 & 21.83 & 2845.9517 & 134003.3929 \\
+3 & 10 & 883.96 & 91.81 & 9898.6043 & 95293.6312 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+逐组代入如下。第一组：
+{\small
+\begin{align*}
+ k_1&=\frac{10\times4606.1481-877.16\times41.83}{10\times97391.2660-877.16^2}=0.0458178\Omega,\\
+ b_1&=\frac{41.83-0.0458178\times877.16}{10}=0.164045\mathrm{mV},\\
+ A_1&=\frac{\pi(0.506\mathrm{mm})^2}{4}=0.201090\mathrm{mm^2},\\
+ \rho_1&=0.0458178\times\frac{0.201090}{14.20}\times10^{-3}
+       =6.48839\times10^{-7}\Omega\cdot\mathrm{m}=0.648839\,\mu\Omega\cdot\mathrm{m}.
+\end{align*}}
+第二组：
+{\small
+\begin{align*}
+ k_2&=\frac{10\times2845.9517-1028.63\times21.83}{10\times134003.3929-1028.63^2}=0.0212961\Omega,\\
+ b_2&=\frac{21.83-0.0212961\times1028.63}{10}=-0.007580\mathrm{mV},\\
+ A_2&=\frac{\pi(0.510\mathrm{mm})^2}{4}=0.204282\mathrm{mm^2},\\
+ \rho_2&=0.0212961\times\frac{0.204282}{14.20}\times10^{-3}
+       =3.06367\times10^{-7}\Omega\cdot\mathrm{m}=0.306367\,\mu\Omega\cdot\mathrm{m}.
+\end{align*}}
+第三组：
+{\small
+\begin{align*}
+ k_3&=\frac{10\times9898.6043-883.96\times91.81}{10\times95293.6312-883.96^2}=0.1039322\Omega,\\
+ b_3&=\frac{91.81-0.1039322\times883.96}{10}=-0.006190\mathrm{mV},\\
+ A_3&=\frac{\pi(0.452\mathrm{mm})^2}{4}=0.160460\mathrm{mm^2},\\
+ \rho_3&=0.1039322\times\frac{0.160460}{14.20}\times10^{-3}
+       =1.17443\times10^{-6}\Omega\cdot\mathrm{m}=1.174434\,\mu\Omega\cdot\mathrm{m}.
+\end{align*}}
+
+拟合参数见表 \ref{tab:fit_result}。由于 $U$ 的单位为 mV、$I$ 的单位为 mA，拟合斜率数值即为电阻值，单位为 $\Omega$。
+
+\begin{table}[H]
+\centering
+\caption{四端法一次函数拟合结果}
+\label{tab:fit_result}
+\begin{tabular}{ccccc}
+\toprule
+组号 & 斜率 $k/\Omega$ & 截距 $b$/mV & $R^2$ & 斜率标准误差/$\Omega$ \\
+\midrule
+1 & 0.045818 & 0.164045 & 0.997693 & 0.000779 \\
+2 & 0.021296 & -0.007580 & 0.999850 & 0.000092 \\
+3 & 0.103932 & -0.006190 & 0.999999 & 0.000034 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+结合试样几何尺寸得到的电阻率见表 \ref{tab:resistivity_result}。表中电阻率标准误差仅由拟合斜率标准误差传播得到，未计入直径 $d$ 与长度 $L$ 的仪器允差；原因是题目只给出 $d$、$L$ 的读数，没有给出其测量不确定度。
+
+\begin{table}[H]
+\centering
+\caption{四端法电阻率计算结果}
+\label{tab:resistivity_result}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccc}
+\toprule
+组号 & $d$/mm & $L$/mm & $A$/mm$^2$ & $R/\Omega$ & $\rho/(\Omega\cdot\mathrm{m})$ & $\rho/(\mu\Omega\cdot\mathrm{m})$ & $u_\rho/(\mu\Omega\cdot\mathrm{m})$ \\
+\midrule
+1 & 0.506 & 14.20 & 0.201090 & 0.045818 & $6.48839\times10^{-7}$ & 0.648839 & 0.011032 \\
+2 & 0.510 & 14.20 & 0.204282 & 0.021296 & $3.06367\times10^{-7}$ & 0.306367 & 0.001327 \\
+3 & 0.452 & 14.20 & 0.160460 & 0.103932 & $1.17443\times10^{-6}$ & 1.174434 & 0.000383 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+因此四端法得到的最终电阻和电阻率为
+\begin{align*}
+  R_1^{(4\mathrm{T})}&=0.045818\Omega, & \rho_1&=6.48839\times10^{-7}\Omega\cdot\mathrm{m},\\
+  R_2^{(4\mathrm{T})}&=0.021296\Omega, & \rho_2&=3.06367\times10^{-7}\Omega\cdot\mathrm{m},\\
+  R_3^{(4\mathrm{T})}&=0.103932\Omega, & \rho_3&=1.17443\times10^{-6}\Omega\cdot\mathrm{m}.
+\end{align*}
+三组拟合的 $R^2$ 分别为 $0.997693$、$0.999850$ 和 $0.999999$，均接近 1，说明四端法数据具有很好的线性关系。其中第一组的截距为 $0.164045\mathrm{mV}$，相对更明显，可能来自零点偏置、接触状态或低电流端读数误差；第二、三组截距接近零，线性关系更理想。
+
+\section{实验总结及讨论}
+
+本实验完成了中高阻的惠斯登电桥测量和低阻的四端法测量。惠斯登电桥法的核心在于调节 $R_0$ 使检流计无偏转，从而把待测电阻转换为比例臂与电阻箱读数的乘积。实验中三组电桥测量结果分别为 $(110272\pm136)\Omega$、$(912.67\pm1.21)\Omega$ 和 $(50.770\pm0.063)\Omega$。补充交换法对第二组电阻得到 $(912.62\pm0.77)\Omega$，与常规法一致，且不确定度更小。
+
+误差来源主要包括以下几类：第一，电桥平衡点判定依赖检流计灵敏度和操作者调节步长，平衡位置附近的微小偏差会直接影响 $R_0$ 读数；第二，电阻箱不同档位的相对不确定度不同，高阻档对第一组测量的不确定度贡献较大；第三，标准电阻 $R_1$、$R_2$ 的等级误差会通过比例关系传递到 $R_x$；第四，温度变化可能改变待测电阻和标准电阻的实际阻值。
+
+四端法部分中，三组 $U$-$I$ 曲线均表现出良好线性，拟合斜率分别为 $0.045818\Omega$、$0.021296\Omega$ 和 $0.103932\Omega$。结合 $d=0.506\mathrm{mm}$、$0.510\mathrm{mm}$、$0.452\mathrm{mm}$ 以及 $L=14.20\mathrm{mm}$ 的几何数据，三组电阻率分别为 $6.48839\times10^{-7}\Omega\cdot\mathrm{m}$、$3.06367\times10^{-7}\Omega\cdot\mathrm{m}$ 和 $1.17443\times10^{-6}\Omega\cdot\mathrm{m}$。四端法能有效排除电流引线和接触电阻的压降，特别适合毫欧到零点几欧量级的低阻测量。若采用普通二端法，引线电阻和接触电阻可能与待测低阻同量级，从而造成显著系统误差。
+
+从数据处理角度看，使用 Python 脚本统一完成读数平均、A/B 类不确定度、交换法计算、线性拟合、电阻率计算和作图，可以避免手算取位不一致，保证实验报告中的数据与源数据可追溯。后续若更换数据，只需更新 \texttt{data.csv}、脚本中的电桥读数或四端法几何尺寸，即可重新生成全部结果。
+
+\section{应用延伸与拓展}
+
+惠斯登电桥不仅可用于普通电阻测量，也广泛用于传感器电路。例如应变片、热敏电阻和铂电阻温度传感器常被接入桥式电路，通过桥路不平衡电压反映微小电阻变化。由于电桥可把微小阻值变化转换为电压信号，它适合与放大器和数据采集系统结合，实现应力、温度、压力等物理量的精密测量。
+
+四端法也称 Kelvin 测量法，是低阻测量和大电流器件测试中的标准方法。它常用于测量电缆电阻、PCB 走线电阻、焊点接触电阻、分流器电阻、电池内阻以及功率器件导通电阻。进一步拓展时，可使用恒流源和纳伏表组成更高精度的四端测量系统；也可采用交流四端法减小热电势和直流漂移对微小电压测量的影响。
+
+本实验还体现了实验自动化处理的重要性。对大量 $U$-$I$ 数据或多组电桥读数，脚本化处理可直接生成结果文件、图像和表格，便于重复实验、误差复核和报告归档。
+
+\newpage
+
+\section{附件}
+
+\subsection{附件 A：计算脚本 \texttt{calc.py}}
+\lstinputlisting[style=pythonappendix]{calc.py}
+
+\newpage
+
+\subsection{附件 B：作图脚本 \texttt{plot.py}}
+\lstinputlisting[style=pythonappendix]{plot.py}
+
+\end{document}
