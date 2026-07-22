@@ -1,0 +1,457 @@
+\documentclass{ctexart}
+
+\usepackage{amsmath, amssymb}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\title{从线性变换的视角看线性代数}
+
+\date{\today}
+
+\author{Jinshuo Li}
+
+\maketitle
+
+线性代数向来以其抽象的符号和复杂, 扭曲的定义闻名, 但是如果从线性变换, 映射的角度来看, 线性代数会变得极为直观, 甚至非常显然. 我们在这里将试图从线性变换的视角来重新审视线性代数, 以期能够更好地理解线性代数的本质.
+
+\section{线性变换}
+
+\subsection{基本定义}
+
+\textbf{定义}: 设$V$和$W$是数域$F$上的线性空间, $\sigma$是$V$到$W$的映射, 如果对于任意的$\alpha, \beta \in V$和任意的常数$k \in F$, 都满足以下两个条件:
+
+\begin{enumerate}
+    \item $\sigma(\alpha + \beta) = \sigma(\alpha) + \sigma(\beta)$
+    \item $\sigma(k\alpha) = k\sigma(\alpha)$
+\end{enumerate}
+
+那么我们称$\sigma$是一个\textbf{线性变换}, 也称为\textbf{线性映射}.
+
+\subsection{从子空间的角度考虑线性变换}
+
+伴随着线性变换, 我们可以定义线性变换的\textbf{核}和\textbf{像}:
+\begin{enumerate}
+    \item \textbf{核}: 线性变换$\sigma$的核是指所有被$\sigma$映射到零向量的向量集合, 记为$\text{Ker}(\sigma) = \{\alpha \in V | \sigma(\alpha) = 0\}$.
+    \item \textbf{像}: 线性变换$\sigma$的像是指所有可以被$\sigma$映射到的向量集合, 记为$\text{Im}(\sigma) = \{\sigma(\alpha) | \alpha \in V\}$.
+\end{enumerate}
+
+\textbf{定理} $\text{Im}(\sigma)$是$W$的子空间, $\text{Ker}(\sigma)$是$V$的子空间.
+
+这个定理的证明非常简单, 只需要验证$\text{Im}(\sigma)$和$\text{Ker}(\sigma)$满足子空间的定义即可. 但是任何一个\textbf{线性变换}的\textbf{核}和\textbf{像}是其核心特征, 很多时候我们研究线性变换, 就是为了研究它的核和像.
+
+\textbf{定义}: 针对\textbf{核}和\textbf{像}, 我们可以定义\textbf{秩}和\textbf{零度}:
+
+\begin{enumerate}
+    \item \textbf{秩}: 线性变换$\sigma$的秩是指$\text{Im}(\sigma)$的维数, 记为$\text{rank}(\sigma) = \dim(\text{Im}(\sigma))$.
+    \item \textbf{零度}: 线性变换$\sigma$的零度是指$\text{Ker}(\sigma)$的维数, 记为$\text{nullity}(\sigma) = \dim(\text{Ker}(\sigma))$.
+\end{enumerate}
+
+\textbf{定理}: 设$V$和$W$是数域$F$上的线性空间, $\sigma: V \to W$是一个线性变换, 则有以下关系:
+$$\text{rank}(\sigma) + \text{nullity}(\sigma) = \dim(V)$$
+
+这个定理被称为\textbf{秩-零度定理}, 它揭示了线性变换的秩和零度之间的关系, 以及它们与定义域的维数之间的关系. 这个定理是线性代数中非常重要的一个定理, 它揭示了线性变换的一个\textbf{守恒结构}.
+
+\subsection{从映射的角度考虑线性变换}
+
+线性变换$\sigma: V \to W$可以看作是一个\textbf{映射}, 它将$V$中的每个向量$\alpha$映射到$W$中的一个向量$\sigma(\alpha)$. 从这个角度来看, 线性变换就是一个\textbf{函数}, 它满足特定的性质.
+
+那么对于一种映射, 我们采用分析的方法, 就是研究它的\textbf{输入}和\textbf{输出}, 以及它们之间的关系. 线性变换的输入就是定义域$V$中的向量, 输出就是值域$W$中的向量. 线性变换的性质就是它如何将输入映射到输出. 线性变换的\textbf{核}就是那些被映射到零向量的输入, 线性变换的\textbf{像}就是那些可以被映射到的输出. 线性变换的\textbf{秩}就是输出空间中被映射到的向量的维数, 线性变换的\textbf{零度}就是输入空间中被映射到零向量的向量的维数.
+
+同样的, 我们可以给出线性变换的\textbf{单射}和\textbf{满射}的定义:
+
+\begin{enumerate}
+    \item \textbf{单射}: 线性变换$\sigma$是单射, 如果对于任意的$\alpha_1, \alpha_2 \in V$, 如果$\sigma(\alpha_1) = \sigma(\alpha_2)$, 则$\alpha_1 = \alpha_2$.
+    \item \textbf{满射}: 线性变换$\sigma$是满射, 如果对于任意的$\beta \in W$, 存在$\alpha \in V$, 使得$\sigma(\alpha) = \beta$.
+\end{enumerate}
+
+\subsection{具体化的讨论线性变换}
+
+上面所有的线性变换都是对抽象而虚无缥缈的线性空间的讨论, 但是实际上我们经常(事实上总是)需要讨论具体的线性变换. 而我们在具象化一个抽象的线性空间的时候, 总是通过把它\textbf{向量}化来实现的. 也就是说, 我们把一个抽象的线性空间$V$中的每个元素$\alpha$都看作是一个向量$\vec{v}$, 这样我们就可以把线性变换$\sigma: V \to W$看作是一个\textbf{向量到向量}的映射. 而对于向量到向量的\textbf{变换}, 我们自然就会采用\textbf{矩阵}来表示它. 也就是说, 我们把线性变换$\sigma$看作是一个矩阵$A$, 这样我们就可以通过矩阵乘法来计算线性变换的结果.
+
+具体来说, 考虑一个线性变换$\sigma: V \to W$, 其中$V$和$W$分别是维数为$n$和$m$的线性空间. 我们可以选择$V$中的一个基$\{\vec{v_1}, \vec{v_2}, \ldots, \vec{v_n}\}$和$W$中的一个基$\{\vec{w_1}, \vec{w_2}, \ldots, \vec{w_m}\}$. 那么对于每个基向量$\vec{v_i}$, 线性变换$\sigma$会将它映射到$W$中的一个向量$\sigma(\vec{v_i})$, 这个向量可以表示为$W$中的基向量的线性组合:
+$$\sigma(\vec{v_i}) = a_{1i}\vec{w_1} + a_{2i}\vec{w_2} + \ldots + a_{mi}\vec{w_m}$$
+其中$a_{ji}$是一个数, 表示$\sigma(\vec{v_i})$在$W$中的第$j$个基向量$\vec{w_j}$上的系数. 这样我们就可以把线性变换$\sigma$表示为一个$m \times n$的矩阵$A$, 其中第$j$行第$i$列的元素就是$a_{ji}$:
+$$A = \begin{bmatrix}a_{11} & a_{12} & \ldots & a_{1n} \\a_{21} & a_{22} & \ldots & a_{2n} \\\vdots & \vdots & \ddots & \vdots \\a_{m1} & a_{m2} & \ldots & a_{mn}\end{bmatrix}$$
+这样我们就可以通过矩阵乘法来计算线性变换的结果. 例如, 对于一个向量$\vec{v} = x_1\vec{v_1} + x_2\vec{v_2} + \ldots + x_n\vec{v_n}$, 线性变换$\sigma$的结果就是:
+$$\sigma(\vec{v}) = A \begin{bmatrix}x_1 \\x_2 \\\vdots \\x_n\end{bmatrix}=Ax$$
+通过这个具体化的过程, 我们就可以把抽象的线性变换表示为具体的矩阵形式.
+
+由此, 我们真的为所有的线性变换, 用任意的假设, 提供了一个具体的表示方法, 即利用矩阵来表示线性变换. 现在我们继续把上面关于线性变换的性质, 例如核和像, 秩和零度, 单射和满射, 都用矩阵的语言来重新表述一下.
+
+\begin{enumerate}
+\item \textbf{核}: 线性变换$\sigma$的核就是矩阵$A$的\textbf{零空间}, 也就是说, 核中的向量$\vec{v}$满足$A\vec{v} = \vec{0}$.
+\item \textbf{像}: 线性变换$\sigma$的像就是矩阵$A$的\textbf{列空间}, 也就是说, 像中的向量$\vec{w}$满足$\vec{w} = A\vec{v}$对于某个$\vec{v}$.
+\item \textbf{秩}: 线性变换$\sigma$的秩就是矩阵$A$的\textbf{列秩}, 也就是说, 秩是矩阵$A$的列空间的维数.
+\item \textbf{零度}: 线性变换$\sigma$的零度就是矩阵$A$的\textbf{零空间}的维数.
+\item \textbf{单射}: 线性变换$\sigma$是单射, 如果矩阵$A$的零空间只有零向量, 也就是说, $A\vec{v} = \vec{0}$只有$\vec{v} = \vec{0}$这个解.
+\item \textbf{满射}: 线性变换$\sigma$是满射, 如果矩阵$A$的列空间等于整个值域空间$W$, 也就是说, $A\vec{v}$可以得到$W$中的任意向量.
+\item \textbf{秩-零度定理}: 线性变换$\sigma$的秩加上零度等于定义域的维数, 也就是说, $\text{rank}(A) + \text{nullity}(A) = n$, 其中$n$是定义域$V$的维数.
+   
+为了帮助理解, 我们将在后面默认线性变换$\sigma$已经被具体化为一个矩阵$A$, 这样我们就可以直接使用矩阵的语言来讨论线性变换的性质. 除非有必要, 我们将不会声明线性变换在具象化的时候的具体基, 因为对于线性变换的性质来说, 具体的基并不重要, 重要的是线性变换本身的性质. 对于两个同构的线性空间, 任何一个线性变换在不同的基下的矩阵表示都是相似的, 因此我们可以直接使用矩阵来讨论线性变换的性质, 而不需要担心具体的基.
+\end{enumerate}
+
+\subsection{线性变换的复合和逆}
+
+线性变换的复合和逆是线性代数中非常重要的概念. 线性变换的复合就是把两个线性变换连接起来, 形成一个新的线性变换. 线性变换的逆就是把一个线性变换反过来, 形成一个新的线性变换.
+
+\textbf{定义}: 设$\sigma: V \to W$和$\tau: W \to U$是两个线性变换, 则它们的复合$\tau \circ \sigma: V \to U$定义为:
+$$(\tau \circ \sigma)(\alpha) = \tau(\sigma(\alpha))$$
+对于任意的$\alpha \in V$.
+
+\textbf{定义}: 设$\sigma: V \to W$是一个线性变换, 如果存在一个线性变换$\sigma^{-1}: W \to V$, 使得对于任意的$\alpha \in V$和$\beta \in W$, 都满足以下两个条件:
+
+\begin{enumerate}
+    \item $\sigma^{-1}(\sigma(\alpha)) = \alpha$
+    \item $\sigma(\sigma^{-1}(\beta)) = \beta$
+\end{enumerate}
+
+那么我们称$\sigma^{-1}$是$\sigma$的\textbf{逆变换}, 也称为\textbf{逆映射}.
+
+特别的, 当我们把线性变换$\sigma$具体化为一个矩阵$A$的时候, 线性变换的复合就对应于矩阵的乘法, 线性变换的逆就对应于矩阵的逆. 也就是说, 如果$\sigma$对应于矩阵$A$, $\tau$对应于矩阵$B$, 那么$\tau \circ \sigma$对应于矩阵$BA$, $\sigma^{-1}$对应于矩阵$A^{-1}$.
+
+
+\section{度量空间：运算的扩展}
+
+除了基础的矩阵与向量加法、数乘外, 为了深入探讨空间中向量间的几何关系（如长度、正交性与夹角）以及更复杂的变换结构, 我们需要在纯粹的线性空间上引入几何度量运算.
+
+\subsection{实线性空间中的点积}
+
+点积（Dot Product）是最基础的将两个向量映射为标量的运算. 
+对于 $\mathbf{u} = (u_1, u_2, \ldots, u_n)^T$ 和 $\mathbf{v} = (v_1, v_2, \ldots, v_n)^T$, 它们的点积定义为:
+$$ \mathbf{u} \cdot \mathbf{v} = u_1 v_1 + u_2 v_2 + \ldots + u_n v_n $$
+
+点积的几何本质，在于它衡量了一个向量在另一个向量方向上的投影大小.
+
+\subsection{一般的内积与内积空间}
+
+点积是最常见的一种度量工具，但在更宽泛和抽象的语境（包括复数域）下，我们将这类能够定义投影和角度的运算推广为\textbf{内积}. 
+
+设$V$是数域$F$（实数域$\mathbb{R}$或复数域$\mathbb{C}$）上的线性空间, 如果存在一个映射$\langle \cdot, \cdot \rangle: V \times V \to F$满足以下条件:
+\begin{enumerate}
+    \item \textbf{共轭对称性}: 对于任意的$\mathbf{u}, \mathbf{v} \in V$, $\langle \mathbf{u}, \mathbf{v} \rangle = \overline{\langle \mathbf{v}, \mathbf{u} \rangle}$. (在实数域中即为对称性)
+    \item \textbf{对第一变元的线性}: 对于任意的$\mathbf{u}, \mathbf{v}, \mathbf{w} \in V$和常数$a, b \in F$, $\langle a\mathbf{u} + b\mathbf{v}, \mathbf{w} \rangle = a\langle \mathbf{u}, \mathbf{w} \rangle + b\langle \mathbf{v}, \mathbf{w} \rangle$.
+    \item \textbf{正定性与非退化性}: 对于任意的$\mathbf{u} \in V$, $\langle \mathbf{u}, \mathbf{u} \rangle \geq 0$, 且 $\langle \mathbf{u}, \mathbf{u} \rangle = 0 \iff \mathbf{u} = \mathbf{0}$.
+\end{enumerate}
+
+满足上述条件的映射被称为\textbf{内积}, 而配备了内积的线性空间则被称为\textbf{内积空间}.
+
+在实际应用中, 最一般的内积可以通过一个正定矩阵 $M$ 来具象化：
+$$ \langle \mathbf{u}, \mathbf{v} \rangle = \mathbf{v}^* M \mathbf{u} $$
+此处 $\mathbf{v}^* = \overline{\mathbf{v}^T}$ 表示共轭转置.
+
+当我们取 $M=I$（单位阵）时，在实数系下它就退化为上述的点积；而如果我们将其应用到复空间 $\mathbb{C}^n$ 中，这便得到了复内积：
+$$ \langle \mathbf{u}, \mathbf{v} \rangle = u_1 \overline{v_1} + u_2 \overline{v_2} + \ldots + u_n \overline{v_n} = \mathbf{v}^* \mathbf{u} $$
+这种配备了标准复内积的复线性空间，由于其良好的几何保持性质，被专门称为\textbf{酉空间} (Unitary Space). 它是量子力学与复杂信号处理的地基. 
+
+\subsection{三维Euclid空间中的特殊运算：叉积}
+
+除了内积这种产生标量的结构外，三维欧几里得空间（或七维等极少数空间）中还拥有另一种具有天然良好定义的运算——叉积（Cross Product）. 
+它将两个向量映射为一个具有特殊方向的新向量. 
+对于 $\mathbf{u} = (u_1, u_2, u_3)^T$ 和 $\mathbf{v} = (v_1, v_2, v_3)^T$, 它们的叉积可以优雅地通过行列式展开来记忆:
+$$
+\mathbf{u} \times \mathbf{v} = \begin{vmatrix}
+\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+u_1 & u_2 & u_3 \\
+v_1 & v_2 & v_3
+\end{vmatrix} = (u_2 v_3 - u_3 v_2) \mathbf{i} - (u_1 v_3 - u_3 v_1) \mathbf{j} + (u_1 v_2 - u_2 v_1) \mathbf{k}
+$$
+
+其中 $\mathbf{i}, \mathbf{j}, \mathbf{k}$ 是三维空间中的标准正交基向量. 叉积直接揭示了两个向量所张成平面的法方向，这在物理中的力矩与磁场力分析中有着决定性的重要作用.
+
+\section{特殊的线性变换}
+
+下面我们将暂时不讨论线性变换的通性, 而是先来看看一些特殊的线性变换, 以便更好地理解线性变换的性质.
+
+\subsection{恒等变换}
+
+恒等变换是指一个线性变换$\sigma: V \to V$, 使得对于任意的$\alpha \in V$, 都满足$\sigma(\alpha) = \alpha$. 恒等变换就是把每个向量映射到它自己, 因此它的核只有零向量, 像就是整个空间$V$, 秩等于维数$\dim(V)$, 零度等于0, 是单射也是满射.
+
+恒等变换对应的矩阵就是\textbf{单位矩阵}$I$, 因为$I\vec{v} = \vec{v}$.
+
+\subsection{零变换}
+
+零变换是指一个线性变换$\sigma: V \to W$, 使得对于任意的$\alpha \in V$, 都满足$\sigma(\alpha) = 0$. \textbf{零变换就是把每个向量映射到零向量}, 因此它的核就是整个空间$V$, 像只有零向量, 秩等于$0$, 零度等于维数$\dim(V)$, 是满射但不是单射.
+
+零变换对应的矩阵就是\textbf{零矩阵}$\text{0}$, 因为$\text{0}\vec{v} = \vec{0}$.
+
+\subsection{伴随变换}
+
+*从这里开始, 我们将进入一些更为复杂的线性变换.*
+
+既然我们在前一节已经建立了内积与其诱导的几何投影结构，现在让我们来看一类被内积严格约束的变换。
+
+好的, 现在我们已经回忆了内积的定义, 让我们来看看伴随变换的定义.
+
+\textbf{定义}: 设$V$和$W$是数域$F$上的内积空间, $\sigma: V \to W$是一个线性变换, 如果存在一个线性变换$\sigma^*: W \to V$, 使得对于任意的$\alpha \in V$和$\beta \in W$, 都满足以下条件:
+$$\langle \sigma(\alpha), \beta \rangle = \langle \alpha, \sigma^*(\beta) \rangle$$
+那么我们称$\sigma^*$是$\sigma$的\textbf{伴随变换}, 也称为\textbf{伴随映射}.
+
+当我们选定具体的基之后, \textbf{伴随变换}$\sigma^*$就对应于矩阵$A$的\textbf{共轭转置}$A^*$, 也就是说, $\sigma^*$对应于矩阵$A^*$, 其中$A^* = \overline{A^T}$, $\overline{A}$表示矩阵$A$的共轭, $T$表示矩阵的转置. 伴随变换$\sigma^*$的定义就是为了满足内积的关系, 因此它具有一些特殊的性质, 例如:
+
+\begin{enumerate}
+\item $\sigma^{**} = \sigma$, 也就是说, 伴随变换的伴随变换就是它自己.
+\item $(\tau \circ \sigma)^* = \sigma^* \circ \tau^*$, 也就是说, 复合变换的伴随变换就是复合变换的伴随变换的复合.
+\item 如果$\sigma$是单射, 则$\sigma^*$是满射; 如果$\sigma$是满射, 则$\sigma^*$是单射.
+\end{enumerate}
+
+最后, 让我们先对先前的结论\textbf{伴随变化}对应于矩阵的\textbf{共轭转置}给出证明.
+
+\textbf{定理}: 设$A,B$分别为线性变换$\sigma$和$\tau$在某组标准正交基下的矩阵表示, 则有:
+
+$$\tau = \sigma^* \leftrightarrow B = A^*$$
+
+\textbf{证明}:
+
+$\Rightarrow$: 假设$\alpha_1, \alpha_2, \ldots, \alpha_n$是$V$的一组标准正交基, 那么, $\sigma(\alpha_1, \alpha_2, \ldots, \alpha_n) = (\alpha_1, \alpha_2, \ldots, \alpha_n)A$, $\tau(\alpha_1, \alpha_2, \ldots, \alpha_n) = (\alpha_1, \alpha_2, \ldots, \alpha_n)B$.
+
+我们任意选取$i,j \in \{1,2,\ldots,n\}$, 那么:
+$$\langle \sigma(\alpha_i), \alpha_j \rangle = \langle \sum_{k=1}^n a_{ki} \alpha_k, \alpha_j \rangle  = a_{ji} = \langle \alpha_i, \sum_{k=1}^n b_{kj} \alpha_k \rangle = b_{ij}$$
+
+所以, $$B = A^*$$
+
+$\Leftarrow$: 显然, 不加证明, 简单推导即可得到.
+
+\subsection{投影变换}
+
+伴随变换对应于矩阵的共轭转置, 那么对于另一类更加具象化, 也更实用的线性变换\textbf{投影变换}(常用于压缩信息, 可以用于数据降维, 减少参数量), 它又对应于什么样的矩阵呢?
+
+\textbf{定义}: 设$V$是数域$F$上的线性空间, $V = U \oplus W$, 其中$U$和$W$是$V$的子空间. 设$\sigma: V \to V$是一个线性变换. 若$\sigma(u + w) = u$对于任意的$u \in U$和$w \in W$都成立, 则称$\sigma$是\textbf{从$V$沿着$W$到$U$的投影变换}.
+
+这个定义并非唯一的定义, 另一个常见的等价定义是:
+
+\textbf{定义}: 设$V$是数域$F$上的线性空间, $V = U \oplus W$, 其中$U$和$W$是$V$的子空间. $\sigma: V \to V$是一个线性变换, 且$\sigma^2 = \sigma$, 则称$\sigma$是幂等变换, 也称为\textbf{投影变换}.
+
+二者之间有什么关系呢? 其实, 这两种定义是等价的. 下面我们给出证明:
+
+\textbf{证明}:
+
+$\Rightarrow$: 设$V = U \oplus W$, 且对任意的$u \in U, w \in W$都有$\sigma(u + w) = u$. 任取$v \in V$, 由直和分解的唯一性, 可唯一写作$v = u + w$(其中$u \in U, w \in W$). 则
+$$\sigma(v) = \sigma(u + w) = u.$$
+从而
+$$\sigma^2(v) = \sigma(\sigma(v)) = \sigma(u) = \sigma(u + 0) = u = \sigma(v).$$
+由于$v$任意, 故$\sigma^2 = \sigma$.
+
+$\Leftarrow$: 反之, 设$\sigma^2 = \sigma$. 取
+$$U_0 = \text{Im}(\sigma), \quad W_0 = \text{Ker}(\sigma).$$
+我们先证明$V = U_0 \oplus W_0$. 任取$v \in V$, 令$u = \sigma(v)$, $w = v - \sigma(v)$, 则$v = u + w$, 且
+$$\sigma(w) = \sigma(v) - \sigma^2(v) = \sigma(v) - \sigma(v) = 0,$$
+故$w \in W_0$, 从而$V = U_0 + W_0$. 再设$x \in U_0 \cap W_0$, 则存在$y \in V$使得$x = \sigma(y)$, 又因$x \in W_0$有$\sigma(x) = 0$. 但
+$$\sigma(x) = \sigma(\sigma(y)) = \sigma^2(y) = \sigma(y) = x,$$
+故$x = 0$, 从而$U_0 \cap W_0 = \{0\}$, 即$V = U_0 \oplus W_0$.
+
+最后, 对任意$u \in U_0, w \in W_0$, 因$u \in \text{Im}(\sigma)$, 存在$y \in V$使得$u = \sigma(y)$, 于是
+$$\sigma(u + w) = \sigma(u) + \sigma(w) = \sigma(\sigma(y)) + 0 = \sigma^2(y) = \sigma(y) = u.$$
+因此$\sigma$是从$V$沿着$W_0$到$U_0$的投影变换.
+
+而对于第二条定义, 细化到具体基下, 投影变换$\sigma$对应的矩阵$A$满足$A^2 = A$, 也就是说, $A$是一个幂等矩阵. 这样的矩阵具有一些特殊的性质, 例如它的特征值只能是0或1, 以及它可以被对角化成一个只有0和1的对角矩阵.
+
+更特殊的, 我们可以对于子空间$U$和$W$给出更严格的限制:
+
+假设$U$和$W$是$V$的\textbf{正交补}, 也就是说, $U = W^\perp$, $W = U^\perp$. 那么对于这样的子空间, 从$V$沿着$W$到$U$的投影变换$\sigma$就被称为\textbf{正交投影变换}.
+
+正交投影变换具有一些特殊的性质, 例如它是一个\textbf{自伴随变换}, 也就是说, $\sigma^* = \sigma$. 对于正交投影变换$\sigma$, 它对应的矩阵$A$满足$A^2 = A$和$A^* = A$, 也就是说, $A$是一个幂等矩阵和自伴随矩阵.
+
+换言之, 正交投影变换矩阵是\textbf{对称的}(实数域)或者\textbf{厄米的}(复数域)幂等矩阵. 这样的矩阵在数据分析和机器学习中非常常见, 因为它们可以用来进行数据的降维和特征提取.
+
+\subsection{正交变换}
+
+\textbf{定义}: 设 $V$ 是数域 $F$（通常为实数域 $\mathbb{R}$）上的内积空间, 如果线性变换 $\sigma: V \to V$ 保持内积不变, 即对于任意的 $\alpha, \beta \in V$, 都有：
+$$\langle \sigma(\alpha), \sigma(\beta) \rangle = \langle \alpha, \beta \rangle$$
+那么称 $\sigma$ 是一个\textbf{正交变换}.
+
+由内积的性质立即可知, 正交变换不仅保持向量的\textbf{长度}不变（$\|\sigma(\alpha)\| = \|\alpha\|$）, 也保持向量之间的\textbf{夹角}不变. 在矩阵表示下, 正交变换对应的矩阵 $Q$ 满足 $Q^T Q = I$（即 $Q^{-1} = Q^T$）, 也就是所谓的正交矩阵. 对于正交矩阵, 由于 $\det(Q^T Q) = \det(I) = 1$, 且 $\det(Q^T) = \det(Q)$, 我们可以得出 $\det(Q)^2 = 1$, 即正交变换的行列式只能是 $1$ 或 $-1$.
+
+在欧几里得空间中, 有两类极其重要且最具几何直观的正交变换：\textbf{镜像变换}和\textbf{旋转变换}. 它们不仅是几何操作的基础, 在数值线性代数（如 QR 分解）中也是不可或缺的工具.
+
+\subsubsection{1. 镜像变换 (Reflection Transformations) - Householder 变换}
+
+\textbf{几何定义}: 镜像变换顾名思义, 就是将空间中的向量沿着某个超平面进行“镜面反射”.
+
+在数学上, 最著名的镜像变换是 \textbf{Householder 变换}. 假设我们有一个单位向量 $u$（即 $\|u\|=1$）, 它代表了某个超平面的法向量. Householder 变换的作用就是将任何向量 $x$ 关于这个法向量为 $u$ 的超平面做反射. 
+它的矩阵形式可以极其优雅地写为：
+$$H = I - 2uu^T$$
+其中 $uu^T$ 是一个秩为 1 的矩阵（实际上是沿着 $u$ 方向的正交投影矩阵）. 这个公式的直观意义是：先求出 $x$ 在法向量 $u$ 上的投影分量 $uu^Tx$, 然后反向减去两倍的这个分量, 就得到了反射后的向量.
+
+\textbf{Householder 矩阵的性质}:
+
+\begin{enumerate}
+    \item \textbf{对称性}: $H^T = (I - 2uu^T)^T = I - 2uu^T = H$.
+    \item \textbf{正交性}: $H^T H = H^2 = (I - 2uu^T)(I - 2uu^T) = I - 4uu^T + 4u(u^Tu)u^T = I$（因为 $u^Tu=1$）. 这说明它是正交变换.
+    \item \textbf{对合性 (Idempotent-like)}: $H^2 = I$, 即反射两次等于什么都没做（恒等变换）, 且 $H^{-1} = H$. 
+    \item \textbf{行列式}: $\det(H) = -1$. 由于它反转了空间的一个维度（法向量方向）, 它改变了空间的“定向”（Orientation）.
+\end{enumerate}
+
+\subsubsection{2. 旋转变换 (Rotation Transformations) - Givens 变换}
+
+\textbf{几何定义}: 相比于反射改变了空间的定向, \textbf{旋转变换}在保持物体形状和大小的同时, 也保持了空间的定向不变（行列式为 $1$）.
+
+在多维空间中, 最基础的旋转是仅在一个二维平面内进行的旋转, 而保持其他所有正交的维度不动. 这种变换被称为 \textbf{Givens 变换}（或 Givens 旋转）. 
+在 $n$ 维空间中, 选取第 $i$ 和第 $j$ 个坐标轴张成的二维平面. 在这个平面内旋转角度 $\theta$, 其对应的 Givens 矩阵 $G(i, j, \theta)$ 的结构与单位矩阵几乎一样, 只是在 $(i,i), (i,j), (j,i), (j,j)$ 这四个位置变成了二维旋转矩阵的元素：
+$$
+\begin{bmatrix}
+\ddots & & & & \\
+& \cos\theta & \cdots & -\sin\theta & \\
+& \vdots & \ddots & \vdots & \\
+& \sin\theta & \cdots & \cos\theta & \\
+& & & & \ddots
+\end{bmatrix}
+$$
+显然, Givens 矩阵是一个正交矩阵, 而且因为它是纯粹的二维旋转扩展而来, 所以它的行列式 $\det(G) = 1$.
+
+\subsubsection{3. 镜像与旋转的深刻联系}
+
+这两种变换看似一动一静、一负一正, 但在几何层面有着本质的联系. 一个非常深刻的几何定理告诉我们：\textbf{任何一个旋转变换, 都可以分解为偶数次镜像反射的复合}. 
+实际上, 连续进行两次关于不同超平面的 Householder 反射, 它们法向量的夹角决定了最终旋转的角度（等于法向量夹角的两倍）, 而交集决定了旋转的轴. 因此, Householder 变换（反射）可以看作是构成一切正交变换（包括 Givens 旋转）的\textbf{基本“原子”}. 这也是为什么在矩阵分解（如正交化过程）中, Householder 变换常常因其极好的数值稳定性和通用性而作为首选武器.
+
+\section{线性变换的深层结构：从代数到几何}
+
+前面我们直观地探索了正交变换的两种基本形态, 但如果我们深入代数的底层, 特别是考察矩阵的标准型和特征值, 我们会发现一个极为美妙的几何与代数交织的世界.
+
+\subsection{从代数推导旋转矩阵}
+
+在二维几何中, 我们都知道旋转矩阵长这样：
+$$R_\theta = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}$$
+但是, 如果抛开几何直觉, 纯粹在代数定义中游走：\textbf{为什么一个 $2 \times 2$ 的、行列式为 1 的正交矩阵必定具有这种形式？}
+
+让我们进行一次严谨的推导. 设 $Q = \begin{bmatrix} a & c \\ b & d \end{bmatrix}$ 是一个正交矩阵且 $\det(Q)=1$. 
+根据正交矩阵的定义 $Q^T Q = I$, 我们有:
+
+$$
+\begin{bmatrix} a & b \\ c & d \end{bmatrix} \begin{bmatrix} a & c \\ b & d \end{bmatrix} = \begin{bmatrix} a^2+b^2 & ac+bd \\ ac+bd & c^2+d^2 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}
+$$
+
+这给了我们三个方程：
+
+\begin{enumerate}
+    \item $a^2 + b^2 = 1$.
+    \item $c^2 + d^2 = 1$.
+    \item $ac + bd = 0$.
+    \item 同时由于$\det(Q) = 1$, 我们有 $ad - bc = 1$.
+\end{enumerate}
+
+从方程 (1) 和 (2) 出发, 因为在实数系中它们的平方和为 1, 我们可以自然地引入三角函数参数化：存在角度 $\theta$ 和 $\phi$, 使得 $a = \cos\theta$, $b = \sin\theta$, 以及 $c = \cos\phi$, $d = \sin\phi$. 
+接下来代入方程 (3)：
+$$ac + bd = \cos\theta\cos\phi + \sin\theta\sin\phi = \cos(\theta - \phi) = 0$$
+这意味着 $\phi = \theta \pm \frac{\pi}{2}$. 这就限制了 $(c, d)$ 只能是 $(-\sin\theta, \cos\theta)$ 或者 $(\sin\theta, -\sin\theta)$. 
+此时我们祭出条件 (4)：行列式 $\det(Q) = ad - bc = 1$. 
+如果把两组解分别代入检验：
+
+\begin{enumerate}
+    \item 第一种情况 $(c, d) = (-\sin\theta, \cos\theta)$：$ad - bc = \cos\theta\cos\theta - \sin\theta(-\sin\theta) = \cos^2\theta + \sin^2\theta = 1$. 成立！
+    \item 第二种情况 $(c, d) = (\sin\theta, -\sin\theta)$（实则为对应 $\det(Q)=-1$ 的反射矩阵）：$ad - bc = -\cos^2\theta - \sin^2\theta = -1 \neq 1$. 舍去.
+\end{enumerate}
+
+于是我们通过纯代数条件的步步紧逼, 唯一确定了 $Q = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}$. 代数的限制天衣无缝地催生出了几何的旋转结构.
+
+\subsection{实Jordan标准型与复特征值}
+
+我们知道, 旋转矩阵如果旋转角 $0 < \theta < \pi$, 它是不存在任何\textbf{实数}特征值的（因为它没有保持任何一个实向量的方向不变）. 它的特征多项式 $\lambda^2 - 2\cos\theta\lambda + 1 = 0$ 解出的是一对共轭复数特征值：$\lambda = \cos\theta \pm i\sin\theta = e^{\pm i\theta}$.
+
+这引出了\textbf{实Jordan标准型 (Real Jordan Canonical Form)} 理论中非常核心的一个观点：当一个实矩阵存在共轭复特征值 $\alpha \pm i\beta$ 时, 它无法在实数域内彻底对角化. 但是在实数域内, 可以通过基变换将这部分结构化简为一个 $2 \times 2$ 的“旋转-缩放”块（标准块）：
+$$
+\begin{bmatrix} \alpha & -\beta \\ \beta & \alpha \end{bmatrix}
+$$
+如果提取缩放因子 $r = \sqrt{\alpha^2 + \beta^2}$, 这个块就变成了 $r \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}$. 
+这揭示了一个基本事实：\textbf{在实线性空间中, 复特征值在几何上就对应着平面上的旋转！} 所有高阶矩阵中不可化简的复根, 本质上就是高维空间中某些受不变子空间限制的二维旋转（也许还伴随着缩放）.
+
+\subsection{“复范围的缩放”如何呈现为“实空间的旋转”}
+
+这是一个极其优美且深刻的视角. 想象我们被迫离开实空间, 进入复向量空间 $\mathbb{C}^2$. 在这个更广阔的舞台上, 旋转矩阵 $R_\theta$ 竟然\textbf{是可以对角化的}. 对于那两个共轭特征值 $e^{i\theta}$ 和 $e^{-i\theta}$, 对应着两个共轭的复特征向量 $v$ 和 $\bar{v}$.
+
+在复空间的视角下, 旋转根本不存在了——\textbf{空间中发生的仅仅是对不同方向的“复数缩放”}（分别乘以 $e^{i\theta}$ 和 $e^{-i\theta}$）. 
+而当我们回到实数空间时, 我们选取的实向量往往是由这两个共轭的复特征向量组合而成的（例如 $x = c_1 v + \bar{c}_1 \bar{v}$）. 
+当我们对这个实向量施加变换时, 沿着 $v$ 方向产生了复缩放, 沿着 $\bar{v}$ 方向产生了共轭的复缩放. 
+令人惊叹的是, 由于共轭的对称性, 这两个方向上的\textbf{虚部变化如同时钟里的精密齿轮般相互咬合、完美抵消}. 当缩放的结果重新组合叠加时, 所有的虚数部分全部湮灭, 剩下的实部组合在一起, 恰好重构出了我们在真实世界中看到的那种连续的、刚性的“旋转”.
+
+从代数方程中强硬限制出的方程组解法, 到实Jordan型给复特征值的几何解释, 最后到复空间中虚部的完美对消. 透过“从代数到几何, 再由复空间降回实空间”的视角, 正交变换向我们展示了线性代数水面之下极其精密且优雅的内部结构.
+
+\subsection{一般线性变换的基础结构：三大基本子空间变换}
+
+至此, 我们探讨了从最基础的恒等变换, 到复杂优雅的投影变换与正交变换. 那么, 对于最一般、最广泛的线性变换 $\sigma: V \to V$, 它的几何本质究竟是什么？
+
+通过前文对实Jordan标准型的管中窥豹, 我们其实已经触及了线性代数中最核心的整体性思想：\textbf{不变子空间分解}. 任何一个看似杂乱无章的复杂线性变换, 都可以通过空间切分, 被精确地“解构”为若干个相互独立、互不干扰的子系统（不变子空间）. 而在这些子空间中, 变换的形态归根结底只有三种最基础的“几何原子”：
+
+\subsubsection{1. 一维子空间下的伸缩变换 (Scaling)}
+
+这是最直观的变换形式. 当线性变换作用于它\textbf{实特征值}对应的特征向量时, 该一维子空间（即这根直线）本身作为整体不会发生任何偏转. 变换在这里表现出来的, 纯粹是沿着该方向的\textbf{拉伸、压缩或反向}（若特征值为负）. 
+代数上, 这对应于标准型中对角线上的实数元素. 在这个极简的子空间里, 方向是永恒的, 变化的只有尺度.
+
+\subsubsection{2. 二维平面下的旋转变换 (Rotation)}
+
+正如我们在复特征值奥秘中所揭示的, 当变换存在\textbf{共轭复特征值}时, 它会牢牢绑定一个不可再切分的\textbf{二维不变子空间}. 
+在这个子平面内, 没有任何实向量能保持方向不变. 变换的几何行为表现为纯粹的\textbf{刚性旋转}（往往还伴随等比例的向心缩放）. 所有高维空间中那些看似无从捉摸的扭动, 只要投影到对应的二维子平面上, 就全都是最完美的圆周运动与旋转.
+
+\subsubsection{3. 广义子空间下的剪切变换 (Shear)}
+
+当我们遇到特征值的高度简并, 且特征向量“不够用”（代数重数大于几何重数）时, 矩阵无法被完美对角化. 此时在Jordan标准型中, 对角线上方会产生代表维次耦合的“1”. 
+这在几何上对应着一种\textbf{剪切变换}（Shear Transformation）. 在多维的广义特征子空间中, 除了基础的伸缩和旋转, 还会发生沿着某些维度的“滑移”或“倾斜”. 比如让 $\sigma(v_2) = \lambda v_2 + v_1$, 这就如同用力推一摞平放的书, 使其侧面产生阶梯状的空间变形.
+
+
+\section{矩阵的结构分解：通向更深层架构的地基}
+
+在线性代数的实际应用与计算科学中, 我们常常需要将复杂繁琐的运算形式（无论是矩阵还是对应的线性变换）分解为极简的标准结构序列的复合。掌握矩阵的分解技术，不仅能立刻被应用于高斯消元、数据降维等工程与算法优化中，更将为我们后续深入揭示类似于 \textbf{Jordan 标准型} 这样更深刻、具有统摄性质的“不变子空间极简构造”，打下重要且自然的思维伏笔。
+
+\subsection{1. 满秩分解}
+
+\textbf{定义}: 设 $A$ 是一个 $m \times n$ 且秩为 $r$ 的矩阵, 如果存在一个 $m \times r$ 的列满秩矩阵 $B$ 和一个 $r \times n$ 的行满秩矩阵 $C$, 使得 $A = BC$, 则称 $A$ 具有\textbf{满秩分解}. (由于 $r$ 是 $A$ 的秩, 不难推断 $B$ 和 $C$ 的秩必然也都是 $r$.)
+
+满秩分解可以直接从初等行变换推导而来. 假设 $A$ 经初等行变换化为 Hermite 标准型（行最简形） $H = \begin{pmatrix} H_r \\ O \end{pmatrix}$, 且主元所在的列为 $j_1 < j_2 < \ldots < j_r$.
+那么满秩分解可以直接写出:
+$$ A = (A_{j_1}, A_{j_2}, \ldots, A_{j_r}) H_r $$
+
+\textbf{推导}:
+矩阵 $A$ 经过一系列初等行变换化为 Hermite 标准型 $H$, 等价于存在一个可逆矩阵 $P$, 使得 $PA = H$. 左乘 $P^{-1}$ 有 $A = P^{-1} \begin{pmatrix} H_r \\ O \end{pmatrix}$. 
+我们将 $P^{-1}$ 按列分块为 $(P_1, P_2)$, 其中 $P_1$ 为前 $r$ 列. 则 $A = (P_1, P_2)\begin{pmatrix} H_r \\ O \end{pmatrix} = P_1 H_r$.
+在行最简形 $H$ 中, 主元所在列 $j_k$ 恰好构成了单位矩阵的列向量 $e_k$. 因为 $A_{j_k} = P^{-1} H_{j_k} = P^{-1} e_k$, 所以 $A_{j_k}$ 恰好提取出了 $P^{-1}$ 的第 $k$ 列.
+故 $P_1 = (A_{j_1}, A_{j_2}, \ldots, A_{j_r})$, 将其代回便得到了满秩分解 $A = P_1 H_r$. 满秩分解优美地表明, $A$ 的列空间完全由它的主元列张成, 而 $H_r$ 则记录了其余列如何被这些主元列线性表出.
+
+\subsection{2. LU分解 (三角分解)}
+
+LU 分解由 Alan Turing 在 1948 年提出, 致力于将一个矩阵分解为一个下三角矩阵和一个上三角矩阵的乘积. 这一分解在数值分析（如求解大规模线性方程组）中有着极其广泛的应用, 其本质便是去除了行交换操作的高斯消元法.
+
+\textbf{定义}: 对于 $n \times n$ 矩阵 $A$, 若存在一个主对角线上元素皆为 $1$ 的下三角矩阵 $L$, 及一个上三角矩阵 $U$, 使得 $A = LU$, 则称 $A$ 具有 \textbf{LU 分解}.
+
+\textbf{定理}: 一个\textbf{可逆矩阵} $A$ 具有\textbf{唯一} LU 分解的充分必要条件是 $A$ 的所有顺序主子式都不为零.
+
+\textbf{利用高斯消元法计算 LU 分解之步骤}:
+\begin{enumerate}
+    \item \textbf{初始化}: 设 $L$ 为单位矩阵, $U$ 初值为原矩阵 $A$ 的副本.
+    \item \textbf{消元过程}: 对于 $U$ 的每一列, 采用高斯消元操作将其主元下方的值完全消为零, 以逐步实现上三角形态. 在每一步行变换（即下一行减去上一行的常数倍）中, 直接将那个用来消去元素的 \textbf{消元乘数} 记录下来，并塞到阵 $L$ 对应的主元下方坐标之内.
+    \item \textbf{完成分解}: 当矩阵被彻底转换为上三角矩阵 $U$ 时, 收集了全部高斯乘法因子的带有对角线$1$的下三角组合便是完全的 $L$ 矩阵. 至此我们便优雅地获得了 $A = LU$.
+\end{enumerate}
+
+由于正定矩阵的所有顺序主子式全为正数（因而必定不为零），我们可以得出\textbf{结论}: 任何正定矩阵都必定具有唯一的 LU 分解.
+
+\subsection{3. Cholesky 分解}
+
+针对更为特殊的正定矩阵, 上述的 LU 分解可以被进一步完全对称化, 这便是 \textbf{Cholesky 分解}.
+
+\textbf{定义}: 对于一个正定矩阵 $A$, 若存在一个主对角线元素皆为正数的下三角矩阵 $L$, 使得 $A = LL^T$, 则称 $A$ 具有 Cholesky 分解.
+
+\textbf{定理}: 实正定矩阵必然存在\textbf{唯一}的 Cholesky 分解.
+
+\textbf{几何与代数证明}:
+设 $A$ 是 $n \times n$ 实正定矩阵, 由前置定理其必有唯一 LU 分解 $A = LU$. 
+我们可以将 $U$ 的对角线元素提出来形成一个对角阵 $T$, 使 $U = T U'$, 这里 $U'$ 变成了主对角线全为 $1$ 的上三角阵.
+$$
+A = L T U' =
+\begin{pmatrix} 1 & & \\ * & \ddots & \\ * & * & 1 \end{pmatrix}
+\begin{pmatrix} u_{11} & & \\ & \ddots & \\ & & u_{nn} \end{pmatrix}
+\begin{pmatrix} 1 & * & * \\ & \ddots & * \\ & & 1 \end{pmatrix}
+$$
+由于 $A$ 是正定且实对称的, 两边同时转置得到 $A^T = U'^T T L^T$. 由 LU 分解形式的唯一性, 对照系数可知必定有 $L = U'^T$.
+因此有: $A = L T L^T$.
+由于正定矩阵的属性保证了对角极化后 $T$ 的对角元 $u_{ii} > 0$, 我们可以对 $T$ 进行纯粹的几何缩放（开平方）, 即 $T = D^2$, $D = \text{diag}(\sqrt{u_{11}}, \ldots, \sqrt{u_{nn}})$.
+令 $G = LD$, 因为 $L$ 是下三角且对角元为 $1$, $D$ 是正数对角阵, 所以 $G$ 也是下三角且主元为正的矩阵. 我们最终便得到了极其优美的对称结构：
+$$A = (LD)(LD)^T = GG^T$$ 
+
+这在本质上揭示了实正定矩阵犹如“实数的正平方向上扩展”的深刻代数结构.
+
+\section{结语：交响乐般的线性代数}
+
+当我们从线性变换的视角重新审视全部矩阵理论时, 那些原本枯燥的符号便拥有了宏大的生命力. 求解特征值与特征向量, 本质上就是在变幻莫测的空间巨浪中寻找那根“不随波逐流的定海神针”；计算矩阵的标准型, 是如同庖丁解牛般把纠缠交错的复杂空间, 剥离成一个个各自安好的独立子空间；而看似机械的矩阵相乘, 则是无数微观变换跨越不同维度的层叠演化.
+
+无论是复空间下虚部如同齿轮般的精准对消, 还是实空间里镜面反射的连环折射, 全部的线性代数操作, 归根结底不过是\textbf{伸缩（对角阵）、旋转（复共轭）与剪切（非对角1）}这三种基础音符的不同维次交响. 这正是线性代数拨开由于计算带来的抽象迷雾后, 能作为底层架构, 广泛且深刻地统治量子力学、力学、图形学甚至是人工智能领域的无穷魅力所在.
+
+\end{document}
