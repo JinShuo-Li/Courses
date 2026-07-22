@@ -216,3 +216,31 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Visual Studio build output & user-specific files
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+*.user
+*.suo
+*.pdb
+*.ilk
+*.idb
+*.tlog
+*.ipdb
+*.iobj
+*.aps
+*.exp
+*.lastbuildstate
+*.recipe
+*.unsuccessfulbuild
+BuildLog.htm
