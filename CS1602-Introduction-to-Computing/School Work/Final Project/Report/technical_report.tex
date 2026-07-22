@@ -1,0 +1,147 @@
+\documentclass[a4paper,12pt]{ctexart}
+
+\usepackage{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    language=Python
+}
+\lstset{style=mystyle}
+
+\title{\textbf{Mini Matrix 矩阵运算库设计与实现技术报告}}
+\author{
+    课程：计算导论 (CS1602/CS124) \\[1em]
+    \textbf{组长}：邹佳晨 (525030910080) \\
+    \textbf{组员}：李谨硕 (525030910098)
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+本报告详细阐述了基于纯 Python 语法实现的简易矩阵运算库 \texttt{minimatrix} 的设计思路与技术细节。本项目旨在模仿 \texttt{numpy} 库的核心功能，实现了矩阵的基础运算、维度变换、行列式计算、矩阵求逆以及基于最小二乘法的线性回归应用。通过对 \texttt{minimatrix.py} 核心模块的封装与 \texttt{main.py} 的测试验证，证明了该库具备处理基础科学计算的能力。
+\end{abstract}
+
+\newpage
+
+\section{项目背景与目标}
+本项目依照要求在不依赖 \texttt{numpy} 等第三方科学计算库的前提下，仅使用 Python 标准库（如 \texttt{random}, \texttt{fractions}）构建一个二维矩阵运算库。
+
+主要目标包括：
+\begin{enumerate}
+    \item 实现矩阵类的定义与基础属性（如形状、维度）。
+    \item 实现矩阵间的加、减、乘（Hadamard积与点积）、转置等运算。
+    \item 实现高级线性代数功能：行列式、逆矩阵、秩。
+    \item 利用该库解决最小二乘法问题，验证其实用性。
+\end{enumerate}
+
+\section{系统设计思路}
+
+\subsection{数据结构设计}
+为了表示二维矩阵，本库在 \texttt{Matrix} 类内部采用**嵌套列表 (Nested List)** 作为底层存储结构。
+\begin{itemize}
+    \item \texttt{self.data}: 存储矩阵元素的二维列表，例如 \texttt{[[1, 2], [3, 4]]}。
+    \item \texttt{self.dim}: 一个元组 \texttt{(rows, cols)}，用于快速访问矩阵形状，避免重复计算长度。
+\end{itemize}
+
+这种设计利用了 Python 列表的灵活性，能够方便地进行行索引和元素访问，同时符合题目对于“纯 Python 语法”的要求。
+
+\subsection{核心类架构}
+\texttt{Matrix} 类封装了所有对数据的操作。初始化方法 \texttt{\_\_init\_\_} 支持两种模式：
+\begin{enumerate}
+    \item **数据驱动**：传入现有的嵌套列表进行封装，并进行维度一致性检查。
+    \item **维度驱动**：传入维度 \texttt{dim} 和初始值 \texttt{init\_value}，生成指定大小的矩阵。
+\end{enumerate}
+
+此外，为了提供类似 \texttt{numpy} 的便捷性，我们在类外部实现了一系列辅助生成函数，如 \texttt{arange}, \texttt{zeros}, \texttt{ones}, \texttt{nrandom} 等。
+
+\section{关键算法实现细节}
+
+\subsection{矩阵乘法 (Dot Product)}
+我们在 \texttt{dot} 方法中实现了标准的三重循环算法：
+\[ C_{ij} = \sum_{k=1}^{n} A_{ik} \times B_{kj} \]
+为了保证运算的合法性，在运算前首先检查左矩阵的列数是否等于右矩阵的行数。
+
+\subsection{高斯消元与数值精度}
+在实现行列式 (\texttt{det})、逆矩阵 (\texttt{inverse}) 和 秩 (\texttt{rank}) 时，核心算法均为**高斯消元法 (Gaussian Elimination)**。
+
+为了解决浮点数运算可能带来的精度丢失问题（特别是当矩阵作为分母或进行大量累加时），本项目引入了 Python 标准库 \texttt{fractions.Fraction}。
+\begin{lstlisting}
+# 代码片段示意：使用 Fraction 保证高斯消元精度
+mat = [[Fraction(x) for x in row] for row in self.data]
+\end{lstlisting}
+在计算逆矩阵时，构建增广矩阵 $[A | I]$，通过行变换将 $A$ 变为单位矩阵 $I$，此时右侧即为 $A^{-1}$。使用分数类确保了在中间步骤不会出现截断误差，从而在计算 $100 \times 100$ 规模矩阵时仍能保持较高的理论精度。
+
+\subsection{运算符重载}
+为了使代码更加 Pythonic，我们重载了 Python 的内置运算符：
+\begin{itemize}
+    \item \texttt{\_\_add\_\_ (+)}, \texttt{\_\_sub\_\_ (-)}: 对应矩阵加减。
+    \item \texttt{\_\_mul\_\_ (*)}: 对应矩阵的元素级乘法（Hadamard Product）。
+    \item \texttt{\_\_pow\_\_ (**)}: 实现了矩阵的快速幂算法。
+    \item \texttt{\_\_getitem\_\_ / \_\_setitem\_\_}: 支持切片操作，如 \texttt{mat[0:2, 0:2]}。
+\end{itemize}
+
+\newpage
+
+\section{测试与应用验证}
+
+\subsection{基础功能测试}
+在 \texttt{main.py} 中，我们首先构建了一个 $3 \times 3$ 的矩阵进行基础测试 \cite{source: 17}。
+测试内容涵盖：
+\begin{itemize}
+    \item 形状变换：\texttt{reshape} 成功将 $3 \times 3$ 矩阵转换为 $1 \times 9$ 等形状 \cite{source: 20}。
+    \item 统计函数：\texttt{sum(axis=0)} 正确计算了列和。
+    \item 生成器：\texttt{arange}, \texttt{zeros\_like}, \texttt{nrandom\_like} 均按预期输出了对应维度的矩阵。
+\end{itemize}
+
+\subsection{最小二乘法求解线性回归}
+作为本项目的综合应用测试，我们模拟了 $m=1000, n=100$ 的线性回归问题 \cite{source: 24}：
+\[ Y = Xw + e \]
+其中 $X$ 为特征矩阵，$w$ 为权重向量，$e$ 为随机噪声。
+
+我们利用 \texttt{minimatrix} 实现了正规方程的闭式解（Closed-form solution）：
+\[ \hat{w} = (X^T X)^{-1} X^T Y \]
+
+代码实现如下：
+\begin{lstlisting}
+# 最小二乘法核心实现
+X_T = X.T()
+X_T_X = X_T.dot(X)
+X_T_X_inv = X_T_X.inverse() # 求逆
+X_T_Y = X_T.dot(Y)
+w_hat = X_T_X_inv.dot(X_T_Y) # 得到估计值
+\end{lstlisting}
+
+\textbf{测试结果分析}：
+程序输出了估计值 $\hat{w}$ 与真实值 $w$ 的相对误差。结果显示误差在可接受范围内，证明了矩阵乘法、转置以及求逆算法的正确性。
+
+\end{document}
