@@ -1,0 +1,414 @@
+\documentclass[a4paper,12pt]{ctexart}
+
+% 页面设置
+\usepackage[margin=2.5cm]{geometry}
+
+% 数学宏包
+\usepackage{amsmath, amssymb, amsthm, mathrsfs}
+\usepackage{mathtools}
+
+% 颜色与盒子宏包
+\usepackage[svgnames]{xcolor}
+\usepackage[many]{tcolorbox}
+
+% 设置超链接
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=NavyBlue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    citecolor=green,
+}
+
+% 允许公式跨页
+\allowdisplaybreaks
+
+% --- 自定义环境定义 (圆角框) ---
+
+% 1. 定义 (Definition) - 蓝色系
+\newtcbtheorem[number within=section]{mydef}{定义 (Definition)}{
+    enhanced,
+    breakable,
+    colback=blue!5!white,
+    colframe=blue!75!black,
+    attach boxed title to top left={yshift*=-\tcboxedtitleheight/2},
+    fonttitle=\bfseries,
+    boxed title style={
+        colback=blue!75!black,
+        colframe=blue!75!black,
+    }
+}{def}
+
+% 2. 定理 (Theorem) - 红色系
+\newtcbtheorem[number within=section]{mythm}{定理 (Theorem)}{
+    enhanced,
+    breakable,
+    colback=red!5!white,
+    colframe=red!75!black,
+    attach boxed title to top left={yshift*=-\tcboxedtitleheight/2},
+    fonttitle=\bfseries,
+    boxed title style={
+        colback=red!75!black,
+        colframe=red!75!black,
+    }
+}{thm}
+
+% 3. 性质/公式 (Property/Formula) - 绿色系
+\newtcbtheorem[number within=section]{myprop}{性质 (Property)}{
+    enhanced,
+    breakable,
+    colback=green!5!white,
+    colframe=green!60!black,
+    attach boxed title to top left={yshift*=-\tcboxedtitleheight/2},
+    fonttitle=\bfseries,
+    boxed title style={
+        colback=green!60!black,
+        colframe=green!60!black,
+    }
+}{prop}
+
+% 4. 警示/注意 (Warning/Note) - 黄色系
+\newtcolorbox{mynote}{
+    enhanced,
+    breakable,
+    colback=yellow!10!white,
+    colframe=orange!85!black,
+    title={\textbf{注意 (Note)}},
+    coltitle=black,
+    attach boxed title to top left={yshift*=-\tcboxedtitleheight/2},
+    boxed title style={
+        colback=orange!50!yellow,
+        colframe=orange!85!black,
+    },
+    sharp corners=south,
+}
+
+% 标题信息
+\title{\bfseries 离散数学期末复习重点 \\ Discrete Mathematics Review Notes}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{数理逻辑 (Mathematical Logic)}
+
+合式公式 (Well-Formed Formula, wff) 由原子命题 (Atomic Propositions) 和逻辑操作符 (Logical Operators) 组成。
+
+\subsection{命题逻辑 (Propositional Logic)}
+
+\begin{enumerate}
+    \item \textbf{逻辑操作符 (Logical Operators)}: 尤其关注 \textbf{异或 (Exclusive-Or, XOR)}, 记作 $\oplus$。请务必记住其真值表（相同为假，不同为真）。
+    
+    \item \textbf{命题变体}:
+    \begin{itemize}
+        \item 原命题: $p \to q$
+        \item \textbf{逆命题 (Converse)}: $q \to p$
+        \item \textbf{逆否命题 (Contrapositive)}: $\neg q \to \neg p$ （与原命题逻辑等价）
+        \item \textbf{反命题 (Inverse)}: $\neg p \to \neg q$
+    \end{itemize}
+
+    \item \textbf{优先级 (Precedence)}: $\neg$  > $\land$  > $\lor$ > $\to$  > $\leftrightarrow$ .
+
+    \item \textbf{命题分类}:
+    \begin{itemize}
+        \item \textbf{永真式 (Tautology)}: 无论真值赋值如何，结果恒为真。
+        \item \textbf{永假式 (Contradiction)}: 无论真值赋值如何，结果恒为假。
+        \item \textbf{可满足式 (Contingency)}: 既不是永真式也不是永假式。
+    \end{itemize}
+
+    \item \textbf{逻辑等价性 (Logical Equivalence)}: $p$ iff $q$ 当且仅当 $p \leftrightarrow q$ 是永真式，记作 $p \equiv q$。
+
+    \begin{myprop}{关键等价表达式}{}
+    \begin{itemize}
+        \item \textbf{异或 (XOR)}:
+        $$p \oplus q \equiv (p \land \neg q) \lor (\neg p \land q)$$
+        \item \textbf{蕴含 (Implication)}:
+        $$p \to q \equiv \neg p \lor q$$
+        \item \textbf{双蕴含 (Biconditional)}:
+        $$p \leftrightarrow q \equiv (p \to q) \land (q \to p) \equiv (\neg p \lor q) \land (\neg q \lor p)$$
+    \end{itemize}
+    \end{myprop}
+
+\newpage
+
+    \item \textbf{运算定律 (Laws of Logic)}:
+    \begin{itemize}
+        \item \textbf{恒等律 (Identity Laws)}: $p \land T \equiv p$, $p \lor F \equiv p$
+        \item \textbf{支配律 (Domination Laws)}: $p \lor T \equiv T$, $p \land F \equiv F$
+        \item \textbf{幂等律 (Idempotent Laws)}: $p \lor p \equiv p$, $p \land p \equiv p$
+        \item \textbf{双重否定律 (Double Negation)}: $\neg(\neg p) \equiv p$
+        \item \textbf{交换律 (Commutative Laws)}, \textbf{结合律 (Associative Laws)}
+        \item \textbf{分配律 (Distributive Laws)}: 
+        $$p \land (q \lor r) \equiv (p \land q) \lor (p \land r)$$
+        $$p \lor (q \land r) \equiv (p \lor q) \land (p \lor r)$$
+        \item \textbf{德摩根定律 (De Morgan's Laws)}: 
+        $$\neg (p \land q) \equiv \neg p \lor \neg q$$
+        $$\neg (p \lor q) \equiv \neg p \land \neg q$$
+        \item \textbf{吸收律 (Absorption Laws)}: 
+        $$p \lor (p \land q) \equiv p, \quad p \land (p \lor q) \equiv p$$
+        \item \textbf{否定律 (Negation Laws)}: $p \lor \neg p \equiv T$, $p \land \neg p \equiv F$
+    \end{itemize}
+
+    \item \textbf{同余性质}: 了解即可。
+    \item \textbf{可满足性 (Satisfiability)}: 是否存在一组真值赋值使得公式为真。
+\end{enumerate}
+
+\subsection{谓词逻辑 (Predicate Logic)}
+
+\begin{enumerate}
+    \item \textbf{基本概念}: 命题函数 (Propositional Function) $P(x)$ 和 量词 (Quantifiers)。
+    \begin{mynote}
+        \textbf{论域 (Domain of Discourse)} 至关重要。
+        \begin{itemize}
+            \item 对于\textbf{空论域}: 全称量化命题 ($\forall$) 为\textbf{真}，存在量化命题 ($\exists$) 为\textbf{假}。
+        \end{itemize}
+    \end{mynote}
+    \item \textbf{变元}:
+    \begin{itemize}
+        \item \textbf{自由变元 (Free Variable)}: 没有被量词绑定的变量。
+        \item \textbf{约束变元 (Bound Variable)}: 被量词绑定的变量。
+    \end{itemize}
+
+    \item \textbf{受限量词转化 (Restricted Quantifiers)}:
+    $$\forall x \in S, P(x) \equiv \forall x (x \in S \to P(x))$$
+    $$\exists x \in S, P(x) \equiv \exists x (x \in S \land P(x))$$
+
+    \item \textbf{与命题逻辑的关系}: (有限论域 $D = \{a_1, ..., a_n\}$)
+    $$ \forall x P(x) \equiv P(a_1) \land P(a_2) \land \cdots \land P(a_n) $$
+    $$ \exists x P(x) \equiv P(a_1) \lor P(a_2) \lor \cdots \lor P(a_n) $$
+
+    \item \textbf{谓词逻辑的等价关系}:
+    \begin{itemize}
+        \item \textbf{量词的德摩根定律}:
+        $$\neg \forall x P(x) \equiv \exists x \neg P(x)$$
+        $$\neg \exists x P(x) \equiv \forall x \neg P(x)$$
+        \item \textbf{分配律 (注意成立条件)}:
+        $$\forall x (P(x) \land Q(x)) \equiv \forall x P(x) \land \forall x Q(x)$$
+        $$\exists x (P(x) \lor Q(x)) \equiv \exists x P(x) \lor \exists x Q(x)$$
+        \item \textbf{以下不成立}:
+        $$\forall x (P(x) \lor Q(x)) \not\equiv \forall x P(x) \lor \forall x Q(x)$$
+        $$\exists x (P(x) \land Q(x)) \not\equiv \exists x P(x) \land \exists x Q(x)$$
+    \end{itemize}
+
+    \item \textbf{嵌套量词 (Nested Quantifiers)}:
+    \begin{itemize}
+        \item \textbf{同类量词可交换}: $\forall x \forall y \equiv \forall y \forall x$, $\exists x \exists y \equiv \exists y \exists x$.
+        \item \textbf{异类量词不可交换}: $\forall x \exists y P(x, y) \not\equiv \exists y \forall x P(x, y)$.
+        \item \textbf{单向推导}: $\exists y \forall x P(x, y) \implies \forall x \exists y P(x, y)$ (存在一个通用的 $y$ $\implies$ 每个人都有对应的 $y$)。
+    \end{itemize}
+
+    \item \textbf{量词的否定}: $\neg$ 穿过量词时，量词翻转 ($\forall \leftrightarrow \exists$)，\textbf{论域不变}。
+
+    \item \textbf{范式 (Normal Forms)}:
+    \begin{itemize}
+        \item \textbf{析取范式 (DNF)}: 文字合取项的析取。从真值表真值项构造。
+        \item \textbf{合取范式 (CNF)}: 文字析取项的合取。从真值表假值项取反构造。
+        \item \textbf{前束范式 (Prenex Normal Form)}: 所有量词都在前面的范式。
+    \end{itemize}
+
+    \item \textbf{推理规则 (Rules of Inference)}:
+    \begin{itemize}
+        \item \textbf{肯定前件 (Modus Ponens)}: $p, p \to q \implies q$
+        \item \textbf{否定后件 (Modus Tollens)}: $\neg q, p \to q \implies \neg p$
+        \item \textbf{假言三段论 (Hypothetical Syllogism)}: $p \to q, q \to r \implies p \to r$
+        \item \textbf{选言三段论 (Disjunctive Syllogism)}: $p \lor q, \neg p \implies q$
+        \item \textbf{归结 (Resolution)}: $p \lor q, \neg p \lor r \implies q \lor r$
+        \item \textbf{全称/存在 实例化/泛化}: Universal/Existential Instantiation/Generalization.
+    \end{itemize}
+\end{enumerate}
+
+\newpage
+
+\section{集合论 (Set Theory)}
+
+\subsection{朴素集合论 (Naive Set Theory)}
+
+\begin{enumerate}
+    \item \textbf{基本符号}: 属于 ($a \in A$), 包含 ($A \subseteq B$), 相等 ($A=B$).
+    \item \textbf{集合运算}:
+    \begin{itemize}
+        \item 并集 (Union): $A \cup B = \{ x | x \in A \lor x \in B \}$
+        \item 交集 (Intersection): $A \cap B = \{ x | x \in A \land x \in B \}$
+        \item 差集 (Difference): $A - B = \{ x | x \in A \land x \notin B \}$
+        \item 补集 (Complement): $\overline{A} = U - A$
+    \end{itemize}
+    \item \textbf{笛卡尔积 (Cartesian Product)}: $A \times B = \{ (a, b) | a \in A \land b \in B \}$.
+    \item \textbf{幂集 (Power Set)}: $P(A) = \{ S | S \subseteq A \}$. 若 $|A|=n$, 则 $|P(A)|=2^n$.
+\end{enumerate}
+
+\subsection{公理集合论与有序对}
+\textbf{有序对的定义}: $(a, b) = \{ \{ a \}, \{ a, b \} \}$.
+
+\subsection{关系 (Relations)}
+
+\begin{mydef}{关系 (Relation)}{}
+$R$ 是集合 $A$ 到 $B$ 的关系，即 $R \subseteq A \times B$. 记作 $aRb$.
+\end{mydef}
+
+\begin{enumerate}
+    \item \textbf{特殊关系及其形式化定义 (必须背诵)}:
+    \begin{itemize}
+        \item \textbf{自反性 (Reflexive)}: $\forall a \in A, (a, a) \in R$.
+        \item \textbf{对称性 (Symmetric)}: $\forall a, b \in A, (a, b) \in R \to (b, a) \in R$.
+        \item \textbf{反对称性 (Anti-symmetric)}: $\forall a, b \in A, ((a, b) \in R \land (b, a) \in R) \to a = b$.
+        \item \textbf{传递性 (Transitive)}: $\forall a, b, c \in A, ((a, b) \in R \land (b, c) \in R) \to (a, c) \in R$.
+    \end{itemize}
+
+    \item \textbf{复合关系 (Composition)}: 
+    $$S \circ R = \{ (a, c) | \exists b \in B, (a, b) \in R \land (b, c) \in S \}$$
+    \textbf{注意}: $S \circ R$ 表示先进行 $R$，再进行 $S$ (顺序是从右向左)。
+
+    \item \textbf{逆关系 (Inverse)}: $R^{-1} = \{ (b, a) | (a, b) \in R \}$.
+
+    \item \textbf{闭包 (Closures)}:
+    \begin{itemize}
+        \item \textbf{自反闭包}: $R_{ref} = R \cup I_A$ (其中 $I_A$ 是恒等关系).
+        \item \textbf{对称闭包}: $R_{sym} = R \cup R^{-1}$.
+        \item \textbf{传递闭包}: $R^* = \bigcup_{n=1}^{\infty} R^n$. 计算方法: $R^{n+1} = R^n \cup (R^n \circ R)$, 直到稳定。
+        \begin{mynote}
+            \textbf{传递闭包证明}: 需掌握Warshall算法思想或通过矩阵乘法逻辑证明其最小性。
+        \end{mynote}
+    \end{itemize}
+
+    \item \textbf{等价关系 (Equivalence Relation)}: 满足\textbf{自反、对称、传递}。
+    \begin{itemize}
+        \item \textbf{等价类 (Equivalence Class)}: $[a]_R = \{ x \in A | aRx \}$.
+        \item \textbf{划分 (Partition)}: 等价类构成了集合的一个划分 (不相交且并集为全集)。
+    \end{itemize}
+
+    \item \textbf{偏序关系 (Partial Ordering)}: 满足\textbf{自反、反对称、传递}。记作 $(A, R)$ 或 $(A, \preceq)$。
+\end{enumerate}
+
+\subsection{函数 (Functions)}
+
+\begin{enumerate}
+    \item \textbf{定义}: 每个定义域元素对应唯一的陪域元素。
+    \item \textbf{分类}:
+    \begin{itemize}
+        \item \textbf{单射 (Injective / One-to-one)}: $f(x) = f(y) \implies x = y$.
+        \item \textbf{满射 (Surjective / Onto)}: 值域等于陪域，即 $\forall y \in B, \exists x \in A, f(x)=y$.
+        \item \textbf{双射 (Bijective)}: 既是单射又是满射 (存在逆函数)。
+    \end{itemize}
+    \item \textbf{像与逆像 (Image and Preimage)}:
+    \begin{myprop}{集合在函数下的性质}{}
+        $$f(A \cup B) = f(A) \cup f(B)$$
+        $$f(A \cap B) \subseteq f(A) \cap f(B)$$
+        $$f^{-1}(C \cup D) = f^{-1}(C) \cup f^{-1}(D)$$
+        $$f^{-1}(C \cap D) = f^{-1}(C) \cap f^{-1}(D)$$
+    \end{myprop}
+\end{enumerate}
+
+\newpage
+
+\section{图论 (Graph Theory)}
+
+\subsection{基本概念 (Basics)}
+\begin{enumerate}
+    \item \textbf{图的类型}:
+    \begin{itemize}
+        \item \textbf{简单图 (Simple Graph)}: 无自环，无多重边。
+        \item \textbf{多重图 (Multigraph)}: 允许多重边，无自环。
+        \item \textbf{伪图 (Pseudograph)}: 允许自环和多重边。
+        \item \textbf{有向图 (Directed Graph)}: 边有方向。
+    \end{itemize}
+
+    \item \textbf{握手定理 (Handshaking Theorem)}:
+    \begin{mythm}{握手定理}{}
+    \begin{itemize}
+        \item 无向图: $\sum_{v \in V} \deg(v) = 2|E|$ (度数和是偶数)。
+        \item 有向图: $\sum_{v \in V} \deg^-(v) = \sum_{v \in V} \deg^+(v) = |E|$.
+    \end{itemize}
+    \end{mythm}
+
+    \item \textbf{特殊图}:
+    \begin{itemize}
+        \item \textbf{完全图 (Complete Graph) $K_n$}: 任意两点相连，边数 $n(n-1)/2$.
+        \item \textbf{圈图 (Cycle) $C_n$}; \textbf{轮图 (Wheel) $W_n$}; \textbf{立方图 (Q-cube) $Q_n$}.
+    \end{itemize}
+
+    \item \textbf{子图 (Subgraph)}: 点集和边集都是原图的子集。
+    \begin{itemize}
+        \item \textbf{导出子图 (Induced Subgraph)} $G[V']$: 包含 $V'$ 中所有顶点以及原图中所有两端点均在 $V'$ 中的边。
+    \end{itemize}
+\end{enumerate}
+
+\subsection{二分图 (Bipartite Graphs)}
+\begin{enumerate}
+    \item \textbf{定义}: 顶点集可划分为两个互不相交的子集 $V_1, V_2$，每条边连接 $V_1$ 和 $V_2$。
+    \item \textbf{判定}: 一个图是二分图当且仅当它\textbf{不包含奇数长度的回路}。
+    \item \textbf{完全二分图 $K_{m,n}$}: 边数 $mn$。
+    \item \textbf{匹配 (Matching)}: 没有公共端点的边集。
+    \item \textbf{霍尔婚姻定理 (Hall's Marriage Theorem)}:
+    \begin{mythm}{Hall 定理}{}
+    二分图 $G=(V_1, V_2, E)$ 存在覆盖 $V_1$ 的匹配，当且仅当对于 $V_1$ 的任意子集 $S$，都有 $|N(S)| \ge |S|$，其中 $N(S)$ 是 $S$ 的邻居集合。
+    \end{mythm}
+\end{enumerate}
+
+\subsection{同构与连通性}
+\begin{enumerate}
+    \item \textbf{图同构 (Isomorphism)} $G \cong H$: 存在保邻接性的双射。
+    \item \textbf{不变量 (Invariants)}: 顶点数、边数、度数序列、连通性、圈的长度等。
+    \item \textbf{连通性 (Connectivity)}:
+    \begin{itemize}
+        \item \textbf{强连通 (Strongly Connected)}: 有向图中任意两点双向可达。
+        \item \textbf{割点 (Cut Vertex)}: 删去该点及关联边导致连通分量增加。
+        \item \textbf{割边 (Cut Edge / Bridge)}: 删去该边导致连通分量增加。
+        \item \textbf{点/边连通度 ($\kappa(G), \lambda(G)$)}: 破坏连通性所需删除的最小点/边数。
+    \end{itemize}
+\end{enumerate}
+
+\subsection{欧拉与哈密顿 (Euler \& Hamilton)}
+\begin{enumerate}
+    \item \textbf{欧拉回路 (Euler Circuit)}: 包含所有边的简单回路。
+    \begin{itemize}
+        \item \textbf{充要条件}: 连通图且所有顶点的度数均为\textbf{偶数}。
+    \end{itemize}
+    \item \textbf{欧拉路径 (Euler Path)}: 包含所有边的简单路径。
+    \begin{itemize}
+        \item \textbf{充要条件}: 连通图且恰有 \textbf{0个或2个} 奇度数顶点。
+    \end{itemize}
+    \item \textbf{哈密顿回路 (Hamilton Circuit)}: 经过每个顶点恰好一次的回路。
+    \begin{itemize}
+        \item 没有简单的充要条件，但有充分条件 (如 Dirac 定理: $n \ge 3, \deg(v) \ge n/2$).
+    \end{itemize}
+\end{enumerate}
+
+\subsection{平面图 (Planar Graphs)}
+\begin{enumerate}
+    \item \textbf{欧拉公式 (Euler's Formula)}: 对于连通平面图，
+    $$V - E + F = 2$$
+    \item \textbf{面的度数和}: $\sum \deg(f) = 2E$.
+    \item \textbf{库拉托夫斯基定理 (Kuratowski's Theorem)}: 图是平面的当且仅当它不包含同胚于 $K_5$ 或 $K_{3,3}$ 的子图。
+    \item \textbf{对偶图 (Dual Graph)} $G^*$: 面变点，相邻面变连边。
+\end{enumerate}
+
+\subsection{树 (Trees)}
+\begin{enumerate}
+    \item \textbf{性质}: 连通且无环。$|E| = |V| - 1$.
+    \item \textbf{生成树 (Spanning Tree)}: 包含原图所有顶点的树子图。
+    \item \textbf{最小生成树 (MST)}: 边权和最小的生成树 (Prim算法, Kruskal算法)。
+    \item \textbf{霍夫曼编码 (Huffman Coding)}:
+    \begin{itemize}
+        \item 一种最优前缀码。
+        \item \textbf{算法}: 每次选取频率最小的两个节点合并，作为新节点的左右子树，重复直到只剩一棵树。频率高的字符编码短。
+    \end{itemize}
+\end{enumerate}
+
+\section{组合数学 (Combinatorics)}
+
+\subsection{容斥原理 (Inclusion-Exclusion Principle)}
+对于有限集合 $A_1, A_2, \ldots, A_n$:
+\begin{align*}
+|A_1 \cup \cdots \cup A_n| = &\sum |A_i| - \sum |A_i \cap A_j| + \sum |A_i \cap A_j \cap A_k| \\
+&- \cdots + (-1)^{n+1} |A_1 \cap \cdots \cap A_n|
+\end{align*}
+
+\subsection{错排问题 (Derangements)}
+关注html文件.
+
+\end{document}
