@@ -244,3 +244,7 @@ bld/
 *.recipe
 *.unsuccessfulbuild
 BuildLog.htm
+
+# PDF files
+
+*.pdf
