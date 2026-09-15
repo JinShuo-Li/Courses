@@ -7,13 +7,13 @@ Personal course materials for the SJTU IEEE Honors Program. This is a collection
 - Folder format is `CODE-Course-Name`; an `H` suffix means honors. `README.md` has per-semester tables but is stale: `CS2602-Data-Structure` and `MATH1207-Probability-and-Statistics` are not listed.
 - Keep content limited to personal work: no instructor slides, textbooks, or build artifacts (per README).
 - `*.pdf` is gitignored, but many PDFs are already tracked (past exams, compiled reports). Do not delete them; `git add -f` only to intentionally update one. Newly compiled PDFs stay untracked.
-- Many paths contain Chinese characters. The PowerShell console garbles them and `git ls-files` octal-escapes them (`core.quotepath`). Prefer the file tools; when shell is unavoidable, use `git -c core.quotepath=false`.
+- Paths are ASCII with no spaces: directories join words with `-` (e.g. `Personal-Project/`, `Linear-Algebra/`), files with `_` (e.g. `Assignment_5.pdf`). Keep new paths to this scheme; spaces break shell commands, some LaTeX tooling, and cross-platform tooling.
 
 ## LaTeX
 
 - All `.tex` files need XeLaTeX (`ctex`/`xeCJK`/`unicode-math`), e.g. `latexmk -xelatex <file>.tex`; pdfLaTeX fails.
 - `EST2501-Digital-Fundamentals/final_tex/` is the compilable Digital Circuits project; see its README. `assets/` must stay next to `Digital_Circuits.tex` (relative figure paths). `final/tex/digital_circuits_source/` is an older duplicate whose `README_compile.txt` says pdflatex; don't follow it.
-- `PHY1251H-College-Physics/exp/2/`: `calc.py` writes `calc_results.json`, `plot.py` produces the fit figure, and `report.tex` `\lstinputlisting`s both scripts, so run them before compiling.
+- `PHY1251H-College-Physics-I/exp/2/`: `calc.py` writes `calc_results.json`, `plot.py` produces the fit figure, and `report.tex` `\lstinputlisting`s both scripts, so run them before compiling.
 
 ## Verifying code
 
