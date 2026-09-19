@@ -1,0 +1,11 @@
+{
+  "C_Cpp.default.cppStandard": "c++11",
+  "C_Cpp.default.cStandard": "c11",
+  "C_Cpp.default.compilerPath": "/usr/bin/g++",
+  "C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+  "code-runner.runInTerminal": true,
+  "code-runner.saveFileBeforeRun": true,
+  "code-runner.executorMap": {
+    "cpp": "cd $dir && bash \"$workspaceRoot/.vscode/build.sh\" \"$fullFileName\" && ./\"$fileNameWithoutExt\""
+  }
+}

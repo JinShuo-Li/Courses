@@ -1,0 +1,50 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "C/C++: g++ build active file",
+      "command": "/bin/bash \"${workspaceFolder}/.vscode/build.sh\" \"${file}\"",
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "Auto multi-file: compiles folder mates too when main.cpp is active and folder has other .cpp files"
+    },
+    {
+      "type": "shell",
+      "label": "C/C++: g++ build active folder",
+      "command": "/usr/bin/g++ -fdiagnostics-color=always -g -Wall --std=c++11 \"${fileDirname}\"/*.cpp -I\"${fileDirname}\" -o \"${fileDirname}/${fileBasenameNoExtension}\"",
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": "build",
+      "detail": "Compile every .cpp in the current folder (for multi-file projects such as Tic-Tac-Toe)"
+    },
+    {
+      "type": "shell",
+      "label": "C/C++: g++ build active file (C++17)",
+      "command": "/bin/bash \"${workspaceFolder}/.vscode/build.sh\" \"${file}\"",
+      "options": {
+        "cwd": "${fileDirname}",
+        "env": {
+          "CPPSTD": "c++17"
+        }
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": "build",
+      "detail": "Same as default but with --std=c++17"
+    }
+  ]
+}
