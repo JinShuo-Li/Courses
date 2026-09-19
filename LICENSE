@@ -1,0 +1,241 @@
+COURSES RESTRICTED USE LICENSE
+Version 1.0 -- Published 2026-09-19
+
+Copyright (c) 2026 Jinshuo Li (GitHub: JinShuo-Li).
+All rights reserved except as expressly granted below.
+
+Repository: https://github.com/JinShuo-Li/Courses
+
+1. SCOPE, OWNERSHIP, AND EFFECTIVE VERSION
+
+This license covers only original material in this repository for which
+Jinshuo Li (the "Licensor") owns or controls the relevant copyright or similar
+rights (the "Material"). This includes original notes, explanations,
+solutions, reports, illustrations, and source code, to the extent of those
+rights. It is a custom restricted-use license, not an open-source or
+Creative Commons license.
+
+Third-party material is excluded, whether or not individually marked. This
+includes examination questions, assignment prompts, reference notes,
+quotations, images, dependencies, and contributions whose relevant rights
+the Licensor does not control. Original contributions within a mixed work
+are covered only to the extent of the Licensor's rights. Separate licenses
+and third-party notices remain applicable. Inclusion in this repository
+does not itself establish permission to redistribute third-party material.
+
+This version takes effect when first published in this repository. It applies
+to Material made available with this license from that publication onward.
+It does not retroactively impose obligations on earlier conduct or withdraw
+rights already validly granted under another license or agreement. Later
+versions do not automatically replace this version for copies already
+obtained under it. Permissions under this version continue for the duration
+of the relevant rights, subject to compliance and Section 9.
+
+2. LIMITED PERMISSION AND CONDITIONS
+
+Subject to this license, you receive worldwide, royalty-free, nonexclusive,
+nontransferable, nonsublicensable permission to:
+
+(a) access, download, and keep private copies for personal study and
+    noncommercial educational or research activities;
+(b) privately annotate or modify those copies and run included code for
+    those purposes;
+(c) include limited excerpts in your own otherwise original noncommercial
+    work and share or submit that work under Sections 4 and 5; and
+(d) use private inference-only study assistance as specified in Section 6.
+
+These permissions are conditional on compliance with the applicable terms
+below. By exercising permission granted by this license, you accept its
+applicable conditions. Mere viewing does not, by itself, create obligations
+for activities that need no permission; Section 8 remains applicable.
+
+No other permission is granted. Neither attribution nor academic or
+nonprofit status creates an exception to the restrictions below.
+
+3. NO REDISTRIBUTION; NO COMMERCIAL USE
+
+Except as expressly allowed by Sections 4, 6, or 8, or by prior written
+permission from the Licensor, you must not redistribute, republish, mirror,
+upload, sell, sublicense, or otherwise supply the Material or adaptations
+to others, whether publicly or privately, free or paid. This includes
+messaging-group files, shared drives, course packs, document platforms,
+other repositories, and collections or datasets. Translation, screenshots,
+format conversion, and compilation do not avoid this restriction.
+Sharing a link to the original repository is permitted.
+
+Commercial use means use primarily intended for or directed toward
+commercial advantage or monetary compensation. It is prohibited, including
+selling the Material, using it to deliver paid tutoring or training,
+including it in monetized content, and incorporating it into commercial
+products or services. The user's nonprofit status is not decisive.
+
+A student's personal study or coursework is not commercial merely because
+the university charges tuition. Paying for a private computing or inference
+tool does not by itself make otherwise permitted personal study commercial.
+These clarifications do not authorize paid redistribution or exploitation
+of the Material, or restrict use of unprotected knowledge under Section 8.
+
+4. LIMITED-EXCERPT EXCEPTION
+
+You may reproduce or make clearly identified adaptations of short passages,
+small code snippets, and individual figures in your own otherwise original,
+noncommercial report, article, presentation, or project, where reasonably
+necessary to explain, discuss, critique, or substantiate your work.
+
+Excerpts must be subordinate to your own contribution. Use only the amount
+necessary, taking account of both quantity and significance. Do not use
+excerpts to substitute for the original, reproduce a complete report,
+chapter, assignment solution, or program, or systematically reconstruct
+a source work or collection through repeated or coordinated excerpts.
+
+An individual figure from a larger work may be reproduced in full when
+necessary for the above purpose. This narrow exception does not permit
+standalone reposting of the figure or distribution of its editable source
+assets. A permitted code snippet may be embedded in your own source file;
+this does not authorize republishing the original source file as a whole.
+
+Retain relevant authorship and copyright notices, identify adaptations,
+and comply with Section 5. This exception does not permit commercial use,
+AI training, or standalone collections of excerpts.
+
+5. CITATION AND ACKNOWLEDGEMENT
+
+For each excerpt or adaptation used under Section 4, cite the source at the
+relevant location, or through a clearly connected reference entry. Identify
+Jinshuo Li; the repository title "Courses"; the repository URL; the specific
+file or section; and a commit identifier or access date. Include a link or
+reference to this license and identify changes. A caption, footnote, source
+comment, or connected reference entry may be used as appropriate.
+
+If a work you publish, share, or submit materially relies on specific original
+analysis, explanations, derivations, experimental work, or code from the
+Material, also acknowledge that contribution in "Acknowledgements",
+"Acknowledgments", or an equivalent section. Material reliance includes
+using such contributions as a substantive basis for your argument, design,
+implementation, or results, even when you do not copy wording or code.
+If the format has no such section, include a clearly labeled acknowledgement
+in the accompanying README, credits, or submission note.
+
+This acknowledgement obligation is a condition of permissions exercised
+under this license, to the extent enforceable under applicable law. It does
+not require acknowledgement merely for reading, learning general knowledge,
+or independently applying facts, principles, and methods under Section 8.
+
+Suggested citation:
+Jinshuo Li. Courses. [source file/section], [commit or access date].
+https://github.com/JinShuo-Li/Courses
+
+Suggested acknowledgement:
+"This work benefited from [identify the specific contribution] in the
+Courses repository maintained by Jinshuo Li
+(https://github.com/JinShuo-Li/Courses)."
+
+Citation and acknowledgement are separate obligations when both apply.
+Neither grants permission for an otherwise prohibited use. Private study
+with no shared or submitted work requires neither a public citation nor an
+acknowledgement. Do not imply endorsement by the Licensor or Shanghai Jiao
+Tong University.
+
+6. NO AI TRAINING; LIMITED INFERENCE-ONLY USE
+
+You must not use, or knowingly supply, the Material or transformations of
+it as data, examples, targets, or feedback for pretraining, continued
+training, fine-tuning, reinforcement learning, distillation, or other
+training or parameter optimization of an AI or machine-learning model.
+This applies to commercial and noncommercial training alike.
+
+The prohibition includes preparing training corpora; translating,
+tokenizing, annotating, or otherwise transforming the Material for training;
+and generating synthetic examples derived from it for subsequent training.
+It also covers feeding evaluation results derived from the Material back
+into training or parameter optimization. Citation is not an exception.
+
+Private, noncommercial evaluation of a fixed model is not prohibited by this
+section alone, provided it does not feed into training or parameter updates.
+All other conditions still apply, including the restrictions on sharing
+datasets and excerpts. Merely comparing fixed models does not itself count
+as training. Learning about algorithms or independently implementing
+unprotected ideas remains subject to Section 8.
+
+For otherwise permitted private study, you may use a local inference-only
+tool. You may also submit only the portions reasonably necessary to a
+private session with a hosted inference service, but only where its
+applicable terms and settings prohibit using the submitted Material and
+outputs derived from it for training, prohibit public sharing, and limit
+the provider's rights to processing, securing, and retaining the session
+as reasonably necessary to provide the service. You must not grant broader
+independent reuse or sublicensing rights in the Material.
+
+This is a narrow exception to Section 3 for service processing, not permission
+to create a shared retrieval corpus, upload the whole repository, or grant
+a service a training license. If you cannot establish these conditions,
+use a local tool or obtain written permission. Outputs that reproduce or
+adapt the Material remain subject to the applicable restrictions.
+
+7. NO WARRANTY; LIMITATION OF LIABILITY
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE MATERIAL IS PROVIDED
+AS IS AND AS AVAILABLE, WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND,
+INCLUDING ACCURACY, COMPLETENESS, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABILITY, SECURITY, OR NON-INFRINGEMENT. THE LICENSOR HAS NO
+OBLIGATION TO CORRECT, UPDATE, SUPPORT, OR MAINTAIN IT.
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSOR SHALL NOT
+BE LIABLE TO YOU FOR CLAIMS, LOSSES, DAMAGES, COSTS, OR OTHER LIABILITY
+ARISING FROM ACCESS TO, USE OF, OR RELIANCE ON THE MATERIAL, INCLUDING
+ERRORS, ACADEMIC CONSEQUENCES, DATA LOSS, OR INTERRUPTION, WHETHER ARISING
+IN CONTRACT, TORT, OR OTHERWISE. NOTHING EXCLUDES OR LIMITS LIABILITY
+THAT CANNOT LAWFULLY BE EXCLUDED OR LIMITED.
+
+You are responsible for checking correctness and complying with applicable
+course, examination, academic-integrity, and other requirements. This license
+does not authorize submitting another person's work as your own or waive
+the rights of third parties.
+
+8. STATUTORY RIGHTS AND SEPARATE PLATFORM RIGHTS
+
+Nothing here restricts rights or exceptions available independently of this
+license under applicable law, including applicable quotation, fair-use, and
+fair-dealing rights. No ownership is claimed over facts, ideas, mathematical
+principles, or other unprotected subject matter. Where a use requires no
+permission and is not subject to an enforceable agreement, citation and
+acknowledgement are requested as scholarly practice, not imposed as new
+copyright rights.
+
+This license does not withdraw rights separately granted under applicable
+GitHub terms, including authorized viewing and forking within GitHub.
+It grants no additional platform or AI-training rights. The existence and
+scope of rights under separate agreements must be assessed under those
+agreements; this license alone does not override them. Permission to fork
+within GitHub is not, by itself, permission under this license to redistribute
+elsewhere, commercially exploit the Material, or train models.
+
+9. BREACH, CORRECTION, AND ADDITIONAL PERMISSION
+
+Except for the limited correction mechanism below, breach of an applicable
+condition automatically terminates the permissions granted to you by this
+license. Stop exercising terminated permissions and remove copies or
+distributions that have no independent lawful basis.
+
+For a first, inadvertent citation or acknowledgement omission in an
+otherwise permitted use, permissions remain in effect if you correct it
+within 30 calendar days after you first discover it or receive notice of it,
+whichever occurs earlier. Correct copies under your control and make
+reasonable efforts to notify recipients or publish a correction for copies
+you cannot change. If the omission is not corrected within that period,
+permissions terminate at its end. This mechanism does not apply to
+deliberate concealment of authorship, repeated omissions after prior
+correction, prohibited redistribution, commercial use, or AI training.
+
+After termination, reinstatement requires the Licensor's written
+confirmation. Statutory rights and independently granted rights under
+Section 8 remain unaffected. Ownership, reserved rights, disclaimers, and
+liability for conduct outside the permissions survive termination.
+
+For permission beyond this license, contact the Licensor through the
+repository's Issues page or the contact information on the GitHub profile.
+Permission must be express and in writing; silence is not consent.
+
+If a provision is unenforceable, apply it only to the extent permitted by
+law, leaving the remainder effective to the extent possible. Any informal
+summary is explanatory only; this license text governs its permissions.
