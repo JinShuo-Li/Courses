@@ -248,3 +248,14 @@ BuildLog.htm
 # PDF files
 
 *.pdf
+
+# Third-party / copyrighted material (purged from history)
+CS1601-Discrete-Mathematics/Exam_papers/
+MATH1204-Analysis-II/ma_mid/
+MATH1203-Mathematical-Analysis/
+*.zip
+*.doc
+*.ppt
+*.pptx
+*.xls
+*.xlsx
