@@ -157,3 +157,282 @@ $$
 \end{cases}
 $$
 
+### 11.7
+
+我们只需要先算一下宽为 $dz$ 的带电圆环对圆柱轴线上任意一点的电场强度，然后再沿 $z$ 方向积分即可。根据对称性不难知道：
+
+$$
+E_z=0,\qquad E_y=0.
+$$
+
+记宽为 $dz$ 的带电圆环半径为 $R$，且
+
+$$
+dl=R\,d\phi.
+$$
+
+圆柱面上的面积元为
+
+$$
+dS=R\,d\phi\,dz,
+$$
+
+因此电荷元为
+
+$$
+dq=\sigma dS=b\cos\phi\cdot R\,d\phi\,dz.
+$$
+
+对于轴线上的场点，有
+
+$$
+r=\sqrt{R^2+z^2}.
+$$
+
+电场元满足
+
+$$
+d\vec E=k\frac{dq}{r^3}\vec r.
+$$
+
+其中电荷元到场点的位移矢量在 $x$ 方向的分量为
+
+$$
+r_x=-R\cos\phi.
+$$
+
+因此
+
+$$
+dE_x
+=
+k\frac{dq}{r^3}(-R\cos\phi)
+=
+-k\frac{bR^2\cos^2\phi}{(R^2+z^2)^{3/2}}\,dz\,d\phi.
+$$
+
+于是
+
+$$
+E_x
+=
+\int_{-\infty}^{+\infty}
+\int_0^{2\pi}
+-k\frac{bR^2\cos^2\phi}{(R^2+z^2)^{3/2}}
+\,d\phi\,dz.
+$$
+
+即
+
+$$
+E_x
+=
+-kbR^2
+\int_{-\infty}^{+\infty}
+\frac{dz}{(R^2+z^2)^{3/2}}
+\int_0^{2\pi}\cos^2\phi\,d\phi.
+$$
+
+其中
+
+$$
+\int_0^{2\pi}\cos^2\phi\,d\phi=\pi,
+$$
+
+且
+
+$$
+\int_{-\infty}^{+\infty}
+\frac{dz}{(R^2+z^2)^{3/2}}
+=
+\frac{2}{R^2}.
+$$
+
+因此
+
+$$
+E_x
+=
+-kbR^2\cdot\frac{2}{R^2}\cdot\pi
+=
+-2\pi kb.
+$$
+
+### 11.9
+
+设无限大带电平板沿 $y,z$ 方向无限延伸，厚度方向为 $x$，其范围为
+
+$$
+0\le x\le b,
+$$
+
+电荷体密度为
+
+$$
+\rho=kx.
+$$
+
+可以将整个带电平板看成由无数个厚度为 $dx$ 的无限大带电薄平面叠加而成。
+
+对于位于 $x$ 处、厚度为 $dx$ 的薄层，其等效面电荷密度为
+
+$$
+d\sigma=\rho\,dx=kx\,dx.
+$$
+
+无限大带电平面在两侧产生的电场强度大小为
+
+$$
+dE=\frac{d\sigma}{2\varepsilon_0}
+=\frac{kx}{2\varepsilon_0}dx,
+$$
+
+方向均背离该带电平面。
+
+
+#### (1) 平板外两侧任一点处的电场强度
+
+对于平板左侧，即 $x_0<0$，所有带电薄层产生的电场方向均沿 $-x$ 方向，因此
+
+$$
+E_x
+=
+-\int_0^b\frac{kx}{2\varepsilon_0}dx.
+$$
+
+于是
+
+$$
+E_x
+=
+-\frac{k}{2\varepsilon_0}\frac{b^2}{2}
+=
+-\frac{kb^2}{4\varepsilon_0}.
+$$
+
+故
+
+$$
+\boxed{
+\vec E
+=
+-\frac{kb^2}{4\varepsilon_0}\vec e_x,
+\qquad x_0<0
+}
+$$
+
+对于平板右侧，即 $x_0>b$，所有带电薄层产生的电场方向均沿 $+x$ 方向，因此
+
+$$
+E_x
+=
+\int_0^b\frac{kx}{2\varepsilon_0}dx
+=
+\frac{kb^2}{4\varepsilon_0}.
+$$
+
+故
+
+$$
+\boxed{
+\vec E
+=
+\frac{kb^2}{4\varepsilon_0}\vec e_x,
+\qquad x_0>b
+}
+$$
+
+可见平板外部的电场强度与场点到平板的距离无关。
+
+
+#### (2) 平板内任一点处的电场强度
+
+设场点位于
+
+$$
+0<x_0<b.
+$$
+
+位于场点左侧，即 $0<x<x_0$ 的薄层产生的电场沿 $+x$ 方向；位于场点右侧，即 $x_0<x<b$ 的薄层产生的电场沿 $-x$ 方向。
+
+因此
+
+$$
+E_x
+=
+\int_0^{x_0}\frac{kx}{2\varepsilon_0}dx
+-
+\int_{x_0}^b\frac{kx}{2\varepsilon_0}dx.
+$$
+
+计算得到
+
+$$
+E_x
+=
+\frac{k}{2\varepsilon_0}
+\left(
+\frac{x_0^2}{2}
+-
+\frac{b^2-x_0^2}{2}
+\right).
+$$
+
+所以
+
+$$
+E_x
+=
+\frac{k}{4\varepsilon_0}
+\left(2x_0^2-b^2\right).
+$$
+
+故平板内部任一点的电场为
+
+$$
+\boxed{
+\vec E
+=
+\frac{k}{4\varepsilon_0}
+\left(2x_0^2-b^2\right)\vec e_x,
+\qquad 0<x_0<b
+}
+$$
+
+---
+
+#### (3) 电场强度为零的点
+
+令
+
+$$
+E_x=0,
+$$
+
+即
+
+$$
+2x_0^2-b^2=0.
+$$
+
+因此
+
+$$
+x_0^2=\frac{b^2}{2}.
+$$
+
+由于 $0\le x_0\le b$，故
+
+$$
+\boxed{
+x_0=\frac{b}{\sqrt2}
+}
+$$
+
+所以电场强度为零的点位于平板内部距离 $x=0$ 一侧
+
+$$
+\boxed{\frac{b}{\sqrt2}}
+$$
+
+处。
