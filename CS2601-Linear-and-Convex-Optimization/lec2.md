@@ -99,3 +99,31 @@ $$
 Dh(x_0) = Df(g(x_0)) \cdot Dg(x_0)
 $$
 
+*Review: Positive definite matrices*
+
+A matrix $A \in \mathbb{R}^{n \times n}$ is positive semidefinite. if:
+
+- $x^T A x \geq 0$ for all $x \in \mathbb{R}^n$.
+- $A$ is symmetric, i.e., $A = A^T$.
+
+It is positive definite if:
+
+- $x^T A x > 0$ for all $x \in \mathbb{R}^n \setminus \{0\}$.
+- $A$ is symmetric, i.e., $A = A^T$.
+
+Likewise we have negative semidefinite and negative definite matrices. We also have indefinite matrices, which are neither positive semidefinite nor negative semidefinite.
+
+$B^TB$ is positive semidefinite for any matrix $B \in \mathbb{R}^{m \times n}$, and it is positive definite if and only if $B$ has full column rank. (The column vectors are linear-independent.)
+
+*Review: Test for positive definiteness*
+
+A vector $x \in \mathbb{R}^n$ is an eigenvector of a matrix $A \in \mathbb{R}^{n \times n}$ if there exists a scalar $\lambda \in \mathbb{R}$ such that $Ax = \lambda x$. The scalar $\lambda$ is called the eigenvalue corresponding to the eigenvector $x$.
+
+Theoratically we can find all eigenvalues of a matrix $A$ by solving the characteristic polynomial $\det(A - \lambda I) = 0$. However, this is not practical for large matrices.
+
+Then if a matrix $A$ is positive definite, all its eigenvalues are positive. If a matrix $A$ is positive semidefinite, all its eigenvalues are non-negative.
+
+We can also test it through the principal submatrix of $A$. The principal submatrix of order $k$ of a matrix $A \in \mathbb{R}^{n \times n}$ is the $k \times k$ matrix obtained by deleting the last $n - k$ rows and columns of $A$. A matrix $A$ is positive definite if and only if all its leading principal minors are positive. A matrix $A$ is positive semidefinite if and only if all its principal minors are non-negative.
+
+**Theorem (Sylvester's Criterion)**: Let $A \in \mathbb{R}^{n \times n}$ be a symmetric matrix. Then $A$ is positive definite if and only if all its leading principal minors are positive. $A$ is positive semidefinite if and only if all its principal minors are non-negative.
+
