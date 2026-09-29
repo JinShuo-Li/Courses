@@ -1,0 +1,96 @@
+% !TeX program = xelatex
+% ============================================================
+%  大学英语六级（CET-6）复习指南
+%  编译方式：tectonic -X compile cet6_review.tex
+%  说明：使用 ctex + Fandol 字体，XeLaTeX 引擎（tectonic 默认）
+% ============================================================
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+
+\usepackage{geometry}
+\geometry{left=2.1cm,right=2.1cm,top=2.6cm,bottom=2.6cm,headsep=0.6cm}
+
+\usepackage{xcolor}
+\definecolor{mainblue}{RGB}{26,60,110}
+\definecolor{accent}{RGB}{170,50,45}
+\definecolor{deepgreen}{RGB}{32,96,74}
+\definecolor{softgray}{RGB}{246,247,249}
+\definecolor{softblue}{RGB}{240,244,250}
+\definecolor{softred}{RGB}{252,244,243}
+
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable,skins}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true,linkcolor=mainblue,urlcolor=accent,bookmarksnumbered=true]{hyperref}
+\usepackage{xurl}
+\hypersetup{
+  pdftitle={大学英语六级（CET-6）复习指南},
+  pdfsubject={CET-6 Vocabulary, Writing and Translation},
+  pdfkeywords={CET6, 六级, 词汇, 真题, 写作, 翻译},
+  pdfcreator={tectonic + ctex}
+}
+
+\ctexset{
+  section/format = \Large\bfseries\color{mainblue},
+  subsection/format = \large\bfseries\color{mainblue},
+  subsubsection/format = \normalsize\bfseries\color{deepgreen},
+}
+
+\setlist[itemize]{leftmargin=1.4em,itemsep=0.25ex,topsep=0.3ex,parsep=0pt}
+\setlist[enumerate]{leftmargin=1.7em,itemsep=0.25ex,topsep=0.3ex,parsep=0pt}
+
+% ---- 词汇表环境：双栏紧凑排版 -------------------------------------
+\newenvironment{vocablist}{%
+  \begin{multicols}{2}\small
+  \begin{itemize}[label=\textbullet,leftmargin=1.05em,itemsep=0.18ex,topsep=0.2ex]%
+}{%
+  \end{itemize}\end{multicols}%
+}
+% 词条：\vw{单词}{词性}{释义}
+\newcommand{\vw}[3]{\item \textbf{#1}\ \textit{#2}\ #3}
+% 短语：\vw{短语}{}{释义} 亦可直接使用
+
+% ---- 提示框 -------------------------------------------------------
+\newtcolorbox{tipbox}[1][]{colback=softblue,colframe=mainblue!75,boxrule=0.5pt,
+  arc=2.5pt,left=7pt,right=7pt,top=5pt,bottom=5pt,breakable,fonttitle=\bfseries,#1}
+\newtcolorbox{notebox}[1][]{colback=softgray,colframe=black!35,boxrule=0.4pt,
+  arc=1.5pt,left=7pt,right=7pt,top=5pt,bottom=5pt,breakable,fonttitle=\bfseries,#1}
+\newtcolorbox{engbox}[1][]{colback=white,colframe=mainblue!55,boxrule=0.5pt,
+  arc=2pt,left=8pt,right=8pt,top=5pt,bottom=5pt,breakable,fonttitle=\bfseries,#1}
+
+% ---- 页眉页脚 -----------------------------------------------------
+\renewcommand{\sectionmark}[1]{\markboth{\thesection\quad #1}{}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{black!55} 大学英语六级（CET-6）复习指南}
+\fancyhead[R]{\small\color{black!55} \leftmark}
+\fancyfoot[C]{\small\color{black!65}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\LTcapwidth}{\textwidth}
+
+\begin{document}
+
+\input{sections/00_front}
+
+\clearpage
+{\hypersetup{linkcolor=black}
+\tableofcontents}
+\clearpage
+
+\input{sections/01_overview}
+\input{sections/02_vocabulary}
+\input{sections/03_topics}
+\input{sections/04a_writing}
+\input{sections/04b_translation}
+\input{sections/04c_cloze_reading_listening}
+\input{sections/05_strategy}
+\input{sections/06_plan}
+\input{sections/99_references}
+
+\end{document}
