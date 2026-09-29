@@ -23,8 +23,6 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{tabularx}
-\usepackage{tcolorbox}
-\tcbuselibrary{breakable,skins}
 \usepackage{fancyhdr}
 \usepackage[colorlinks=true,linkcolor=mainblue,urlcolor=accent,bookmarksnumbered=true]{hyperref}
 \usepackage{xurl}
@@ -55,13 +53,13 @@
 \newcommand{\vw}[3]{\item \textbf{#1}\ \textit{#2}\ #3}
 % 短语：\vw{短语}{}{释义} 亦可直接使用
 
-% ---- 提示框 -------------------------------------------------------
-\newtcolorbox{tipbox}[1][]{colback=softblue,colframe=mainblue!75,boxrule=0.5pt,
-  arc=2.5pt,left=7pt,right=7pt,top=5pt,bottom=5pt,breakable,fonttitle=\bfseries,#1}
-\newtcolorbox{notebox}[1][]{colback=softgray,colframe=black!35,boxrule=0.4pt,
-  arc=1.5pt,left=7pt,right=7pt,top=5pt,bottom=5pt,breakable,fonttitle=\bfseries,#1}
-\newtcolorbox{engbox}[1][]{colback=white,colframe=mainblue!55,boxrule=0.5pt,
-  arc=2pt,left=8pt,right=8pt,top=5pt,bottom=5pt,breakable,fonttitle=\bfseries,#1}
+% ---- 提示段落：朴素样式（无彩色底纹、无边框） ---------------------
+\NewDocumentEnvironment{tipbox}{O{}}{\par\addvspace{0.5em}\noindent\textbf{\color{mainblue}#1}\par\nobreak\small\noindent\ignorespaces}{\par\addvspace{0.5em}}
+\NewDocumentEnvironment{notebox}{O{}}{\par\addvspace{0.5em}\noindent\textbf{#1}\par\nobreak\small\noindent\ignorespaces}{\par\addvspace{0.5em}}
+\NewDocumentEnvironment{engbox}{O{}}{\par\addvspace{0.5em}\noindent\textbf{#1}\par\nobreak\small\noindent\ignorespaces}{\par\addvspace{0.5em}}
+
+% ---- 选词填空空格标记 ---------------------------------------------
+\newcommand{\bk}[1]{\underline{\hspace{1.1cm}}{\scriptsize\,(#1)}}
 
 % ---- 页眉页脚 -----------------------------------------------------
 \renewcommand{\sectionmark}[1]{\markboth{\thesection\quad #1}{}}
