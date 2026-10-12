@@ -29,3 +29,26 @@ $$
 
 *Note*: For $\alpha \in [0, 1]$, we have $\overline{\alpha} = 1 - \alpha$. And $\alpha x + \overline{\alpha} y$ is called a convex combination of $x$ and $y$.
 
+Examples of convex sets include:
+
+- Empty set $\emptyset$
+- A hyperplane $\{x \in \mathbb{R}^n : a^T x = b\}$ for some $a \in \mathbb{R}^n, b \in \mathbb{R}$
+
+*Proof*: Let $x_1, x_2 \in \{x \in \mathbb{R}^n : a^T x = b\}$. Then $a^T x_1 = b$ and $a^T x_2 = b$. For any $\alpha \in [0, 1]$, we have:
+
+$$
+a^T (\alpha x_1 + \overline{\alpha} x_2) = \alpha a^T x_1 + \overline{\alpha} a^T x_2 = \alpha b + \overline{\alpha} b = b.
+$$
+
+**Proposition**: The intersection of any collection of convex sets is convex. (Set intersection preserves convexity.)
+
+*Proof*: Let $\{C_i\}_{i \in I}$ be a collection of convex sets, and let $C = \bigcap_{i \in I} C_i$. Take any two points $x_1, x_2 \in C$. Since $x_1, x_2 \in C$, it follows that $x_1, x_2 \in C_i$ for all $i \in I$. By the definition of convexity, for any $\alpha \in [0, 1]$, we have:
+
+$$
+\alpha x_1 + \overline{\alpha} x_2 \in C_i \quad \forall i \in I.
+$$
+
+Therefore, $\alpha x_1 + \overline{\alpha} x_2 \in C$, which proves that $C$ is convex.
+
+Affine spaces are also convex.
+
