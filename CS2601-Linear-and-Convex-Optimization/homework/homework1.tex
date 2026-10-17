@@ -1,0 +1,364 @@
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+\usepackage{geometry}
+\geometry{left=2.4cm,right=2.4cm,top=2.5cm,bottom=2.5cm}
+\usepackage{amsmath,amssymb,bm}
+\allowdisplaybreaks[2]
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  pdftitle  = {CS2601 Homework 1},
+  pdfauthor = {Li Jinshuo},
+  pdfsubject = {Linear and Convex Optimization},
+}
+
+% Default fonts are kept on purpose (no newtxtext / newtxmath).
+
+\ctexset{
+  section = {format = {\centering\Large\bfseries}},
+}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\intset}{\operatorname{int}}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries CS2601 Linear and Convex Optimization}\\[0.5em]
+  {\large Homework 1}\\[0.9em]
+  {\normalsize Li Jinshuo, IEEE Honor Class}\\[0.35em]
+  {\small Due: 2026.10.20}
+\end{center}
+\vspace{-0.2em}
+{\centering\textcolor{black!30}{\rule{0.9\textwidth}{0.8pt}}\par}
+\vspace{0.8em}
+
+%========================================================
+\section*{Problem 1}
+
+\subsection*{(a)}
+For
+\[
+f(x_1,x_2)=3x_1^2-2x_1x_2+4x_2^2+x_1-6x_2,
+\]
+the partial derivatives are
+\[
+\frac{\partial f}{\partial x_1}=6x_1-2x_2+1,
+\qquad
+\frac{\partial f}{\partial x_2}=-2x_1+8x_2-6 .
+\]
+Hence
+\[
+\boxed{
+\nabla f(x)=
+\begin{bmatrix}
+6x_1-2x_2+1\\[2pt]
+-2x_1+8x_2-6
+\end{bmatrix}
+}
+\]
+and, differentiating once more,
+\[
+\boxed{
+\nabla^2 f(x)=
+\begin{bmatrix}
+6 & -2\\[2pt]
+-2 & 8
+\end{bmatrix}
+}
+\]
+which is the constant matrix
+$\begin{bmatrix}6&-2\\-2&8\end{bmatrix}$ (it does not depend on $x$).
+
+\subsection*{(b)}
+Expand the squared norm:
+\[
+f(w)=\lVert Xw-y\rVert_2^2+\lambda w^T\Lambda w
+=w^TX^TXw-2y^TXw+y^Ty+\lambda w^T\Lambda w .
+\]
+Using $\nabla_w(w^TAw)=2Aw$ for symmetric $A$ and $\nabla_w(b^Tw)=b$,
+\[
+\boxed{
+\nabla f(w)=2X^TXw-2X^Ty+2\lambda\Lambda w
+=2\left(X^TX+\lambda\Lambda\right)w-2X^Ty
+}
+\]
+and
+\[
+\boxed{
+\nabla^2 f(w)=2\left(X^TX+\lambda\Lambda\right)
+}
+\]
+Note both the gradient and the Hessian hold for every $w$, and the Hessian is
+constant in $w$.
+
+%========================================================
+\section*{Problem 2}
+
+\textbf{Yes, it always has a global minimum, and the minimum is unique.}
+
+The Hessian obtained in Problem 1(b) is
+\[
+\nabla^2 f(w)=2\left(X^TX+\lambda\Lambda\right).
+\]
+$X^TX$ is positive semidefinite because $v^TX^TXv=\lVert Xv\rVert_2^2\ge0$ for
+all $v$. Since $\Lambda$ is positive definite and $\lambda>0$, the matrix
+$\lambda\Lambda$ is positive definite. Therefore for every $v\neq0$,
+\[
+v^T\left(X^TX+\lambda\Lambda\right)v
+=\underbrace{\lVert Xv\rVert_2^2}_{\ge0}
++\underbrace{\lambda\,v^T\Lambda v}_{>0}
+>0,
+\]
+so $X^TX+\lambda\Lambda$ is positive definite and in particular invertible.
+Thus $f$ is strictly convex and its Hessian is uniformly positive definite;
+equivalently, $f(w)\to+\infty$ as $\lVert w\rVert\to\infty$ (it is coercive), so
+a global minimum exists and is unique.
+
+Setting the gradient to zero,
+\[
+\nabla f(w)=2\left(X^TX+\lambda\Lambda\right)w-2X^Ty=0,
+\]
+we obtain the closed-form solution
+\[
+\boxed{
+w^\star=\left(X^TX+\lambda\Lambda\right)^{-1}X^Ty
+}
+\]
+
+%========================================================
+\section*{Problem 3}
+
+Write $z_i=y_ix_i^Tw$ and $g(z)=\log(1+e^{-z})$, so that
+$f(w)=\sum_{i=1}^m g(z_i)$. The derivatives of $g$ are
+\[
+g'(z)=-\frac{e^{-z}}{1+e^{-z}}=-\frac{1}{1+e^{z}},
+\qquad
+g''(z)=\frac{e^{-z}}{\left(1+e^{-z}\right)^2}
+=\sigma(z)\,\sigma(-z)>0,
+\]
+where $\sigma(z)=\dfrac{1}{1+e^{-z}}$ is the sigmoid function (note
+$g'(z)=-\sigma(-z)$ and $\dfrac{e^{-z}}{1+e^{-z}}=\sigma(-z)$).
+
+Since $\nabla_w z_i=y_ix_i$, the chain rule gives
+\[
+\boxed{
+\nabla f(w)=\sum_{i=1}^m g'(z_i)\,y_ix_i
+=-\sum_{i=1}^m \frac{y_ix_i}{1+e^{\,y_ix_i^Tw}}
+=-\sum_{i=1}^m \sigma\!\left(-y_ix_i^Tw\right)y_ix_i
+}
+\]
+Differentiating once more, using $y_i^2=1$ and the fact that
+$\nabla_w z_i=y_ix_i$,
+\[
+\boxed{
+\nabla^2 f(w)=\sum_{i=1}^m g''(z_i)\,y_i^2\,x_ix_i^T
+=\sum_{i=1}^m \frac{e^{-y_ix_i^Tw}}
+{\left(1+e^{-y_ix_i^Tw}\right)^2}\,x_ix_i^T
+}
+\]
+Each term has a non-negative scalar coefficient multiplying the outer product
+$x_ix_i^T$, hence every term is positive semidefinite and so is the sum:
+$\nabla^2 f(w)\succeq0$. Therefore $f$ is convex (this is the standard
+convexity of the logistic-regression loss).
+
+%========================================================
+\section*{Problem 4}
+
+Each matrix below is symmetric. For a symmetric matrix the signs of its
+principal minors settle its definiteness: it is positive definite exactly when
+every leading principal minor is positive, and positive semidefinite exactly
+when every principal minor is non-negative. Whenever the minors (or the
+quadratic form) take both signs, the matrix is indefinite. We carry out the
+computation for each case directly below.
+
+\subsection*{Matrix $A$}
+\[
+A=\begin{bmatrix}
+4 & 1 & 0\\
+1 & 3 & -1\\
+0 & -1 & 2
+\end{bmatrix}.
+\]
+Leading principal minors:
+\[
+D_1=4>0,\qquad
+D_2=\det\begin{bmatrix}4&1\\1&3\end{bmatrix}=12-1=11>0,
+\]
+\[
+D_3=\det A
+=4\bigl(3\cdot2-(-1)(-1)\bigr)-1\bigl(1\cdot2-(-1)\cdot0\bigr)+0
+=4(5)-2=18>0 .
+\]
+All leading principal minors are positive, hence
+\[
+\boxed{A\ \text{is positive definite.}}
+\]
+
+\subsection*{Matrix $B$}
+\[
+B=\begin{bmatrix}
+1 & 2 & 0\\
+2 & 1 & 1\\
+0 & 1 & 1
+\end{bmatrix}.
+\]
+The leading principal minors are
+\[
+D_1=1>0,\qquad
+D_2=\det\begin{bmatrix}1&2\\2&1\end{bmatrix}=1-4=-3<0,
+\]
+and
+\[
+\det B=1(1\cdot1-1\cdot1)-2(2\cdot1-1\cdot0)+0=-4\neq0 .
+\]
+$D_2<0$ rules out positive definiteness, and $D_1>0$ rules out negative
+definiteness (which would require $D_1<0$). Since $\det B=-4\neq0$ the matrix is
+not semidefinite either. Concretely, the quadratic form changes sign:
+\[
+x^TBx=x_1^2+x_2^2+x_3^2+4x_1x_2+2x_2x_3,
+\]
+with $x=(1,0,0)\Rightarrow x^TBx=1>0$ and
+$x=(1,-1,0)\Rightarrow x^TBx=2-4=-2<0$. Therefore
+\[
+\boxed{B\ \text{is indefinite.}}
+\]
+
+\subsection*{Matrix $C$}
+\[
+C=\begin{bmatrix}
+1 & 1 & 0\\
+1 & 1 & 0\\
+0 & 0 & 2
+\end{bmatrix}.
+\]
+Its quadratic form factors as
+\[
+x^TCx=x_1^2+2x_1x_2+x_2^2+2x_3^2=(x_1+x_2)^2+2x_3^2\ge0
+\]
+for all $x$, so $C$ is positive semidefinite. It is \emph{not} positive definite
+because the non-zero vector $x=(1,-1,0)$ gives $x^TCx=0$. Equivalently the
+eigenvalues are $2,2,0$. Hence
+\[
+\boxed{C\ \text{is positive semidefinite (but not positive definite).}}
+\]
+
+%========================================================
+\section*{Problem 5}
+
+The matrix
+\[
+A=\begin{bmatrix}
+3 & -1 & \alpha\\
+-1 & 2 & -1\\
+\alpha & -1 & 3
+\end{bmatrix}
+\]
+is symmetric, so it is positive semidefinite iff all its principal minors are
+non-negative.
+
+The $1\times1$ principal minors are the diagonal entries $3,2,3$, all positive.
+
+The $2\times2$ principal minors are
+\[
+\det\begin{bmatrix}3&-1\\-1&2\end{bmatrix}=6-1=5>0,
+\qquad
+\det\begin{bmatrix}2&-1\\-1&3\end{bmatrix}=6-1=5>0,
+\]
+\[
+\det\begin{bmatrix}3&\alpha\\\alpha&3\end{bmatrix}=9-\alpha^2\ \ge0
+\iff -3\le\alpha\le3 .
+\]
+The $3\times3$ principal minor is $\det A$. Expanding along the first row,
+\[
+\det A
+=3(6-1)-(-1)(-3+\alpha)+\alpha(1-2\alpha)
+=15-3+\alpha+\alpha-2\alpha^2
+=12+2\alpha-2\alpha^2 .
+\]
+Requiring $\det A\ge0$:
+\[
+12+2\alpha-2\alpha^2\ge0
+\iff \alpha^2-\alpha-6\le0
+\iff (\alpha-3)(\alpha+2)\le0
+\iff -2\le\alpha\le3 .
+\]
+Combining this with $-3\le\alpha\le3$ gives the final condition
+\[
+\boxed{-2\le\alpha\le3 .}
+\]
+
+%========================================================
+\section*{Problem 6}
+
+Let $C_1,C_2\subseteq\R^n$ be convex. Take any two points
+$z_1,z_2\in C_1+C_2$. By definition of the Minkowski sum there exist
+$x_1,x_2\in C_1$ and $y_1,y_2\in C_2$ with
+\[
+z_1=x_1+y_1,\qquad z_2=x_2+y_2 .
+\]
+Let $\theta\in[0,1]$ and set $\bar\theta=1-\theta$. Then
+\[
+\theta z_1+\bar\theta z_2
+=\theta(x_1+y_1)+\bar\theta(x_2+y_2)
+=\underbrace{\bigl(\theta x_1+\bar\theta x_2\bigr)}_{\in\,C_1}
++\underbrace{\bigl(\theta y_1+\bar\theta y_2\bigr)}_{\in\,C_2},
+\]
+where $\theta x_1+\bar\theta x_2\in C_1$ and
+$\theta y_1+\bar\theta y_2\in C_2$ by convexity of $C_1$ and $C_2$. Their sum
+therefore belongs to $C_1+C_2$. Since $z_1,z_2\in C_1+C_2$ and
+$\theta\in[0,1]$ were arbitrary, the Minkowski sum is convex.
+
+%========================================================
+\section*{Problem 7}
+
+Let $C\subseteq\R^n$ be convex.
+
+\subsection*{(a) The interior $\intset C$ is convex.}
+
+Take $x_1,x_2\in\intset C$ and $\theta\in[0,1]$, and put
+$x=\theta x_1+\bar\theta x_2$ with $\bar\theta=1-\theta$. Since $x_1,x_2$ are
+interior points, there exist $r_1,r_2>0$ such that
+$B(x_1,r_1)\subseteq C$ and $B(x_2,r_2)\subseteq C$. Set
+$r=\min(r_1,r_2)>0$.
+
+We claim $B(x,r)\subseteq C$. Let $z\in B(x,r)$, i.e.\ $\lVert z-x\rVert<r$, and
+write $v=z-x$. Then
+\[
+z=x+v=\theta(x_1+v)+\bar\theta(x_2+v).
+\]
+Now
+\[
+\lVert(x_1+v)-x_1\rVert=\lVert v\rVert<r\le r_1
+\ \Longrightarrow\ x_1+v\in B(x_1,r_1)\subseteq C,
+\]
+and similarly $x_2+v\in B(x_2,r_2)\subseteq C$. Since $C$ is convex, the convex
+combination $z=\theta(x_1+v)+\bar\theta(x_2+v)$ also lies in $C$. Hence
+$B(x,r)\subseteq C$, so $x\in\intset C$. Therefore $\intset C$ is convex.
+
+\subsection*{(b) The closure $\bar C$ is convex.}
+
+Take $x_1,x_2\in\bar C$ and $\theta\in[0,1]$, and set
+$x=\theta x_1+\bar\theta x_2$ with $\bar\theta=1-\theta$. By the sequential
+characterization of the closure, there exist sequences
+$(x_1^{(k)})_{k\ge1}\subseteq C$ and $(x_2^{(k)})_{k\ge1}\subseteq C$ with
+\[
+x_1^{(k)}\to x_1,\qquad x_2^{(k)}\to x_2 .
+\]
+For every $k$, convexity of $C$ gives
+$\theta x_1^{(k)}+\bar\theta x_2^{(k)}\in C$. Passing to the limit and using the
+continuity of the linear combination,
+\[
+\theta x_1^{(k)}+\bar\theta x_2^{(k)}
+\ \longrightarrow\
+\theta x_1+\bar\theta x_2=x .
+\]
+Thus $x$ is the limit of a sequence in $C$, so $x\in\bar C$. Since $x_1,x_2\in
+\bar C$ and $\theta\in[0,1]$ were arbitrary, $\bar C$ is convex.
+
+\end{document}
