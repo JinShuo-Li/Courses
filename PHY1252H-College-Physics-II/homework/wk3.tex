@@ -1,0 +1,540 @@
+% !TeX program = xelatex
+\documentclass[UTF8,a4paper,12pt]{ctexart}
+\usepackage{geometry}
+\geometry{left=2.4cm,right=2.4cm,top=2.5cm,bottom=2.5cm}
+\usepackage{amsmath,amssymb,bm}
+\allowdisplaybreaks[2]
+\IfFileExists{/home/lijs/.local/share/fonts/NotoSerifSC-Regular.otf}{%
+  \setCJKmainfont[Path=/home/lijs/.local/share/fonts/,BoldFont=NotoSerifSC-Bold.otf]{NotoSerifSC-Regular.otf}%
+  \setCJKsansfont[Path=/home/lijs/.local/share/fonts/,BoldFont=NotoSansSC-Bold.otf]{NotoSansSC-Regular.otf}%
+}{}
+\IfFileExists{newtxtext.sty}{%
+  \usepackage{newtxtext}\usepackage{newtxmath}%
+}{%
+  \usepackage{mathptmx}%
+  \IfFontExistsTF{TeX Gyre Termes}{\setmainfont{TeX Gyre Termes}}{%
+    \IfFontExistsTF{NimbusRoman-Regular.otf}{%
+      \setmainfont{NimbusRoman-Regular.otf}[%
+        BoldFont=NimbusRoman-Bold.otf,
+        ItalicFont=NimbusRoman-Italic.otf,
+        BoldItalicFont=NimbusRoman-BoldItalic.otf]%
+    }{\setmainfont{Latin Modern Roman}}%
+  }%
+}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={第 12、13 章作业（大学物理 II）},
+  pdfauthor={李谨硕},
+  pdfsubject={胡其图教材：稳恒磁场、磁介质与附加题}
+}
+\ctexset{
+  section={format={\centering\Large\bfseries}},
+  subsection={format={\large\bfseries}}
+}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\ez}{\hat{\bm e}_z}
+\newcommand{\er}{\hat{\bm e}_r}
+\newcommand{\ep}{\hat{\bm e}_{\varphi}}
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries 第 12、13 章作业}\\[0.55em]
+  {\normalsize 大学物理 II（PHY1252H）}\\[0.95em]
+  {\small 李谨硕\quad IEEE 计算机方向\quad 电院 2501\quad 2026 年 10 月 28 日}
+\end{center}
+\vspace{-0.2em}
+{\centering\textcolor{black!30}{\rule{0.9\textwidth}{0.8pt}}\par}
+\vspace{0.6em}
+
+\section*{胡其图教材：稳恒磁场}
+
+\subsection*{12.13}
+
+解：长直导线在距其 $d$ 处产生的电场和磁场大小分别为
+\[
+E=\frac{\lambda}{2\pi\varepsilon_0d},
+\qquad B=\frac{\mu_0 I}{2\pi d}.
+\]
+按图示方向，正电荷所受电场力背离导线，磁场力指向导线。要使粒子沿与导线平行的直线运动，需满足
+\[
+qE=qvB.
+\]
+因此
+\[
+\boxed{v=\frac{\lambda}{\varepsilon_0\mu_0I}
+=\frac{\lambda c^2}{I}}
+\]
+速度与导线电流同向，结果与 $q,d$ 无关。对于有质量粒子，还需 $v<c$，即 $\lambda c<I$，才存在物理上可实现的平衡速度。
+
+\subsection*{12.17}
+
+解：取 $I_1$ 所在导线与纸面的交点为原点，$x$ 轴向右，$y$ 轴向上，$z$ 轴垂直纸面向外。图中导线段位于 $x=b$、$0\leq y\leq a$，电流 $I_2$ 沿 $+y$ 方向。
+
+由毕奥--萨伐尔定律，导线段上任一点处的磁场为
+\[
+\bm B(y)=\frac{\mu_0 I_1}{2\pi(b^2+y^2)}
+\left(-y\hat{\bm e}_x+b\hat{\bm e}_y\right).
+\]
+电流元受到的安培力为
+\[
+\dd\bm F=I_2\dd y\,\hat{\bm e}_y\times\bm B
+=\frac{\mu_0I_1I_2}{2\pi}\frac{y\dd y}{b^2+y^2}\ez.
+\]
+沿导线积分得
+\[
+\boxed{\bm F=\frac{\mu_0I_1I_2}{4\pi}
+\ln\!\left(1+\frac{a^2}{b^2}\right)\ez}
+\]
+方向垂直纸面向外。
+
+\subsection*{12.18}
+
+解：圆柱面旋转形成的面电流密度大小为
+\[
+K=\sigma\omega R.
+\]
+忽略细长圆柱面的端部效应，它相当于无限长螺线管，内、外磁场分别为
+\[
+\bm B_{\mathrm{in}}=\mu_0\sigma R\bm\omega,
+\qquad \bm B_{\mathrm{out}}=0.
+\]
+计算柱面所受磁力时，应扣除面元自身的磁场，作用磁场为两侧磁场的平均值：
+\[
+\bm B_{\mathrm{act}}=
+\frac{\bm B_{\mathrm{in}}+\bm B_{\mathrm{out}}}{2}.
+\]
+因此单位面积上的磁场力为
+\[
+\bm f=\bm K\times\bm B_{\mathrm{act}},
+\qquad
+\boxed{\bm f=\frac{\mu_0\sigma^2\omega^2R^2}{2}\er}.
+\]
+方向沿径向向外，与电荷及旋转方向的正负无关。
+
+\subsection*{12.20}
+
+解：设载流平面本身在上、下两侧产生的磁场分别为 $\bm B_{s+},\bm B_{s-}$。由右手定则，
+\[
+\bm B_{s+}=-\frac{\mu_0 i}{2}\hat{\bm e}_y,
+\qquad
+\bm B_{s-}=\frac{\mu_0 i}{2}\hat{\bm e}_y.
+\]
+外加匀强磁场在两侧相同，因此总磁场满足
+\[
+\bm B_2-\bm B_1=\bm B_{s-}-\bm B_{s+}
+=\mu_0i\hat{\bm e}_y.
+\]
+代入 $i=100\ \mathrm{A/m}$、$\bm B_1=6.28\times10^{-5}\ez\ \mathrm{T}$，得
+\[
+\boxed{\bm B_2=
+\left(1.257\times10^{-4}\hat{\bm e}_y
++6.28\times10^{-5}\ez\right)\ \mathrm{T}}
+\]
+\[
+\boxed{B_2\approx1.40\times10^{-4}\ \mathrm{T}}.
+\]
+方向位于 $yOz$ 平面内，与 $+z$ 轴成约 $63.4^\circ$，偏向 $+y$ 方向。
+
+\subsection*{12.21}
+
+解：用叠加法将两阴影导体补成两个完整圆柱，令其电流密度分别为 $\bm j$ 和 $-\bm j$，其中 $j=I/S$。在中部重叠区域，两虚设电流恰好抵消，恢复题设真空区域。
+
+设 $\bm r_1,\bm r_2$ 分别为从 $O_1,O_2$ 指向该区域任一点的位矢。均匀载流圆柱内部磁场为
+\[
+\bm B_1=\frac{\mu_0}{2}\bm j\times\bm r_1,
+\qquad
+\bm B_2=-\frac{\mu_0}{2}\bm j\times\bm r_2.
+\]
+又因为 $\bm r_1-\bm r_2=\overrightarrow{O_1O_2}$，故
+\[
+\boxed{\bm B=\frac{\mu_0}{2}\bm j\times\overrightarrow{O_1O_2}},
+\qquad
+\boxed{B=\frac{\mu_0Id}{2S}}.
+\]
+真空区域内为匀强磁场，方向垂直于电流方向和两轴线连线，由 $\bm j\times\overrightarrow{O_1O_2}$ 确定，其中 $\bm j$ 取 $O_1$ 一侧导体的电流密度方向。
+
+\subsection*{12.35}
+
+解：取无限长导线为 $y$ 轴，$x$ 轴由导线指向 $AB$。在导线右侧，$I_1$ 产生的磁场垂直纸面向里，大小为
+\[
+B(x)=\frac{\mu_0I_1}{2\pi x}.
+\]
+图中 $I_2$ 从 $A$ 流向 $B$，故电流元所受安培力向上，且
+\[
+\dd F=I_2B(x)\dd x.
+\]
+于是
+\[
+F=\frac{\mu_0I_1I_2}{2\pi}\int_d^{d+L}\frac{\dd x}{x},
+\qquad
+\boxed{F=\frac{\mu_0I_1I_2}{2\pi}\ln\!\frac{d+L}{d}}.
+\]
+方向平行于长直导线，与图中 $I_1$ 同向。
+
+\subsection*{12.36}
+
+解：取长直导线为 $y$ 轴，圆心为 $(d,0)$，$x$ 轴向右，$z$ 轴垂直纸面向外。按图示，$I_1$ 向下，圆环电流沿逆时针方向。
+
+圆环上各点满足
+\[
+x=d+R\cos\theta,\qquad y=R\sin\theta,
+\qquad B=\frac{\mu_0I_1}{2\pi(d+R\cos\theta)}.
+\]
+由 $\dd\bm F=I_2\dd\bm l\times\bm B$，得
+\[
+\dd\bm F=\frac{\mu_0I_1I_2R}{2\pi}
+\frac{\cos\theta\hat{\bm e}_x+\sin\theta\hat{\bm e}_y}
+{d+R\cos\theta}\dd\theta.
+\]
+上下对称的电流元的 $y$ 分力抵消。利用
+\[
+\int_0^{2\pi}\frac{\dd\theta}{d+R\cos\theta}
+=\frac{2\pi}{\sqrt{d^2-R^2}}\qquad(d>R),
+\]
+有
+\[
+\begin{aligned}
+F_x
+&=\frac{\mu_0I_1I_2}{2\pi}
+\int_0^{2\pi}\left(1-\frac{d}{d+R\cos\theta}\right)\dd\theta\\
+&=\mu_0I_1I_2\left(1-\frac{d}{\sqrt{d^2-R^2}}\right).
+\end{aligned}
+\]
+因此
+\[
+\boxed{F=\mu_0I_1I_2\left(\frac{d}{\sqrt{d^2-R^2}}-1\right)}
+\]
+合力沿圆心到长直导线的连线，指向长直导线，即相互吸引。
+
+\subsection*{12.37}
+
+解：将圆盘分成半径为 $r$、宽为 $\dd r$ 的同心圆环，其电荷量和等效电流分别为
+\[
+\dd q=\frac{Q}{\pi R^2}\,2\pi r\dd r,
+\qquad
+\dd I=\frac{\omega}{2\pi}\dd q.
+\]
+圆环的磁矩大小为 $\dd m=\pi r^2\dd I$，故
+\[
+\bm m=\frac{Q R^2}{4}\bm\omega.
+\]
+于是圆盘受到的磁力矩为
+\[
+\boxed{\bm\tau=\bm m\times\bm B
+=\frac{QR^2}{4}\bm\omega\times\bm B}.
+\]
+磁场与盘面的夹角为 $\varphi$，所以磁场与盘面法线的夹角为 $\pi/2-\varphi$，力矩大小为
+\[
+\boxed{\tau=\frac{|Q|\omega BR^2}{4}\cos\varphi}.
+\]
+方向由 $\bm m\times\bm B$ 确定；按图示取正电荷、$\bm\omega$ 沿 $+y$，则力矩沿 $-z$ 方向。
+
+\subsection*{12.41}
+
+解：取长直导线与线框平面的交点为 $O$，$z$ 轴垂直纸面向外。长直导线的电流 $I_1$ 沿 $+z$，在扇形线框处产生的磁场为
+\[
+\bm B(r)=\frac{\mu_0 I_1}{2\pi r}\ep.
+\]
+两段圆弧的电流元与磁场平行或反平行，均不受磁力。上侧径向边（$\theta=\pi/4$）电流向外，下侧径向边（$\theta=-\pi/4$）电流向内，因此
+\[
+\dd\bm F_+=\frac{\mu_0I_1I_2}{2\pi r}\dd r\,\ez,
+\qquad
+\dd\bm F_-=-\frac{\mu_0I_1I_2}{2\pi r}\dd r\,\ez.
+\]
+合力为零。相对于 $O$，两侧力矩分别为
+\[
+\begin{aligned}
+\dd\bm\tau_+&=-\frac{\mu_0I_1I_2}{2\pi}\dd r\,\ep(\pi/4),\\
+\dd\bm\tau_-&=\frac{\mu_0I_1I_2}{2\pi}\dd r\,\ep(-\pi/4).
+\end{aligned}
+\]
+由 $\ep(-\pi/4)-\ep(\pi/4)=\sqrt2\hat{\bm e}_x$，得
+\[
+\boxed{\bm\tau=
+\frac{\sqrt2\mu_0I_1I_2}{2\pi}(R_2-R_1)\hat{\bm e}_x}.
+\]
+力矩沿图中 $x$ 轴正方向。
+
+\section*{胡其图教材：磁介质}
+
+\subsection*{13.2}
+
+\textbf{（1）球形腔表面的磁化电流密度}
+
+解：设 $\er$ 从球心指向腔面，$\theta$ 为 $\bm M$ 与 $\er$ 的夹角。磁介质指向空腔的外法线为 $\bm n=-\er$，由磁化面电流公式
+\[
+\bm K_m=\bm M\times\bm n,
+\]
+得
+\[
+\boxed{\bm K_m=-\bm M\times\er},
+\qquad
+\boxed{K_m=M\sin\theta}.
+\]
+若 $\bm M=M\ez$，则 $\bm K_m=-M\sin\theta\,\ep$。
+
+\textbf{（2）磁化电流产生的磁矩}
+
+挖去球形区域等效于在原均匀磁化介质中叠加一个磁化强度为 $-\bm M$ 的球体。因此，腔面磁化电流的磁矩为
+\[
+\boxed{\bm m=-\frac{4\pi R^3}{3}\bm M}.
+\]
+其方向与原介质的磁化方向相反。
+
+\subsection*{13.4}
+
+解：图中磁化强度 $\bm M$ 向右，永磁棒左端相当于磁南极，右端相当于磁北极。磁感应线在棒内由左向右，在棒外从右端返回左端。
+
+棒外 $\bm H=\bm B/\mu_0$，两者同向；棒内
+\[
+\bm B=\mu_0(\bm H+\bm M),
+\qquad
+\bm H=\frac{\bm B}{\mu_0}-\bm M,
+\]
+其中退磁场 $\bm H$ 与 $\bm M$ 反向。因此各点方向为
+\[
+\begin{array}{c|ccccccc}
+\text{点} & 1&2&3&4&5&6&7\\ \hline
+\bm B & \rightarrow&\leftarrow&\leftarrow&\rightarrow&\rightarrow&\rightarrow&\rightarrow\\
+\bm H & \leftarrow&\leftarrow&\leftarrow&\rightarrow&\leftarrow&\leftarrow&\rightarrow
+\end{array}
+\]
+对于细长棒中央的点 1，退磁场很小，常近似取 $\bm H_1\approx0$、$\bm B_1\approx\mu_0\bm M$。题目未给出棒的具体尺寸和各点位置，不能进一步确定各点场强的数值。
+
+\subsection*{13.5}
+
+解：图中点 1 位于永磁环内，点 2 位于狭缝内。设磁环介质部分的平均磁路长度为 $l$，狭缝宽为 $\delta$，忽略漏磁和边缘效应。
+
+磁感应强度的法向分量连续，所以
+\[
+B_1=B_2=B.
+\]
+环内和狭缝内分别满足
+\[
+B=\mu_0(H_1+M),\qquad B=\mu_0H_2.
+\]
+沿磁路没有自由电流，故
+\[
+\oint\bm H\cdot\dd\bm l=0,
+\qquad H_1l+H_2\delta=0,
+\]
+其中 $H_1,H_2$ 取沿磁化方向的有符号分量。联立解得
+\[
+B=\mu_0M\frac{l}{l+\delta},
+\qquad
+H_1=-M\frac{\delta}{l+\delta},
+\qquad
+H_2=M\frac{l}{l+\delta}.
+\]
+对于题设的很狭窄细缝 $\delta\ll l$，场的大小近似为
+\[
+\boxed{B_1\approx B_2\approx\mu_0M,
+\qquad |H_1|\approx0,\qquad |H_2|\approx M}.
+\]
+$\bm B_1,\bm B_2$ 沿环的磁化方向，缝内 $\bm H_2$ 同向，环内微小的 $\bm H_1$ 反向。
+
+\subsection*{13.7}
+
+解：设螺绕环内总磁感应强度为 $B$。由有磁介质时的安培环路定理，
+\[
+B=\mu_0\mu_rH,
+\qquad B_0=\mu_0H.
+\]
+磁化电流产生的磁感应强度为
+\[
+B'=B-B_0=(\mu_r-1)B_0.
+\]
+代入 $\mu_r=4200$，得
+\[
+\boxed{\frac{B_0}{B'}=\frac{1}{\mu_r-1}=\frac{1}{4199}},
+\qquad \boxed{B_0:B'=1:4199}.
+\]
+
+\subsection*{13.8}
+
+\textbf{（1）空间各处的磁感应强度}
+
+解：取中心直导线电流方向为 $+z$，绕轴正方向为 $\ep$。这里 $\mu_1,\mu_2$ 均为绝对磁导率。对半径为 $r$ 的同轴圆周应用安培环路定理：
+\[
+\oint\bm H\cdot\dd\bm l=I_{\mathrm{free,in}}.
+\]
+因此
+\[
+\bm H(r)=
+\begin{cases}
+\dfrac{I}{2\pi r}\ep,&0<r<R_2,\\[0.5em]
+0,&r>R_2.
+\end{cases}
+\]
+由 $\bm B=\mu\bm H$ 得
+\[
+\boxed{\bm B(r)=
+\begin{cases}
+\dfrac{\mu_1I}{2\pi r}\ep,&0<r<R_1,\\[0.6em]
+\dfrac{\mu_2I}{2\pi r}\ep,&R_1<r<R_2,\\[0.6em]
+0,&r>R_2.
+\end{cases}}
+\]
+中心导线按理想线电流处理，$r=0$ 不在上式适用范围内。
+
+\textbf{（2）两磁介质分界面上的磁化电流}
+
+两种介质的磁化强度分别为
+\[
+\bm M_i=\left(\frac{\mu_i}{\mu_0}-1\right)
+\frac{I}{2\pi r}\ep\qquad(i=1,2).
+\]
+在 $r=R_1$ 处，取从介质 1 指向介质 2 的法线为 $\er$，合磁化面电流密度为
+\[
+\bm K_m=(\bm M_1-\bm M_2)\times\er
+=\frac{(\mu_2-\mu_1)I}{2\pi\mu_0R_1}\ez.
+\]
+因此该分界面上的总磁化电流为
+\[
+\boxed{\bm I_{m,R_1}=\frac{\mu_2-\mu_1}{\mu_0}I\,\ez}.
+\]
+若 $\mu_2>\mu_1$，其方向与中心直导线电流同向；若 $\mu_2<\mu_1$，则反向；若两者相等，则为零。
+
+在外表面 $r=R_2$，还存在介质 2 与真空的分界面，其磁化面电流和总磁化电流分别为
+\[
+\bm K_{m,R_2}=-\frac{(\mu_2-\mu_0)I}{2\pi\mu_0R_2}\ez,
+\qquad
+\boxed{\bm I_{m,R_2}=-\left(\frac{\mu_2}{\mu_0}-1\right)I\,\ez}.
+\]
+对于顺磁质 $\mu_2>\mu_0$，此磁化电流与中心直导线电流反向。
+
+\subsection*{13.9}
+
+\textbf{（1）绕圆盘边缘的磁化电流}
+
+解：圆盘半径 $R=0.040\ \mathrm{m}$、厚度 $h=0.0050\ \mathrm{m}$，磁化强度为 $M=1.4\times10^6\ \mathrm{A/m}$。取磁化方向为 $+z$。
+
+上下端面的法线平行于 $\bm M$，故无磁化面电流；圆盘侧面的磁化面电流密度为
+\[
+\bm K_m=\bm M\times\er=M\ep.
+\]
+因此绕圆盘边缘的总磁化电流为
+\[
+\boxed{I_m=Mh=7.0\times10^3\ \mathrm{A}}.
+\]
+电流方向与 $\bm M$ 构成右手关系。
+
+\textbf{（2）圆盘中心的磁感应强度}
+
+侧面的磁化电流等效为长度 $h$、半径 $R$ 的有限长螺线管。位于高度 $z$、厚度 $\dd z$ 的圆环电流为 $\dd I=M\dd z$，在圆盘中心产生的磁场为
+\[
+\dd B=\frac{\mu_0MR^2\dd z}{2(R^2+z^2)^{3/2}}.
+\]
+所以
+\[
+\begin{aligned}
+B_O
+&=\frac{\mu_0MR^2}{2}
+\int_{-h/2}^{h/2}\frac{\dd z}{(R^2+z^2)^{3/2}}\\
+&=\frac{\mu_0Mh}{2\sqrt{R^2+(h/2)^2}}.
+\end{aligned}
+\]
+代入得
+\[
+\boxed{\bm B_O\approx0.110\ez\ \mathrm{T}}.
+\]
+若将薄圆盘边缘电流近似为同一平面内的圆电流，也得到 $B_O\approx\mu_0I_m/(2R)=0.110\ \mathrm{T}$。
+
+\textbf{（3）圆盘中心的磁场强度}
+
+由 $\bm B=\mu_0(\bm H+\bm M)$，有
+\[
+\bm H_O=\left(\frac{B_O}{\mu_0}-M\right)\ez.
+\]
+代入计算得
+\[
+\boxed{\bm H_O\approx-1.31\times10^6\ez\ \mathrm{A/m}}.
+\]
+磁场强度方向与磁化方向相反，为退磁场。
+
+\section*{附加题}
+
+\textbf{载流圆环的一小段圆弧受到其余部分的磁作用力}
+
+解：将圆环视为理想线电流，设所取圆弧的圆心角为 $\Delta\theta=2\alpha\ll1$，圆弧中点位于 $x$ 轴正方向。圆环位于 $xy$ 平面，电流沿逆时针方向；所取圆弧为 $-\alpha\leq\theta\leq\alpha$，其余部分为 $\alpha\leq\phi\leq2\pi-\alpha$。
+
+\textbf{（1）其余圆弧在所取圆弧上产生的磁场}
+
+源电流元与场点的距离为
+\[
+s=2R\sin\frac{\phi-\theta}{2}.
+\]
+由毕奥--萨伐尔定律，其磁场垂直圆环平面向外，且
+\[
+\dd B_z=\frac{\mu_0I}{16\pi R}
+\frac{\dd\phi}{\sin[(\phi-\theta)/2]}.
+\]
+积分得
+\[
+\begin{aligned}
+B_z(\theta)
+&=\frac{\mu_0I}{16\pi R}
+\int_\alpha^{2\pi-\alpha}
+\frac{\dd\phi}{\sin[(\phi-\theta)/2]}\\
+&=\frac{\mu_0I}{8\pi R}
+\ln\!\left[\cot\frac{\alpha+\theta}{4}
+\cot\frac{\alpha-\theta}{4}\right].
+\end{aligned}
+\]
+
+\textbf{（2）整段小圆弧所受合力}
+
+电流元的受力为
+\[
+\dd\bm F=IRB_z(\theta)
+\left(\cos\theta\hat{\bm e}_x+\sin\theta\hat{\bm e}_y\right)\dd\theta.
+\]
+由对称性 $F_y=0$，所以
+\[
+F_x=\frac{\mu_0I^2}{8\pi}
+\int_{-\alpha}^{\alpha}\cos\theta
+\ln\!\left[\cot\frac{\alpha+\theta}{4}
+\cot\frac{\alpha-\theta}{4}\right]\dd\theta.
+\]
+利用对称性和分部积分，积分结果为
+\[
+\int_{-\alpha}^{\alpha}\cos\theta
+\ln\!\left[\cot\frac{\alpha+\theta}{4}
+\cot\frac{\alpha-\theta}{4}\right]\dd\theta
+=4\sin\alpha\left(\ln\cot\frac{\alpha}{2}+1\right).
+\]
+于是整段圆弧的合力为
+\[
+\boxed{\bm F=\frac{\mu_0I^2}{2\pi}
+\sin\frac{\Delta\theta}{2}
+\left(\ln\cot\frac{\Delta\theta}{4}+1\right)
+\hat{\bm e}_x}.
+\]
+对于题设 $\Delta\theta\ll1$，可写为
+\[
+\boxed{\bm F=\frac{\mu_0I^2\Delta\theta}{4\pi}
+\left[\ln\frac{4}{\Delta\theta}+1
++O\!\left((\Delta\theta)^2\ln\frac{1}{\Delta\theta}\right)\right]
+\hat{\bm e}_x}.
+\]
+方向沿圆弧中点的径向向外，即圆环有膨胀趋势。
+
+\textbf{（3）小电流元的常用近似}
+
+若只保留 $\Delta\theta\ln(1/\Delta\theta)$ 的首项，则
+\[
+\boxed{F\sim\frac{\mu_0I^2\Delta\theta}{4\pi}
+\ln\frac{4}{\Delta\theta}}.
+\]
+直接将小圆弧当作位于其中点的电流元，也给出这一对数主项。其余圆弧在两端附近的磁场并不均匀，因此对整段圆弧积分时还会产生上式中的 $+1$ 修正。
+
+理想线电流模型在端点处的磁场有对数奇性，但上述整段合力积分收敛。若讨论真实导线的局部应力，还需给定导线截面等信息；上述结果适用于导线足够细、所取弧长大于其横向尺寸的模型。
+
+\end{document}
