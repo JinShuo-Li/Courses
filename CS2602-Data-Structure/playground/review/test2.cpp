@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 
 using namespace std;
 
@@ -7,22 +6,28 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    string s;
-
-    if (!(cin >> s)) {
-        return 0;
-    }
-
-    int len = s.size();
-    char* stack = new char[len + 1];
+    char* stack = new char[64];
+    int capacity = 64;
     int top = 0;
     bool valid = true;
 
-    for (int i = 0; i < len; ++i) {
-        char c = s[i];
+    int c;
 
+    while ((c = getchar()) != EOF && c != '\n' && c != '\r' && c != ' ') {
         if (c == '(' || c == '[' || c == '{') {
-            stack[top++] = c;
+            if (top == capacity) {
+                capacity *= 2;
+                char* bigger = new char[capacity];
+
+                for (int i = 0; i < top; ++i) {
+                    bigger[i] = stack[i];
+                }
+
+                delete[] stack;
+                stack = bigger;
+            }
+
+            stack[top++] = static_cast<char>(c);
         } else if (c == ')' || c == ']' || c == '}') {
             char need = (c == ')') ? '(' : (c == ']' ? '[' : '{');
 
